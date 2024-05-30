@@ -1,0 +1,11 @@
+NATS:
+  host: "nats.cloud.gcm"
+  port: 4222
+  subject_case: "main_caseupdate"
+  subject_alert: "main_alertupdate"
+MongoDB:
+  host: "192.168.9.208"
+  port: 37017
+  user: "module-isems-mrsict"
+  passwd: "vkL6Znj$Pmt1e1"
+  namedb: "isems-mrsict"
