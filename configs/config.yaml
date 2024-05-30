@@ -41,21 +41,21 @@ ZABBIX:
   eventTypes:
     # для отслеживания ошибок
     - eventType: "error"
-      zabbixKey: "placeholder_misp.error"
+      zabbixKey: "shaper_stix.error"
       isTransmit: true
       handshake:
         timeInterval: 0
         message: ""
     # для информационных сообщений о выполненной работе
     - eventType: "info"
-      zabbixKey: "placeholder_misp.info"
+      zabbixKey: "shaper_stix.info"
       isTransmit: true
       handshake:
         timeInterval: 0
         message: "I'm still alive"
     # для регулярного отстукивания что модуль еще работает
     - eventType: "handshake"
-      zabbixKey: "placeholder_misp.handshake"
+      zabbixKey: "shaper_stix.handshake"
       isTransmit: true
       handshake:
         timeInterval: 1

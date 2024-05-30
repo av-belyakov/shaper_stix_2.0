@@ -9,7 +9,7 @@ import (
 
 	"github.com/spf13/viper"
 
-	"ISEMS-MRSICT_importmodule/supportingfunctions"
+	"shaper_stix/supportingfunctions"
 )
 
 func NewConfig(rootDir string) (ConfigApp, error) {

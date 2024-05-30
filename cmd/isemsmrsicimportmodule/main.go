@@ -1,7 +1,6 @@
 package isemsmrsicimportmodule
 
 import (
-	"ISEMS-MRSICT_importmodule/confighandler"
 	"fmt"
 	"log"
 	"os"
@@ -9,9 +8,11 @@ import (
 	"syscall"
 
 	"github.com/av-belyakov/simplelogger"
+
+	"shaper_stix/confighandler"
 )
 
-const ROOT_DIR = "placeholder_elasticsearch"
+const ROOT_DIR = "shaper_stix_2.1"
 
 func getLoggerSettings(cls []confighandler.LogSet) []simplelogger.MessageTypeSettings {
 	loggerConf := make([]simplelogger.MessageTypeSettings, 0, len(cls))
