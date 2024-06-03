@@ -10,6 +10,7 @@ import (
 	"github.com/av-belyakov/simplelogger"
 
 	"shaper_stix/confighandler"
+	"shaper_stix/internal"
 )
 
 const ROOT_DIR = "shaper_stix_2.1"
@@ -54,14 +55,10 @@ func main() {
 		osCall := <-sigChan
 		msg := fmt.Sprintf("stop 'main' function, %s", osCall.String())
 		_ = sl.WriteLoggingData(msg, "info")
-
-		/*
-			close(counting)
-			close(logging)
-			close(channelZabbix)
-
-			ctxCancelZ()
-			ctxCancelCore()
-		*/
 	}()
+
+	//инициализируем основное приложение
+	if err := internal.NewApp(confApp, sl); err != nil {
+		log.Fatal(err)
+	}
 }

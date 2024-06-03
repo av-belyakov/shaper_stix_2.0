@@ -1,8 +1,6 @@
 package mongodbapi
 
 import (
-	"fmt"
-
 	"shaper_stix/datamodels"
 )
 
@@ -15,14 +13,14 @@ func (w *Wrappers) AddAttackPatternDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Attack-Pattern
 	//****************************************************************
-	fmt.Println("Additing Attack-Pattern Domain Object STIX")
+	//fmt.Println("Additing Attack-Pattern Domain Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "AttackPattern",
+		DataMsg:  "attack-pattern",
 	}
 }
 
@@ -35,14 +33,14 @@ func (w *Wrappers) AddCampaignDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Campaign
 	//****************************************************************
-	fmt.Println("Additing Campaign Domain Object STIX")
+	//fmt.Println("Additing Campaign Domain Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Campaign",
+		DataMsg:  "campaign",
 	}
 }
 
@@ -55,14 +53,14 @@ func (w *Wrappers) AddCourseOfActionDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа CourseOfAction
 	//****************************************************************
-	fmt.Println("Additing CourseOfAction Object STIX")
+	//fmt.Println("Additing CourseOfAction Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "CourseOfAction",
+		DataMsg:  "course-of-action",
 	}
 }
 
@@ -75,14 +73,14 @@ func (w *Wrappers) AddGroupingDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Grouping
 	//****************************************************************
-	fmt.Println("Additing Grouping Object STIX")
+	//fmt.Println("Additing Grouping Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Grouping",
+		DataMsg:  "grouping",
 	}
 }
 
@@ -95,14 +93,14 @@ func (w *Wrappers) AddIdentityDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Identity
 	//****************************************************************
-	fmt.Println("Additing Identity Object STIX")
+	//fmt.Println("Additing Identity Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Identity",
+		DataMsg:  "identity",
 	}
 }
 
@@ -115,14 +113,14 @@ func (w *Wrappers) AddIndicatorDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Indicator
 	//****************************************************************
-	fmt.Println("Additing Indicator Object STIX")
+	//fmt.Println("Additing Indicator Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Indicator",
+		DataMsg:  "indicator",
 	}
 }
 
@@ -136,14 +134,14 @@ func (w *Wrappers) AddInfrastructureDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Infrastructure
 	//****************************************************************
-	fmt.Println("Additing Infrastructure Object STIX")
+	//fmt.Println("Additing Infrastructure Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Infrastructure",
+		DataMsg:  "infrastructure",
 	}
 }
 
@@ -157,14 +155,14 @@ func (w *Wrappers) AddIntrusionSetDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа IntrusionSet
 	//****************************************************************
-	fmt.Println("Additing IntrusionSet Object STIX")
+	//fmt.Println("Additing IntrusionSet Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "IntrusionSet",
+		DataMsg:  "intrusion-set",
 	}
 }
 
@@ -177,14 +175,14 @@ func (w *Wrappers) AddLocationDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Location
 	//****************************************************************
-	fmt.Println("Additing Location Object STIX")
+	//fmt.Println("Additing Location Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Location",
+		DataMsg:  "location",
 	}
 }
 
@@ -197,14 +195,14 @@ func (w *Wrappers) AddMalwareDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Malware
 	//****************************************************************
-	fmt.Println("Additing Malware Object STIX")
+	//fmt.Println("Additing Malware Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Malware",
+		DataMsg:  "malware",
 	}
 }
 
@@ -219,14 +217,14 @@ func (w *Wrappers) AddMalwareAnalysisDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа MalwareAnalysis
 	//****************************************************************
-	fmt.Println("Additing MalwareAnalysis Object STIX")
+	//fmt.Println("Additing MalwareAnalysis Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "MalwareAnalysis",
+		DataMsg:  "malware-analysis",
 	}
 }
 
@@ -240,14 +238,14 @@ func (w *Wrappers) AddNoteDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Note
 	//****************************************************************
-	fmt.Println("Additing Note Object STIX")
+	//fmt.Println("Additing Note Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Note",
+		DataMsg:  "note",
 	}
 }
 
@@ -262,14 +260,14 @@ func (w *Wrappers) AddObservedDataDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа ObservedData
 	//****************************************************************
-	fmt.Println("Additing ObservedData Object STIX")
+	//fmt.Println("Additing ObservedData Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "ObservedData",
+		DataMsg:  "observed-data",
 	}
 }
 
@@ -283,14 +281,14 @@ func (w *Wrappers) AddOpinionDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Opinion
 	//****************************************************************
-	fmt.Println("Additing Opinion Object STIX")
+	//fmt.Println("Additing Opinion Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Opinion",
+		DataMsg:  "opinion",
 	}
 }
 
@@ -307,14 +305,14 @@ func (w *Wrappers) AddReportDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Report
 	//****************************************************************
-	fmt.Println("Additing Report Object STIX")
+	//fmt.Println("Additing Report Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Report",
+		DataMsg:  "report",
 	}
 }
 
@@ -328,14 +326,14 @@ func (w *Wrappers) AddThreatActorDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа ThreatActor
 	//****************************************************************
-	fmt.Println("Additing ThreatActor Object STIX")
+	//fmt.Println("Additing ThreatActor Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "ThreatActor",
+		DataMsg:  "threat-actor",
 	}
 }
 
@@ -348,14 +346,14 @@ func (w *Wrappers) AddToolDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Tool
 	//****************************************************************
-	fmt.Println("Additing Tool Object STIX")
+	//fmt.Println("Additing Tool Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Tool",
+		DataMsg:  "tool",
 	}
 }
 
@@ -370,14 +368,14 @@ func (w *Wrappers) AddVulnerabilityDO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Vulnerability
 	//****************************************************************
-	fmt.Println("Additing Vulnerability Object STIX")
+	//fmt.Println("Additing Vulnerability Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Vulnerability",
+		DataMsg:  "vulnerability",
 	}
 }
 

@@ -18,8 +18,7 @@ import (
 func NewClientMongoDB(
 	conf confighandler.AppConfigMongoDB,
 	logging chan<- datamodels.MessageLogging,
-	counting chan<- datamodels.DataCounterSettings,
-) (*MongoDBModule, error) {
+	counting chan<- datamodels.DataCounterSettings) (*MongoDBModule, error) {
 	channels := &MongoDBModule{
 		ChanInputModule:  make(chan ChanInputMongoDB),
 		ChanOutputModule: make(chan ChanOutputMongoDB),
@@ -84,75 +83,57 @@ func (conn ConnectionDescriptorMongoDB) Routing(
 			switch data.ObjectType {
 			//Domain Object STIX
 			case "attack-pattern":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddAttackPatternDO(data.Data, logging, counting)
 
 			case "campaign":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddCampaignDO(data.Data, logging, counting)
 
 			case "course-of-action":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddCourseOfActionDO(data.Data, logging, counting)
 
 			case "grouping":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddGroupingDO(data.Data, logging, counting)
 
 			case "identity":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddIdentityDO(data.Data, logging, counting)
 
 			case "indicator":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddIndicatorDO(data.Data, logging, counting)
 
 			case "infrastructure":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddInfrastructureDO(data.Data, logging, counting)
 
 			case "intrusion-set":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddIntrusionSetDO(data.Data, logging, counting)
 
 			case "location":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddLocationDO(data.Data, logging, counting)
 
 			case "malware":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddMalwareDO(data.Data, logging, counting)
 
 			case "malware-analysis":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddMalwareAnalysisDO(data.Data, logging, counting)
 
 			case "note":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddNoteDO(data.Data, logging, counting)
 
 			case "observed-data":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddObservedDataDO(data.Data, logging, counting)
 
 			case "opinion":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddOpinionDO(data.Data, logging, counting)
 
 			case "report":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddReportDO(data.Data, logging, counting)
 
 			case "threat-actor":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddThreatActorDO(data.Data, logging, counting)
 
 			case "tool":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddToolDO(data.Data, logging, counting)
 
 			case "vulnerability":
-				fmt.Println("func 'Routing'", data.ObjectType)
 				go ws.AddVulnerabilityDO(data.Data, logging, counting)
 
 			//Cyber Observable Object STIX

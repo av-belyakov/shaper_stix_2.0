@@ -80,6 +80,7 @@ func init() {
 	ns = NewStorageNATS()
 }
 
+// NewClientNATS создает новое подключение к NATS
 func NewClientNATS(
 	conf confighandler.AppConfigNATS,
 	logging chan<- datamodels.MessageLogging,

@@ -5,59 +5,60 @@ import (
 	"shaper_stix/confighandler"
 	"shaper_stix/databaseapi/mongodbapi"
 	"shaper_stix/datamodels"
+	"sync"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
+const DIR_ROOT = "shaper_stix_2.1"
+
 var _ = Describe("Routing", Ordered, func() {
 	testDomainObjectList := map[string]bool{
-		"AttackPattern":   false,
-		"Campaign":        false,
-		"CourseOfAction":  false,
-		"Grouping":        false,
-		"Identity":        false,
-		"Indicator":       false,
-		"Infrastructure":  false,
-		"IntrusionSet":    false,
-		"Location":        false,
-		"Malware":         false,
-		"MalwareAnalysis": false,
-		"Note":            false,
-		"ObservedData":    false,
-		"Opinion":         false,
-		"Report":          false,
-		"ThreatActor":     false,
-		"Tool":            false,
-		"Vulnerability":   false,
+		"attack-pattern":   false,
+		"campaign":         false,
+		"course-of-action": false,
+		"grouping":         false,
+		"identity":         false,
+		"indicator":        false,
+		"infrastructure":   false,
+		"intrusion-set":    false,
+		"location":         false,
+		"malware":          false,
+		"malware-analysis": false,
+		"note":             false,
+		"observed-data":    false,
+		"opinion":          false,
+		"report":           false,
+		"threat-actor":     false,
+		"tool":             false,
+		"vulnerability":    false,
 	}
 
 	testCyberObservableObjectList := map[string]bool{
-		"Artifact":           false,
-		"AutonomousSystem":   false,
-		"Directory":          false,
-		"DomainName":         false,
-		"EmailAddress":       false,
-		"EmailMessage":       false,
-		"File":               false,
-		"IPv4Address":        false,
-		"IPv6Address":        false,
-		"MACAddress":         false,
-		"Mutex":              false,
-		"NetworkTraffic":     false,
-		"Process":            false,
-		"Software":           false,
-		"URL":                false,
-		"UserAccount":        false,
-		"WindowsRegistryKey": false,
-		"X509Certificate":    false,
+		"artifact":             false,
+		"autonomous-system":    false,
+		"directory":            false,
+		"domain-name":          false,
+		"email-addr":           false,
+		"email-message":        false,
+		"file":                 false,
+		"ipv4-addr":            false,
+		"ipv6-addr":            false,
+		"mac-addr":             false,
+		"mutex":                false,
+		"network-traffic":      false,
+		"process":              false,
+		"software":             false,
+		"url":                  false,
+		"user-account":         false,
+		"windows-registry-key": false,
+		"x509-certificate":     false,
 	}
 
 	var (
 		mongomodule *mongodbapi.MongoDBModule
 		conf        confighandler.ConfigApp
-
-		done chan struct{}
 
 		logging  = make(chan datamodels.MessageLogging)
 		counting = make(chan datamodels.DataCounterSettings)
@@ -68,35 +69,27 @@ var _ = Describe("Routing", Ordered, func() {
 	BeforeAll(func() {
 		conf, errConf = confighandler.NewConfig(DIR_ROOT)
 		mongomodule, err = mongodbapi.NewClientMongoDB(*conf.GetAppMongoDB(), logging, counting)
+		sumTestElem := len(testDomainObjectList) + len(testCyberObservableObjectList)
+		var num int
 
-		/*
-			Не могу написать этот тест, надо синхронизировать гроутину с записью
-			testDomainObjectList и testCyberObservableObjectList с окончанием
-			перебора для этих мап, а то получится что из канала done придет раньше
-			чем закончат приходить данные из counting
-
-			И вообще тест почему то блокируется!
-		*/
+		var wg sync.WaitGroup
+		wg.Add(sumTestElem)
 
 		go func() {
-			for {
-				select {
-				case <-done:
-					return
+			for v := range counting {
+				wg.Done()
+				num++
+				fmt.Printf("msg: %s, sum: %d, received: %d\n", v.DataMsg, sumTestElem, num)
 
-				case v := <-counting:
-					fmt.Println(v)
+				if v.DataType != "routing_test" {
+					continue
+				}
 
-					if v.DataType != "routing_test" {
-						continue
-					}
-
-					if _, ok := testDomainObjectList[v.DataMsg]; ok {
-						testDomainObjectList[v.DataMsg] = true
-					}
-					if _, ok := testCyberObservableObjectList[v.DataMsg]; ok {
-						testCyberObservableObjectList[v.DataMsg] = true
-					}
+				if _, ok := testDomainObjectList[v.DataMsg]; ok {
+					testDomainObjectList[v.DataMsg] = true
+				}
+				if _, ok := testCyberObservableObjectList[v.DataMsg]; ok {
+					testCyberObservableObjectList[v.DataMsg] = true
 				}
 			}
 		}()
@@ -109,7 +102,7 @@ var _ = Describe("Routing", Ordered, func() {
 			}
 		}
 
-		fmt.Println("STOP 1")
+		fmt.Println("STOP reading list 'testDomainObjectList'")
 
 		for k := range testCyberObservableObjectList {
 			mongomodule.ChanInputModule <- mongodbapi.ChanInputMongoDB{
@@ -119,9 +112,11 @@ var _ = Describe("Routing", Ordered, func() {
 			}
 		}
 
-		fmt.Println("STOP 2")
+		fmt.Println("STOP reading list 'testCyberObservableObjectList'")
 
-		done <- struct{}{}
+		wg.Wait()
+
+		fmt.Println("STOP BEFOREALL")
 	})
 
 	Context("Тест 0. Проверка подключения к СУБД", func() {

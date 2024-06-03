@@ -1,7 +1,6 @@
 package mongodbapi
 
 import (
-	"fmt"
 	"shaper_stix/datamodels"
 )
 
@@ -16,14 +15,14 @@ func (w *Wrappers) AddArtifactCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Artifact
 	//****************************************************************
-	fmt.Println("Additing Artifact Cyber Observable Object STIX")
+	//fmt.Println("Additing Artifact Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Artifact",
+		DataMsg:  "artifact",
 	}
 }
 
@@ -36,14 +35,14 @@ func (w *Wrappers) AddAutonomousSystemCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа AutonomousSystem
 	//****************************************************************
-	fmt.Println("Additing AutonomousSystem Cyber Observable Object STIX")
+	//fmt.Println("Additing AutonomousSystem Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "AutonomousSystem",
+		DataMsg:  "autonomous-system",
 	}
 }
 
@@ -56,14 +55,14 @@ func (w *Wrappers) AddDirectoryCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Directory
 	//****************************************************************
-	fmt.Println("Additing Directory Cyber Observable Object STIX")
+	//fmt.Println("Additing Directory Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Directory",
+		DataMsg:  "directory",
 	}
 }
 
@@ -76,14 +75,14 @@ func (w *Wrappers) AddDomainNameCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа DomainName
 	//****************************************************************
-	fmt.Println("Additing DomainName Cyber Observable Object STIX")
+	//fmt.Println("Additing DomainName Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "DomainName",
+		DataMsg:  "domain-name",
 	}
 }
 
@@ -96,14 +95,14 @@ func (w *Wrappers) AddEmailAddressCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа EmailAddress
 	//****************************************************************
-	fmt.Println("Additing EmailAddress Cyber Observable Object STIX")
+	//fmt.Println("Additing EmailAddress Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "EmailAddress",
+		DataMsg:  "email-addr",
 	}
 }
 
@@ -116,14 +115,14 @@ func (w *Wrappers) AddEmailMessageCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа EmailMessage
 	//****************************************************************
-	fmt.Println("Additing  Cyber EmailMessage Observable Object STIX")
+	//fmt.Println("Additing  Cyber EmailMessage Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "EmailMessage",
+		DataMsg:  "email-message",
 	}
 }
 
@@ -136,14 +135,14 @@ func (w *Wrappers) AddFileCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа File
 	//****************************************************************
-	fmt.Println("Additing File Cyber Observable Object STIX")
+	//fmt.Println("Additing File Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "File",
+		DataMsg:  "file",
 	}
 }
 
@@ -157,14 +156,14 @@ func (w *Wrappers) AddIPv4AddressCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа IPv4Address
 	//****************************************************************
-	fmt.Println("Additing IPv4Address Cyber Observable Object STIX")
+	//fmt.Println("Additing IPv4Address Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "IPv4Address",
+		DataMsg:  "ipv4-addr",
 	}
 }
 
@@ -178,14 +177,14 @@ func (w *Wrappers) AddIPv6AddressCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа IPv6Address
 	//****************************************************************
-	fmt.Println("Additing IPv6Address Cyber Observable Object STIX")
+	//fmt.Println("Additing IPv6Address Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "IPv6Address",
+		DataMsg:  "ipv6-addr",
 	}
 }
 
@@ -199,14 +198,14 @@ func (w *Wrappers) AddMACAddressCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа MACAddress
 	//****************************************************************
-	fmt.Println("Additing MACAddress Cyber Observable Object STIX")
+	//fmt.Println("Additing MACAddress Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "MACAddress",
+		DataMsg:  "mac-addr",
 	}
 }
 
@@ -219,14 +218,14 @@ func (w *Wrappers) AddMutexCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Mutex
 	//****************************************************************
-	fmt.Println("Additing Mutex Cyber Observable Object STIX")
+	//fmt.Println("Additing Mutex Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Mutex",
+		DataMsg:  "mutex",
 	}
 }
 
@@ -240,14 +239,14 @@ func (w *Wrappers) AddNetworkTrafficCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа NetworkTraffic
 	//****************************************************************
-	fmt.Println("Additing NetworkTraffic Cyber Observable Object STIX")
+	//fmt.Println("Additing NetworkTraffic Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "NetworkTraffic",
+		DataMsg:  "network-traffic",
 	}
 }
 
@@ -262,14 +261,14 @@ func (w *Wrappers) AddProcessCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Process
 	//****************************************************************
-	fmt.Println("Additing Process Cyber Observable Object STIX")
+	//fmt.Println("Additing Process Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Process",
+		DataMsg:  "process",
 	}
 }
 
@@ -282,14 +281,14 @@ func (w *Wrappers) AddSoftwareCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа Software
 	//****************************************************************
-	fmt.Println("Additing Software Cyber Observable Object STIX")
+	//fmt.Println("Additing Software Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "Software",
+		DataMsg:  "software",
 	}
 }
 
@@ -302,14 +301,14 @@ func (w *Wrappers) AddURLCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа URL
 	//****************************************************************
-	fmt.Println("Additing URL Cyber Observable Object STIX")
+	//fmt.Println("Additing URL Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "URL",
+		DataMsg:  "url",
 	}
 }
 
@@ -324,14 +323,14 @@ func (w *Wrappers) AddUserAccountCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа UserAccount
 	//****************************************************************
-	fmt.Println("Additing UserAccount Cyber Observable Object STIX")
+	//fmt.Println("Additing UserAccount Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "UserAccount",
+		DataMsg:  "user-account",
 	}
 }
 
@@ -344,14 +343,14 @@ func (w *Wrappers) AddWindowsRegistryKeyCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа WindowsRegistryKey
 	//****************************************************************
-	fmt.Println("Additing WindowsRegistryKey Cyber Observable Object STIX")
+	//fmt.Println("Additing WindowsRegistryKey Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "WindowsRegistryKey",
+		DataMsg:  "windows-registry-key",
 	}
 }
 
@@ -366,13 +365,13 @@ func (w *Wrappers) AddX509CertificateCO(data interface{},
 	//****************************************************************
 	//**** Здесь обработчик для добавления объекта типа X509Certificate
 	//****************************************************************
-	fmt.Println("Additing X509Certificate Cyber Observable Object STIX")
+	//fmt.Println("Additing X509Certificate Cyber Observable Object STIX")
 
 	//************************************
 	//*** выполняется только для тестов
 	//************************************
 	counting <- datamodels.DataCounterSettings{
 		DataType: "routing_test",
-		DataMsg:  "X509Certificate",
+		DataMsg:  "x509-certificate",
 	}
 }
