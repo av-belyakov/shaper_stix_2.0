@@ -5,10 +5,10 @@ import (
 	"log"
 	"time"
 
-	"shaper_stix/datamodels"
-	"shaper_stix/memorytemporarystorage"
-	"shaper_stix/supportingfunctions"
-	"shaper_stix/zabbixapi"
+	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/memorytemporarystorage"
+	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
+	"github.com/av-belyakov/shaper_stix_2.1/zabbixapi"
 )
 
 // NewCounterHandler обработчик счетчиков

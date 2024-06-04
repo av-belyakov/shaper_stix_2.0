@@ -1,14 +1,16 @@
 package testmongodbhandler_test
 
 import (
+	"context"
 	"fmt"
-	"shaper_stix/confighandler"
-	"shaper_stix/databaseapi/mongodbapi"
-	"shaper_stix/datamodels"
 	"sync"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+
+	"github.com/av-belyakov/shaper_stix_2.1/confighandler"
+	"github.com/av-belyakov/shaper_stix_2.1/databaseapi/mongodbapi"
+	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 )
 
 const DIR_ROOT = "shaper_stix_2.1"
@@ -68,7 +70,9 @@ var _ = Describe("Routing", Ordered, func() {
 
 	BeforeAll(func() {
 		conf, errConf = confighandler.NewConfig(DIR_ROOT)
-		mongomodule, err = mongodbapi.NewClientMongoDB(*conf.GetAppMongoDB(), logging, counting)
+
+		ctx, _ := context.WithCancel(context.Background())
+		mongomodule, err = mongodbapi.NewClientMongoDB(ctx, *conf.GetAppMongoDB(), logging, counting)
 		sumTestElem := len(testDomainObjectList) + len(testCyberObservableObjectList)
 		var num int
 
@@ -95,21 +99,21 @@ var _ = Describe("Routing", Ordered, func() {
 		}()
 
 		for k := range testDomainObjectList {
-			mongomodule.ChanInputModule <- mongodbapi.ChanInputMongoDB{
-				CommonChanMongoDB: mongodbapi.CommonChanMongoDB{
+			mongomodule.SendingDataToModule(mongodbapi.ChanInput{
+				CommonChan: mongodbapi.CommonChan{
 					ObjectType: k,
 				},
-			}
+			})
 		}
 
 		fmt.Println("STOP reading list 'testDomainObjectList'")
 
 		for k := range testCyberObservableObjectList {
-			mongomodule.ChanInputModule <- mongodbapi.ChanInputMongoDB{
-				CommonChanMongoDB: mongodbapi.CommonChanMongoDB{
+			mongomodule.SendingDataToModule(mongodbapi.ChanInput{
+				CommonChan: mongodbapi.CommonChan{
 					ObjectType: k,
 				},
-			}
+			})
 		}
 
 		fmt.Println("STOP reading list 'testCyberObservableObjectList'")
@@ -132,8 +136,6 @@ var _ = Describe("Routing", Ordered, func() {
 	Context("Тест 1. Проверка доступности роутинга", func() {
 		It("Все роуты из  DomainObject должны быть доступны", func() {
 			for k, v := range testDomainObjectList {
-				fmt.Println(k, " = ", v)
-
 				if !v {
 					fmt.Println(k, "routing error")
 

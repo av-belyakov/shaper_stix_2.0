@@ -6,10 +6,10 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"shaper_stix/confighandler"
-	"shaper_stix/datamodels"
-	"shaper_stix/natsapi"
-	"shaper_stix/supportingfunctions"
+	"github.com/av-belyakov/shaper_stix_2.1/confighandler"
+	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/natsapi"
+	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
 )
 
 const DIR_ROOT = "shaper_stix_2.1"

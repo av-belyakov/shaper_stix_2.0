@@ -8,7 +8,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"shaper_stix/confighandler"
+	"github.com/av-belyakov/shaper_stix_2.1/confighandler"
 )
 
 var _ = Describe("Testconfighandler", func() {

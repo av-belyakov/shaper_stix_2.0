@@ -5,7 +5,7 @@ import (
 	"os"
 	"runtime"
 
-	"shaper_stix/supportingfunctions"
+	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
 )
 
 func writeLaunchMessage() (string, error) {

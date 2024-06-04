@@ -6,9 +6,8 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/av-belyakov/shaper_stix_2.1/confighandler"
 	"github.com/av-belyakov/simplelogger"
-
-	"shaper_stix/confighandler"
 )
 
 // InteractionZabbix осуществляет взаимодействие с Zabbix

@@ -5,8 +5,8 @@ import (
 
 	"github.com/av-belyakov/simplelogger"
 
-	"shaper_stix/datamodels"
-	"shaper_stix/zabbixapi"
+	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/zabbixapi"
 )
 
 // NewLoggingHandler обработчик логов выполняет обработку логов и запись их

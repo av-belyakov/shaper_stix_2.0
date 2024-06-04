@@ -7,11 +7,11 @@ import (
 )
 
 // MongoDBModule содержит описание каналов для взаимодействия с БД MongoDB
-// ChanInputModule - канал для отправки данных В модуль
-// ChanOutputModule - канал для принятия данных ИЗ модуля
+// ChanInputToModule - канал для отправки данных В модуль
+// ChanOutputFromModule - канал для приема данных ИЗ модуля
 type MongoDBModule struct {
-	ChanInputModule  chan ChanInputMongoDB
-	ChanOutputModule chan ChanOutputMongoDB
+	chanInputToModule    chan ChanInput
+	chanOutputFromModule chan ChanOutput
 }
 
 // ConnectionDescriptorMongoDB дескриптор соединения с БД MongoDB
@@ -19,9 +19,11 @@ type MongoDBModule struct {
 // connection - дескриптор соединения
 // ctx - контекст переносит крайний срок, сигнал отмены и другие значения через границы API
 // ctxCancel - метод закрытия контекста
+// ctxRoute - контекст для роута
 type ConnectionDescriptorMongoDB struct {
 	databaseName string
 	connection   *mongo.Client
 	ctx          context.Context
 	ctxCancel    context.CancelFunc
+	ctxRoute     context.Context
 }

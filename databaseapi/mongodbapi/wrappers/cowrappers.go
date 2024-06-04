@@ -1,7 +1,7 @@
 package mongodbapi
 
 import (
-	"shaper_stix/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 )
 
 // ArtifactCyberObservableObjectSTIX объект "Artifact", по терминалогии STIX, позволяет

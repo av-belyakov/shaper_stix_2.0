@@ -9,7 +9,7 @@ import (
 
 	"github.com/spf13/viper"
 
-	"shaper_stix/supportingfunctions"
+	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
 )
 
 func NewConfig(rootDir string) (ConfigApp, error) {

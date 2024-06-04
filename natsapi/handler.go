@@ -10,8 +10,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/nats-io/nats.go"
 
-	"shaper_stix/confighandler"
-	"shaper_stix/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/confighandler"
+	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 )
 
 var (
@@ -73,18 +73,16 @@ func (ns *natsStorage) deleteElement(id string) {
 	delete(ns.storage, id)
 }
 
-func init() {
-	mnats.chanOutputNATS = make(chan SettingsOutputChan)
-
-	//инициируем хранилище для дескрипторов сообщений NATS
-	ns = NewStorageNATS()
-}
-
 // NewClientNATS создает новое подключение к NATS
 func NewClientNATS(
 	conf confighandler.AppConfigNATS,
 	logging chan<- datamodels.MessageLogging,
 	counting chan<- datamodels.DataCounterSettings) (*ModuleNATS, error) {
+
+	mnats.chanOutputNATS = make(chan SettingsOutputChan)
+	//инициируем хранилище для дескрипторов сообщений NATS
+	ns = NewStorageNATS()
+
 	if conf.SubjectCase == "" && conf.SubjectAlert == "" {
 		_, f, l, _ := runtime.Caller(0)
 		return &mnats, fmt.Errorf("'there is not a single subscription available for NATS in the configuration file' %s:%d", f, l-1)

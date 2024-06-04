@@ -1,16 +1,16 @@
 package isemsmrsicimportmodule
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"github.com/av-belyakov/shaper_stix_2.1/confighandler"
+	"github.com/av-belyakov/shaper_stix_2.1/internal"
 	"github.com/av-belyakov/simplelogger"
-
-	"shaper_stix/confighandler"
-	"shaper_stix/internal"
 )
 
 const ROOT_DIR = "shaper_stix_2.1"
@@ -51,14 +51,18 @@ func main() {
 		log.Fatalf("error module 'simplelogger': %v", err)
 	}
 
+	ctxCore, ctxCancelCore := context.WithCancel(context.Background())
+
 	go func() {
 		osCall := <-sigChan
 		msg := fmt.Sprintf("stop 'main' function, %s", osCall.String())
 		_ = sl.WriteLoggingData(msg, "info")
+
+		ctxCancelCore()
 	}()
 
 	//инициализируем основное приложение
-	if err := internal.NewApp(confApp, sl); err != nil {
+	if err := internal.NewApp(ctxCore, confApp, sl); err != nil {
 		log.Fatal(err)
 	}
 }

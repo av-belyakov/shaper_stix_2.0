@@ -1,12 +1,14 @@
 package testmongodbhandler_test
 
 import (
+	"context"
+
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"shaper_stix/confighandler"
-	"shaper_stix/databaseapi/mongodbapi"
-	"shaper_stix/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/confighandler"
+	"github.com/av-belyakov/shaper_stix_2.1/databaseapi/mongodbapi"
+	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 )
 
 const DIR_ROOT = "shaper_stix_2.1"
@@ -25,8 +27,9 @@ var _ = Describe("Connection", Ordered, func() {
 	BeforeAll(func() {
 		conf, errConf = confighandler.NewConfig(DIR_ROOT)
 
+		ctx, _ := context.WithCancel(context.Background())
 		//mongomodule
-		_, err = mongodbapi.NewClientMongoDB(*conf.GetAppMongoDB(), logging, counting)
+		_, err = mongodbapi.NewClientMongoDB(ctx, *conf.GetAppMongoDB(), logging, counting)
 	})
 
 	Context("Тест 1. Проверка подключения к СУБД", func() {

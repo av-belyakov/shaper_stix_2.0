@@ -1,8 +1,9 @@
-module shaper_stix
+module github.com/av-belyakov/shaper_stix_2.1
 
 go 1.21.0
 
 require (
+	github.com/av-belyakov/methodstixobjects v0.0.0-20240604132201-fa7062aaa64e
 	github.com/av-belyakov/simplelogger v0.0.0-20231113085635-45b8e06e6063
 	github.com/google/uuid v1.4.0
 	github.com/nats-io/nats.go v1.31.0
@@ -13,6 +14,7 @@ require (
 )
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-task/slim-sprig/v3 v3.0.0 // indirect

@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"runtime"
@@ -9,16 +10,26 @@ import (
 
 	"github.com/av-belyakov/simplelogger"
 
-	"shaper_stix/confighandler"
-	"shaper_stix/databaseapi/mongodbapi"
-	"shaper_stix/datamodels"
-	"shaper_stix/memorytemporarystorage"
-	"shaper_stix/natsapi"
-	"shaper_stix/zabbixapi"
+	"github.com/av-belyakov/shaper_stix_2.1/confighandler"
+	"github.com/av-belyakov/shaper_stix_2.1/databaseapi/mongodbapi"
+	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/internal/decodejson"
+	"github.com/av-belyakov/shaper_stix_2.1/memorytemporarystorage"
+	"github.com/av-belyakov/shaper_stix_2.1/natsapi"
+	"github.com/av-belyakov/shaper_stix_2.1/zabbixapi"
 )
 
+type shortEventSettings struct {
+	Source string         `json:"source"`
+	Event  nameObjectType `json:"event"`
+}
+
+type nameObjectType struct {
+	ObjectType string `json:"objectType"`
+}
+
 // NewApp инициализирует приложение
-func NewApp(confApp confighandler.ConfigApp, sl simplelogger.SimpleLoggerSettings) error {
+func NewApp(ctx context.Context, confApp confighandler.ConfigApp, sl simplelogger.SimpleLoggerSettings) error {
 	//инициализируем модуль временного хранения информации
 	storageApp := memorytemporarystorage.NewTemporaryStorage()
 	//добавляем время инициализации счетчика хранения
@@ -51,12 +62,16 @@ func NewApp(confApp confighandler.ConfigApp, sl simplelogger.SimpleLoggerSetting
 		close(logging)
 	}()
 
-	//sl.WriteLoggingData
-	if natsModule, err := natsapi.NewClientNATS(*confApp.GetAppNATS(), logging, counting); err != nil {
+	natsModule, err := natsapi.NewClientNATS(*confApp.GetAppNATS(), logging, counting)
+	if err != nil {
 		return fmt.Errorf("error module 'natsapi': %w", err)
 	}
 
-	if mdbModule, err := mongodbapi.NewClientMongoDB(*confApp.GetAppMongoDB(), logging, counting); err != nil {
+	ctxMdb, ctxCancelMdb := context.WithCancel(context.Background())
+	defer ctxCancelMdb()
+
+	mdbModule, err := mongodbapi.NewClientMongoDB(ctxMdb, *confApp.GetAppMongoDB(), logging, counting)
+	if err != nil {
 		return fmt.Errorf("error module 'mongodbapi': %w", err)
 	}
 
@@ -68,11 +83,63 @@ func NewApp(confApp confighandler.ConfigApp, sl simplelogger.SimpleLoggerSetting
 		log.Println(msg)
 	}
 
-	//
-	//
-	//тут уже непосредственно блокирующий роутер с обработчиками
-	//
-	//
+	decodeJson := decodejson.NewDecodeJsonMessageSettings(logging, counting)
 
-	return nil
+	for {
+		select {
+		case <-ctx.Done():
+			return nil
+
+		case data := <-natsModule.GetDataReceptionChannel():
+			fmt.Println("func 'NewApp' прием данных из канала для взаимодействия с NATS")
+			fmt.Println("DATA:", data)
+
+			eventSettings := shortEventSettings{}
+			if err := json.Unmarshal(data.Data, &eventSettings); err != nil {
+				_, f, l, _ := runtime.Caller(0)
+				logging <- datamodels.MessageLogging{
+					MsgData: fmt.Sprintf("'%s' %s:%d", err.Error(), f, l+1),
+					MsgType: "error",
+				}
+
+				continue
+			}
+
+			switch eventSettings.Event.ObjectType {
+			case "case":
+				chanOutputDecodeJson, chanDecodeJsonDone := decodeJson.HandlerJsonMessage(data.Data, data.MsgId, "subject_case")
+
+				//				chansOut := supportingfunctions.CreateChannelDuplication[datamodels.ChanOutputDecodeJSON](chanOutputDecodeJson, 2)
+				//				chansDone := supportingfunctions.CreateChannelDuplication[bool](chanDecodeJsonDone, 2)
+
+				//используется для хранения в MongoDB
+				//				go NewVerifiedTheHiveFormatCase(chansOut[0], chansDone[0], mdbModule, settings.logging)
+				//используется для хранения в Elasticsearch
+				//				go NewVerifiedElasticsearchFormatCase(chansOut[1], chansDone[1], esModule, settings.logging)
+
+			case "alert":
+			//				chanOutputDecodeJson, chanDecodeJsonDone := decodeJsonAlert.HandlerJsonMessage(data.Data, data.MsgId, "subject_alert")
+
+			//				chansOut := supportingfunctions.CreateChannelDuplication[datamodels.ChanOutputDecodeJSON](chanOutputDecodeJson, 2)
+			//				chansDone := supportingfunctions.CreateChannelDuplication[bool](chanDecodeJsonDone, 2)
+
+			//используется для хранения в MongoDB
+			//				go NewVerifiedTheHiveFormatAlert(chansOut[0], chansDone[0], mdbModule, settings.logging)
+			//используется для хранения в Elasticsearch
+			//				go NewVerifiedElasticsearchFormatAlert(chansOut[1], chansDone[1], esModule, settings.logging)
+
+			default:
+				_, f, l, _ := runtime.Caller(0)
+				logging <- datamodels.MessageLogging{
+					MsgData: fmt.Sprintf("'undefined type objectType' %s:%d", f, l+1),
+					MsgType: "error",
+				}
+			}
+
+		case data := <-mdbModule.GetChanOutput():
+			fmt.Println("func 'NewApp' прием данных из канала для взаимодействия с СУБД MongoDB")
+			fmt.Println("DATA:", data)
+
+		}
+	}
 }

@@ -1,7 +1,7 @@
 package mongodbapi
 
 import (
-	"shaper_stix/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 )
 
 // AddAttackPatternDO объект "Attack Pattern", по терминалогии STIX, описывающий способы
