@@ -24,9 +24,8 @@ func NewDecodeJsonMessageSettings(
 	}
 }
 
-func (s *DecodeJsonMessageSettings) HandlerJsonMessage(b []byte, id, subject string) (chan datamodels.ChanOutputDecodeJSON, chan bool) {
+func (s *DecodeJsonMessageSettings) HandlerJsonMessage(b []byte, id, subject string) chan datamodels.ChanOutputDecodeJSON {
 	chanOutputJsonData := make(chan datamodels.ChanOutputDecodeJSON)
-	chanDone := make(chan bool)
 
 	//ПРЕДНАЗНАЧЕНО для записи принимаемых объектов в лог-файл
 	str, err := supportingfunctions.NewReadReflectJSONSprint(b)
@@ -45,10 +44,9 @@ func (s *DecodeJsonMessageSettings) HandlerJsonMessage(b []byte, id, subject str
 
 	go func() {
 		var (
-			f         string
-			l         int
-			err       error
-			isAllowed bool
+			f   string
+			l   int
+			err error
 		)
 
 		//для карт
@@ -98,14 +96,9 @@ func (s *DecodeJsonMessageSettings) HandlerJsonMessage(b []byte, id, subject str
 			DataMsg:  subject,
 			Count:    1,
 		}
-
-		//останавливаем обработчик формирующий верифицированный объект
-		chanDone <- isAllowed
-
-		close(chanDone)
 	}()
 
-	return chanOutputJsonData, chanDone
+	return chanOutputJsonData
 }
 
 func reflectAnySimpleType(

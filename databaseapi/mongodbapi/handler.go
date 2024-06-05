@@ -15,6 +15,7 @@ import (
 	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 )
 
+// NewClientMongoDB инициализация нового клиента СУБД MongoDB
 func NewClientMongoDB(
 	ctxDone context.Context,
 	conf confighandler.AppConfigMongoDB,

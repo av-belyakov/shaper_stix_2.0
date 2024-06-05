@@ -29,7 +29,12 @@ type nameObjectType struct {
 }
 
 // NewApp инициализирует приложение
-func NewApp(ctx context.Context, confApp confighandler.ConfigApp, sl simplelogger.SimpleLoggerSettings) error {
+func NewApp(
+	ctx context.Context,
+	rootDir string,
+	confApp confighandler.ConfigApp,
+	sl simplelogger.SimpleLoggerSettings) error {
+
 	//инициализируем модуль временного хранения информации
 	storageApp := memorytemporarystorage.NewTemporaryStorage()
 	//добавляем время инициализации счетчика хранения
@@ -62,6 +67,7 @@ func NewApp(ctx context.Context, confApp confighandler.ConfigApp, sl simplelogge
 		close(logging)
 	}()
 
+	//инициализация взаимодействия с NATS
 	natsModule, err := natsapi.NewClientNATS(*confApp.GetAppNATS(), logging, counting)
 	if err != nil {
 		return fmt.Errorf("error module 'natsapi': %w", err)
@@ -70,10 +76,16 @@ func NewApp(ctx context.Context, confApp confighandler.ConfigApp, sl simplelogge
 	ctxMdb, ctxCancelMdb := context.WithCancel(context.Background())
 	defer ctxCancelMdb()
 
+	//инициализация взаимодействия с СУБД MongoDB
 	mdbModule, err := mongodbapi.NewClientMongoDB(ctxMdb, *confApp.GetAppMongoDB(), logging, counting)
 	if err != nil {
 		return fmt.Errorf("error module 'mongodbapi': %w", err)
 	}
+
+	//инициализация хранилища правил
+	procRules := NewRulesHandler(rootDir, "configs")
+	procRules.AddAlertRules("msgrule_alert.yaml")
+	procRules.AddAlertRules("msgrule_case.yaml")
 
 	//вывод сообщения о запуске приложения с указанием версии приложения
 	if msg, err := writeLaunchMessage(); err != nil {
@@ -107,7 +119,11 @@ func NewApp(ctx context.Context, confApp confighandler.ConfigApp, sl simplelogge
 
 			switch eventSettings.Event.ObjectType {
 			case "case":
-				chanOutputDecodeJson, chanDecodeJsonDone := decodeJson.HandlerJsonMessage(data.Data, data.MsgId, "subject_case")
+				chanOutputDecodeJson := decodeJson.HandlerJsonMessage(data.Data, data.MsgId, "subject_case")
+
+				fmt.Println(chanOutputDecodeJson)
+
+				go NewVerifiedObject(chanOutputDecodeJson, procRules, counting, logging)
 
 				//				chansOut := supportingfunctions.CreateChannelDuplication[datamodels.ChanOutputDecodeJSON](chanOutputDecodeJson, 2)
 				//				chansDone := supportingfunctions.CreateChannelDuplication[bool](chanDecodeJsonDone, 2)

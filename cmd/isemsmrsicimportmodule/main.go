@@ -62,7 +62,7 @@ func main() {
 	}()
 
 	//инициализируем основное приложение
-	if err := internal.NewApp(ctxCore, confApp, sl); err != nil {
+	if err := internal.NewApp(ctxCore, ROOT_DIR, confApp, sl); err != nil {
 		log.Fatal(err)
 	}
 }
