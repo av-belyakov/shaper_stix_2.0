@@ -19,6 +19,8 @@ type WrapperReport struct {
 // ReportOutsideSpecification содержит дополнительные свойства
 type ReportOutsideSpecification struct {
 	ObjectType       string
+	RootId           string
+	ObjectId         string
 	CaseId           string
 	StartDate        string
 	EndDate          string
@@ -91,6 +93,34 @@ func (e *ReportOutsideSpecification) SetValueCaseId(v string) {
 // SetAnyCaseId устанавливает ЛЮБОЕ значение для поля CaseId
 func (e *ReportOutsideSpecification) SetAnyCaseId(i interface{}) {
 	e.CaseId = fmt.Sprint(i)
+}
+
+func (e *ReportOutsideSpecification) GetRootId() string {
+	return e.RootId
+}
+
+// SetValueRootId устанавливает значение для поля RootId
+func (e *ReportOutsideSpecification) SetValueRootId(v string) {
+	e.RootId = v
+}
+
+// SetAnyRootId устанавливает ЛЮБОЕ значение для поля RootId
+func (e *ReportOutsideSpecification) SetAnyRootId(i interface{}) {
+	e.RootId = fmt.Sprint(i)
+}
+
+func (e *ReportOutsideSpecification) GetObjectId() string {
+	return e.ObjectId
+}
+
+// SetValueObjectId устанавливает значение для поля ObjectId
+func (e *ReportOutsideSpecification) SetValueObjectId(v string) {
+	e.ObjectId = v
+}
+
+// SetAnyObjectId устанавливает ЛЮБОЕ значение для поля ObjectId
+func (e *ReportOutsideSpecification) SetAnyObjectId(i interface{}) {
+	e.ObjectId = fmt.Sprint(i)
 }
 
 func (e *ReportOutsideSpecification) GetStartDate() string {

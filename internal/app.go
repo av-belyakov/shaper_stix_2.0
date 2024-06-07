@@ -123,7 +123,7 @@ func NewApp(
 
 				fmt.Println(chanOutputDecodeJson)
 
-				go NewVerifiedObject(chanOutputDecodeJson, procRules, counting, logging)
+				go NewHandlerCaseObject(chanOutputDecodeJson, procRules, counting, logging)
 
 				//				chansOut := supportingfunctions.CreateChannelDuplication[datamodels.ChanOutputDecodeJSON](chanOutputDecodeJson, 2)
 				//				chansDone := supportingfunctions.CreateChannelDuplication[bool](chanDecodeJsonDone, 2)
