@@ -1,6 +1,6 @@
 package listhandlerjson
 
-import wrappers "github.com/av-belyakov/shaper_stix_2.1/internal/wrappersObjectSTIX"
+import wrappers "github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
 
 func NewHandlerReportDomainObjectSTIX(elem *wrappers.WrapperReport) map[string][]func(interface{}) {
 	return map[string][]func(interface{}){

@@ -2,6 +2,7 @@ package wrappersobjectstix
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	methodstixobjects "github.com/av-belyakov/methodstixobjects/cmd"
@@ -14,6 +15,30 @@ import (
 type WrapperReport struct {
 	*domainobjectsstix.ReportDomainObjectsSTIX
 	ReportOutsideSpecification ReportOutsideSpecification
+}
+
+func (e *WrapperReport) Get() *WrapperReport {
+	return e
+}
+
+// GetReportDomainObject возвращает значения ReportDomainObjectsSTIX
+func (e *WrapperReport) GetReportDomainObject() *domainobjectsstix.ReportDomainObjectsSTIX {
+	return e.ReportDomainObjectsSTIX
+}
+
+// GetReportDomainObject возвращает значения ReportOutsideSpecification
+func (e *WrapperReport) GetReportOutsideSpecification() *ReportOutsideSpecification {
+	return &e.ReportOutsideSpecification
+}
+
+// ToStringBeautiful выполняет красивое представление информации содержащейся в типе
+func (e WrapperReport) ToStringBeautiful() string {
+	str := strings.Builder{}
+
+	str.WriteString(e.ReportDomainObjectsSTIX.ToStringBeautiful())
+	str.WriteString(e.ReportOutsideSpecification.ToStringBeautiful())
+
+	return str.String()
 }
 
 // ReportOutsideSpecification содержит дополнительные свойства
@@ -191,4 +216,20 @@ func (e *ReportOutsideSpecification) SetValueResolutionStatus(v string) {
 // SetAnyResolutionStatus устанавливает ЛЮБОЕ значение для поля ResolutionStatus
 func (e *ReportOutsideSpecification) SetAnyResolutionStatus(i interface{}) {
 	e.ResolutionStatus = fmt.Sprint(i)
+}
+
+// ToStringBeautiful выполняет красивое представление информации содержащейся в типе
+func (e ReportOutsideSpecification) ToStringBeautiful() string {
+	str := strings.Builder{}
+
+	str.WriteString(fmt.Sprintf("'object_type': '%s'\n", e.ObjectType))
+	str.WriteString(fmt.Sprintf("'root_id': '%s'\n", e.RootId))
+	str.WriteString(fmt.Sprintf("'object_id': '%v'\n", e.ObjectId))
+	str.WriteString(fmt.Sprintf("'case_id': '%s'\n", e.CaseId))
+	str.WriteString(fmt.Sprintf("'start_date': '%s'\n", e.StartDate))
+	str.WriteString(fmt.Sprintf("'end_date': '%v'\n", e.EndDate))
+	str.WriteString(fmt.Sprintf("'impact_status': '%s'\n", e.ImpactStatus))
+	str.WriteString(fmt.Sprintf("'resolution_status': '%v'\n", e.ResolutionStatus))
+
+	return str.String()
 }

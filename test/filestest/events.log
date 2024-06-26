@@ -1,0 +1,1110 @@
+2024/06/26 09:48:11 	---------------
+	EVENTS:
+"source": "rcmnvs"
+event:
+  "operation": "update"
+  details:
+    customFields:
+      last-time:
+        "date": 1719373380000
+  "base": true
+  "requestId": "4de46c94aab69dc1:60416236:190367a3dde:-8000:101503"
+  object:
+    "startDate": 1719367260000
+    "flag": false
+    "owner": "zhda@rcm"
+    "createdAt": 1719316653150
+    "updatedBy": "zhda@rcm"
+    "_type": "case"
+    "endDate": 0
+    "resolutionStatus": ""
+    "summary": ""
+    stats:
+    "createdBy": "zhda@rcm"
+    "updatedAt": 1719373829505
+    "caseId": 14424
+    "tlp": 2
+    "id": "~455778416"
+    "title": " Признаки функционирования ВПО «Miner»"
+    "description": "Описание:
+  
+#### Merged with alert #TSK-NSK-4-ZPM-240625-6462 Признаки функционирования ВПО «Miner»
+
+**Задача переданная из смежной системы: Заслон-Пост-Модерн**
+
+В формате ГЦМ: **`TSK-NSK-4-ZPM-240625-6462`** ID: `6462`
+
+[http://ku.rcm/tasks/card/TSK-NSK-4-ZPM-240625-6462](http://ku.rcm/tasks/card/TSK-NSK-4-ZPM-240625-6462)
+
+Автор задачи: **`Жаткин Д.А`**
+
+Тип: **`raw_alert`**
+
+**Причина по которой создана задача**
+
+Название: `Признаки функционирования ВПО «Miner»`
+
+Описание: ``
+
+Отработало на СОА: 
+- **`570039`**   ЦОД Правительства Новосибирской области, Установлен: Новосибирск,Новосибирская область, IP адрес: 185.138.128.17
+
+
+**Полное описание события IDS:**
+
+- Время начала: **`14.06.2024 07:11:10`**
+- Время окончания: **`25.06.2024 11:45:21`**
+- **IP из домашней подсети**
+
+1. **`185.138.129.232`**
+- **IP из внешней подсети**
+
+1. **`81.200.156.129`**
+
+
+**Сигнатуры на которых отработал анализатор сетевого трафика:**
+
+1. РП: **`3028146`**, Сообщение: AM TROJAN Trojan.Johnnie.D17E73 login attempt via json-file, Добавлена: 05.04.2022 17:49:00
+2. РП: **`3014885`**, Сообщение: AM TROJAN MSIL/Razy Cryptominer.NS, Добавлена: 05.04.2022 17:49:00"
+    "severity": 2
+    "impactStatus": ""
+    tags:
+      1. "Sensor:id="570039""
+      2. "'Webhook:send=ES'"
+      3. "rcmnvs:asod"
+    "pap": 2
+    "status": "Open"
+    "_id": "~455778416"
+    permissions:
+    customFields:
+      asod-number:
+      class-attack:
+        "order": 0
+        "string": "Вирусное заражение;"
+      first-time:
+        "date": 1718349070890
+      last-time:
+        "date": 1719373380000
+      ncircc-class-attack:
+        "order": 1
+        "string": "Заражение ВПО;incident"
+  "objectType": "case"
+  "objectId": "~455778416"
+  "startDate": 1719373829538
+  "rootId": "~455778416"
+  "organisationId": "~45296"
+  "organisation": "RCM"
+observables:
+  1.
+    "_createdBy": "zhda@rcm"
+    "_id": "~87232520"
+    "data": "3028146, 3014885"
+    tags:
+      1. "snort"
+    "tlp": 2
+    "_createdAt": 1719316653366
+    "dataType": "snort_sid"
+    extraData:
+    "ioc": false
+    reports:
+    "sighted": false
+    "startDate": 1719316653366
+    "_type": "Observable"
+  2.
+    "ioc": false
+    "sighted": false
+    "startDate": 1719316653384
+    tags:
+      1. "home"
+    "_createdAt": 1719316653384
+    "_id": "~455475200"
+    "data": "570039:185.138.129.232"
+    "dataType": "ip_home"
+    "tlp": 2
+    "_createdBy": "zhda@rcm"
+    "_type": "Observable"
+    extraData:
+    reports:
+  3.
+    "_createdBy": "zhda@rcm"
+    "dataType": "user-agent"
+    "ignoreSimilarity": false
+    "startDate": 1719316811853
+    "_type": "Observable"
+    "sighted": false
+    "_createdAt": 1719316811853
+    "_id": "~174170176"
+    "message": ""
+    tags:
+      1. "user-agent"
+      2. "ATs:reason="Признаки ВПО типа Miner""
+      3. "misp:Network activity="user-agent""
+      4. "misp:Network activity="text""
+    "tlp": 2
+    "_updatedAt": 1719316812062
+    "_updatedBy": "hivehooks@rcm"
+    "data": ""agent":"XMRig/6.17.0 (Windows NT 10.0) libuv/1.15.0 gcc/12.1.0""
+    extraData:
+    "ioc": true
+    reports:
+  4.
+    "startDate": 1719316858836
+    "_createdAt": 1719316858836
+    "_type": "Observable"
+    "ignoreSimilarity": false
+    "message": ""
+    "_createdBy": "zhda@rcm"
+    "_id": "~87248904"
+    "dataType": "other"
+    extraData:
+    tags:
+      1. "misp:Network activity="text""
+    "_updatedAt": 1719316859089
+    "_updatedBy": "hivehooks@rcm"
+    "data": ""login":"82963bf5ac7bcb82b1b097cc99700ea756ef9e513e6bc51bc0e020c884856321""
+    "ioc": true
+    reports:
+    "sighted": false
+    "tlp": 2
+  5.
+    "ioc": true
+    reports:
+    "_createdBy": "zhda@rcm"
+    extraData:
+    "ignoreSimilarity": false
+    "message": ""
+    "sighted": false
+    "startDate": 1719316858908
+    "_updatedAt": 1719316859101
+    "data": ""pass":"x""
+    "_type": "Observable"
+    "dataType": "other"
+    tags:
+      1. "misp:Network activity="text""
+    "tlp": 2
+    "_createdAt": 1719316858908
+    "_id": "~210042984"
+    "_updatedBy": "hivehooks@rcm"
+  6.
+    "dataType": "ip"
+    "sighted": false
+    "_createdAt": 1719316653343
+    "_id": "~174145600"
+    "_type": "Observable"
+    extraData:
+    "_createdBy": "zhda@rcm"
+    "_updatedAt": 1719333361912
+    "_updatedBy": "zhda@rcm"
+    "ioc": true
+    "startDate": 1719316653343
+    "tlp": 2
+    "data": "81.200.156.129"
+    reports:
+      VirusTotal_GetReport_3_1:
+        taxonomies:
+          1.
+            "predicate": "GetReport"
+            "value": "2 resolution(s)"
+            "level": "suspicious"
+            "namespace": "VT"
+          2.
+            "predicate": "GetReport"
+            "value": "0/93"
+            "level": "info"
+            "namespace": "VT"
+      AbuseIPDB_1_0:
+        taxonomies:
+          1.
+            "predicate": "Records"
+            "value": 0
+            "level": "safe"
+            "namespace": "AbuseIPDB"
+      MISP_2_1:
+        taxonomies:
+          1.
+            "level": "suspicious"
+            "namespace": "MISP"
+            "predicate": "Search"
+            "value": "10 event(s)"
+      TorProject_1_0:
+        taxonomies:
+          1.
+            "level": "info"
+            "namespace": "TorProject"
+            "predicate": "Node"
+            "value": false
+    tags:
+      1. "external"
+      2. "geo:iso="PL""
+      3. "geo:country="Польша""
+ttp:
+  1.
+    extraData:
+      pattern:
+        "revoked": false
+        "url": "https://attack.mitre.org/techniques/T1071"
+        "version": "2.1"
+        dataSources:
+          1. "Network Traffic: Network Traffic Content"
+          2. "Network Traffic: Network Traffic Flow"
+        "name": "Application Layer Protocol"
+        "description": "Adversaries may communicate using OSI application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. 
+
+Adversaries may utilize many different protocols, including those used for web browsing, transferring files, electronic mail, or DNS. For connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are SMB, SSH, or RDP. "
+        "patternId": "T1071"
+        "patternType": "attack-pattern"
+        permissionsRequired:
+        tactics:
+          1. "command-and-control"
+        "_type": "Pattern"
+        defenseBypassed:
+        "detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)"
+        extraData:
+        platforms:
+          1. "Linux"
+          2. "macOS"
+          3. "Windows"
+        "remoteSupport": false
+        systemRequirements:
+        "_createdAt": 1691569805536
+        "_createdBy": "admin@thehive.local"
+        "_id": "~32904"
+    "occurDate": 1719316620000
+    "patternId": "T1071"
+    "tactic": "command-and-control"
+    "_createdAt": 1719316680349
+    "_createdBy": "zhda@rcm"
+    "_id": "~455782512"
+
+
+2024/06/26 09:48:11 	---------------
+	EVENTS:
+"source": "rcmnvs"
+event:
+  "objectId": "~88141968"
+  "startDate": 1719377946571
+  "rootId": "~88141968"
+  "requestId": "4de46c94aab69dc1:60416236:190367a3dde:-8000:102010"
+  "organisationId": "~45296"
+  "operation": "update"
+  "objectType": "case"
+  object:
+    "pap": 2
+    "createdBy": "baa@rcm"
+    "updatedAt": 0
+    "_type": "case"
+    "caseId": 14440
+    "title": " Эксплуатация уязвимости в Mikrotik (CVE-2018-14847)"
+    "endDate": 0
+    "impactStatus": ""
+    "owner": "baa@rcm"
+    "description": "Описание:"
+    "severity": 2
+    "startDate": 1719377880000
+    "flag": false
+    stats:
+    "updatedBy": ""
+    "createdAt": 1719377946563
+    "resolutionStatus": ""
+    tags:
+      1. "rcmnvs:asod"
+      2. "template"
+    "summary": ""
+    customFields:
+      class-attack:
+        "order": 0
+      ncircc-class-attack:
+        "order": 1
+    "_id": "~88141968"
+    "id": "~88141968"
+    "tlp": 2
+    "status": "Open"
+    permissions:
+  "organisation": "RCM"
+  details:
+  "base": false
+observables:
+  1.
+    "dataType": "ip_home"
+    extraData:
+    "ioc": false
+    "sighted": false
+    "_createdAt": 1719377946734
+    "_createdBy": "baa@rcm"
+    "data": "570023:82.200.22.139"
+    reports:
+    "startDate": 1719377946734
+    tags:
+      1. "home"
+    "tlp": 2
+    "_id": "~456503408"
+    "_type": "Observable"
+  2.
+    reports:
+    tags:
+      1. "external"
+      2. "geo:iso="MD""
+      3. "geo:country="Молдавия""
+    "_createdAt": 1719377946765
+    "_createdBy": "baa@rcm"
+    "_type": "Observable"
+    "dataType": "ip"
+    extraData:
+    "ioc": true
+    "_id": "~210772072"
+    "data": "178.175.142.20"
+    "sighted": false
+    "startDate": 1719377946765
+    "tlp": 2
+  3.
+    "_createdAt": 1719377946796
+    "_id": "~292945992"
+    "data": "3039128"
+    reports:
+    tags:
+      1. "snort"
+    "tlp": 2
+    "startDate": 1719377946796
+    "_createdBy": "baa@rcm"
+    "_type": "Observable"
+    "dataType": "snort_sid"
+    extraData:
+    "ioc": false
+    "sighted": false
+ttp:
+
+
+2024/06/26 09:48:54 	---------------
+	EVENTS:
+"source": "rcmmsk"
+event:
+  "objectType": "case"
+  "base": true
+  "startDate": 1719384382759
+  "rootId": "~370032736"
+  "requestId": "228da5e4d258a175:17ca606c:1903161d629:-8000:196800"
+  object:
+    "title": "Большое количество подозрительной активности с одного IP-адреса с 154.92.110.2"
+    "severity": 2
+    "endDate": 0
+    "impactStatus": ""
+    "_id": "~370032736"
+    "id": "~370032736"
+    "createdAt": 1719384364482
+    "caseId": 837
+    "owner": "alex.k@mimo.sec"
+    customFields:
+      last-time:
+        "date": 1719352371000
+        "order": 3
+      ncircc-class-attack:
+        "order": 1
+      class-attack:
+        "order": 0
+        "string": "Exploit"
+      first-time:
+        "date": 1719352342000
+        "order": 2
+    stats:
+    "status": "Open"
+    "startDate": 1719384364436
+    "flag": false
+    "tlp": 1
+    "pap": 2
+    "resolutionStatus": ""
+    tags:
+      1. "Sensor:id="530134""
+      2. "ATs:reason="Большое количество подозрительной активности с одного IP-адреса""
+      3. "'Webhook:send=ES'"
+    "summary": ""
+    "createdBy": "alex.k@mimo.sec"
+    "updatedBy": "alex.k@mimo.sec"
+    "updatedAt": 1719384382747
+    "_type": "case"
+    "description": "**Задача переданная из смежной системы: Заслон-Пост-Модерн**
+
+В формате ГЦМ: **`TSK-MSC-2-ZPM-240625-20322`** ID: `20322`
+
+[http://10.39.1.6:3000/tasks/card/TSK-MSC-2-ZPM-240625-20322](http://10.39.1.6:3000/tasks/card/TSK-MSC-2-ZPM-240625-20322)
+
+Автор задачи: **`Security Event Manager`**
+
+Тип: **`snort_alert`**
+
+**Причина по которой создана задача**
+
+Название: `Большое количество подозрительной активности с одного IP-адреса с 154.92.110.2`
+
+Описание: `## Данная задача создана автоматически
+ Время начала: 2024-06-26 00:52:22
+ Время окончания: 2024-06-26 00:52:51
+ Продолжительность воздействий: 0:00:29`
+
+Отработало на СОА: 
+- **`530134`**   Акционерное общество "Научно-технический центр "Атлас", Установлен: Москва,Москва, IP адрес: 192.168.239.9
+
+
+**Полное описание события IDS:**
+
+- Время начала: **`25.06.2024 21:52:22`**
+- Время окончания: **`25.06.2024 21:52:51`**
+- **IP из домашней подсети**
+
+1. **`178.237.206.75`**
+- **IP из внешней подсети**
+
+1. **`154.92.110.2`**
+
+
+**Сигнатуры на которых отработал анализатор сетевого трафика:**
+
+1. РП: **`2034125`**, Сообщение: ET EXPLOIT Apache HTTP Server 2.4.49 - Path Traversal Attempt (CVE-2021-41773) M2, Добавлена: 05.04.2022 17:49:00
+2. РП: **`2016683`**, Сообщение: ET WEB_SERVER WebShell Generic - wget http - POST, Добавлена: 09.10.2023 09:10:32
+3. РП: **`58276`**, Сообщение: SERVER-WEBAPP Apache HTTP Server httpd directory traversal attempt, Добавлена: 05.04.2022 17:49:00
+4. РП: **`45749`**, Сообщение: SERVER-WEBAPP PHPUnit PHP remote code execution attempt, Добавлена: 05.04.2022 17:49:00
+5. РП: **`3041665`**, Сообщение: AM Exploit ThinkPHP 5.x < v5.0.23,v5.1.31 Remote Code Execution, Добавлена: 05.04.2022 17:49:00
+6. РП: **`2034125`**, Сообщение: ET EXPLOIT Apache HTTP Server 2.4.49 - Path Traversal Attempt (CVE-2021-41773) M2, Добавлена: 19.04.2022 01:00:00
+
+
+
+
+**Фильтрация и выгрузка от** Tue Jun 25 2024 22:02:57 GMT+0000 
+
+Размер: **`80.3 KB`**, [Скачать файл](https://ftp.mimo.sec/traffic//530134/1719352777_2024_06_26____00_59_37_751861.pcap)
+
+Arkime: https://10.39.1.15/session?expression=file==/data/pcap/processed/AUTOSURICATA,AUTOZEEK,AUTOCARVEall,1719352777_2024_06_26____00_59_37_751861.pcap&date=-1
+
+Контент: Фильтрация успешно завершена. Включена автоматическая выгрузка
+
+Файл на СОА: `/opt/zaslon/zmanager/data/pfilter_storage/1719352777_2024_06_26____00_59_37_751861.pcap`
+
+
+
+"
+    permissions:
+  "operation": "update"
+  details:
+    customFields:
+      class-attack:
+        "string": "Exploit"
+  "objectId": "~370032736"
+  "organisationId": "~41208"
+  "organisation": "RCM"
+observables:
+  1.
+    "data": "154.92.110.2"
+    "dataType": "ip"
+    extraData:
+    "ioc": true
+    reports:
+    "_createdAt": 1719384364614
+    "_createdBy": "alex.k@mimo.sec"
+    "_id": "~247152656"
+    tags:
+      1. "external"
+    "tlp": 2
+    "_type": "Observable"
+    "sighted": false
+    "startDate": 1719384364614
+  2.
+    "sighted": false
+    "startDate": 1719384364539
+    "_createdAt": 1719384364539
+    "_id": "~165155048"
+    "_type": "Observable"
+    "data": "530134:178.237.206.75"
+    "dataType": "ip_home"
+    extraData:
+    "ioc": false
+    reports:
+    "_createdBy": "alex.k@mimo.sec"
+    "tlp": 2
+    tags:
+      1. "home"
+  3.
+    "startDate": 1719384364592
+    "_createdBy": "alex.k@mimo.sec"
+    "_id": "~288043200"
+    "_type": "Observable"
+    "dataType": "snort_sid"
+    "ioc": false
+    reports:
+    "sighted": false
+    tags:
+      1. "snort"
+    "_createdAt": 1719384364592
+    "data": "2034125,2016683,58276,45749,3041665,2034125"
+    extraData:
+    "tlp": 2
+  4.
+    "_createdBy": "alex.k@mimo.sec"
+    "ignoreSimilarity": true
+    "tlp": 2
+    "_type": "Observable"
+    "data": "ftp://192.168.239.8/traffic//530134/1719352777_2024_06_26____00_59_37_751861.pcap"
+    "sighted": false
+    "startDate": 1719384364563
+    tags:
+      1. "80.3 KB"
+    "dataType": "url_pcap"
+    "message": "Download a piece of traffic"
+    "_createdAt": 1719384364563
+    "_id": "~288096320"
+    extraData:
+    "ioc": true
+    reports:
+ttp:
+
+
+2024/06/26 09:50:32 	---------------
+	EVENTS:
+event:
+  "organisation": "RCM"
+  details:
+    "endDate": 1719384632385
+    customFields:
+      first-time:
+        "order": 2
+        "date": 1719352342000
+      last-time:
+        "date": 1719352371000
+        "order": 3
+      ncircc-class-attack:
+        "order": 1
+        "string": "Попытки эксплуатации уязвимости;attack "
+      class-attack:
+        "order": 0
+        "string": "Exploit"
+    "resolutionStatus": "TruePositive"
+    "summary": "Безуспешные попытки эксплуатации уязвимости CVE-2021-41773"
+    "status": "Resolved"
+    "impactStatus": "NoImpact"
+  "objectId": "~370032736"
+  "base": true
+  "requestId": "228da5e4d258a175:17ca606c:1903161d629:-8000:197021"
+  object:
+    "pap": 2
+    "id": "~370032736"
+    "severity": 2
+    "title": "Безуспешные попытки эксплуатации уязвимости CVE-2021-41773 с 154.92.110.2 АТЛАС"
+    "endDate": 1719384632385
+    "owner": "alex.k@mimo.sec"
+    "createdBy": "alex.k@mimo.sec"
+    "_type": "case"
+    "startDate": 1719384364436
+    "impactStatus": "NoImpact"
+    "resolutionStatus": "TruePositive"
+    tags:
+      1. "Sensor:id="530134""
+      2. "ATs:reason="Большое количество подозрительной активности с одного IP-адреса""
+      3. "'Webhook:send=ES'"
+    "flag": false
+    "status": "Resolved"
+    "updatedBy": "alex.k@mimo.sec"
+    "updatedAt": 1719384632443
+    permissions:
+    customFields:
+      class-attack:
+        "order": 0
+        "string": "Exploit"
+      first-time:
+        "order": 2
+        "date": 1719352342000
+      last-time:
+        "date": 1719352371000
+        "order": 3
+      ncircc-class-attack:
+        "string": "Попытки эксплуатации уязвимости;attack "
+        "order": 1
+    stats:
+    "caseId": 837
+    "description": "**Задача переданная из смежной системы: Заслон-Пост-Модерн**
+
+В формате ГЦМ: **`TSK-MSC-2-ZPM-240625-20322`** ID: `20322`
+
+[http://10.39.1.6:3000/tasks/card/TSK-MSC-2-ZPM-240625-20322](http://10.39.1.6:3000/tasks/card/TSK-MSC-2-ZPM-240625-20322)
+
+Автор задачи: **`Security Event Manager`**
+
+Тип: **`snort_alert`**
+
+**Причина по которой создана задача**
+
+Название: `Большое количество подозрительной активности с одного IP-адреса с 154.92.110.2`
+
+Описание: `## Данная задача создана автоматически
+ Время начала: 2024-06-26 00:52:22
+ Время окончания: 2024-06-26 00:52:51
+ Продолжительность воздействий: 0:00:29`
+
+Отработало на СОА: 
+- **`530134`**   Акционерное общество "Научно-технический центр "Атлас", Установлен: Москва,Москва, IP адрес: 192.168.239.9
+
+
+**Полное описание события IDS:**
+
+- Время начала: **`25.06.2024 21:52:22`**
+- Время окончания: **`25.06.2024 21:52:51`**
+- **IP из домашней подсети**
+
+1. **`178.237.206.75`**
+- **IP из внешней подсети**
+
+1. **`154.92.110.2`**
+
+
+**Сигнатуры на которых отработал анализатор сетевого трафика:**
+
+1. РП: **`2034125`**, Сообщение: ET EXPLOIT Apache HTTP Server 2.4.49 - Path Traversal Attempt (CVE-2021-41773) M2, Добавлена: 05.04.2022 17:49:00
+2. РП: **`2016683`**, Сообщение: ET WEB_SERVER WebShell Generic - wget http - POST, Добавлена: 09.10.2023 09:10:32
+3. РП: **`58276`**, Сообщение: SERVER-WEBAPP Apache HTTP Server httpd directory traversal attempt, Добавлена: 05.04.2022 17:49:00
+4. РП: **`45749`**, Сообщение: SERVER-WEBAPP PHPUnit PHP remote code execution attempt, Добавлена: 05.04.2022 17:49:00
+5. РП: **`3041665`**, Сообщение: AM Exploit ThinkPHP 5.x < v5.0.23,v5.1.31 Remote Code Execution, Добавлена: 05.04.2022 17:49:00
+6. РП: **`2034125`**, Сообщение: ET EXPLOIT Apache HTTP Server 2.4.49 - Path Traversal Attempt (CVE-2021-41773) M2, Добавлена: 19.04.2022 01:00:00
+
+
+
+
+**Фильтрация и выгрузка от** Tue Jun 25 2024 22:02:57 GMT+0000 
+
+Размер: **`80.3 KB`**, [Скачать файл](https://ftp.mimo.sec/traffic//530134/1719352777_2024_06_26____00_59_37_751861.pcap)
+
+Arkime: https://10.39.1.15/session?expression=file==/data/pcap/processed/AUTOSURICATA,AUTOZEEK,AUTOCARVEall,1719352777_2024_06_26____00_59_37_751861.pcap&date=-1
+
+Контент: Фильтрация успешно завершена. Включена автоматическая выгрузка
+
+Файл на СОА: `/opt/zaslon/zmanager/data/pfilter_storage/1719352777_2024_06_26____00_59_37_751861.pcap`
+
+
+
+"
+    "tlp": 1
+    "summary": "Безуспешные попытки эксплуатации уязвимости CVE-2021-41773"
+    "_id": "~370032736"
+    "createdAt": 1719384364482
+  "operation": "update"
+  "objectType": "case"
+  "startDate": 1719384632460
+  "rootId": "~370032736"
+  "organisationId": "~41208"
+observables:
+  1.
+    "_createdBy": "alex.k@mimo.sec"
+    "data": "530134:178.237.206.75"
+    extraData:
+    reports:
+      ZPMSig_1_0:
+        taxonomies:
+          1.
+            "value": "online"
+            "level": "safe"
+            "namespace": "ZPM_Sensor"
+            "predicate": "Status"
+    tags:
+      1. "home"
+    "tlp": 2
+    "_createdAt": 1719384364539
+    "_id": "~165155048"
+    "_type": "Observable"
+    "dataType": "ip_home"
+    "ioc": false
+    "sighted": false
+    "startDate": 1719384364539
+  2.
+    "dataType": "snort_sid"
+    extraData:
+    reports:
+      ZPMSig_1_0:
+        taxonomies:
+          1.
+            "level": "info"
+            "namespace": "zpmSig"
+            "predicate": "Precision"
+            "value": "unknown"
+    "sighted": false
+    "_createdAt": 1719384364592
+    "_createdBy": "alex.k@mimo.sec"
+    "_id": "~288043200"
+    "_type": "Observable"
+    "tlp": 2
+    "data": "2034125,2016683,58276,45749,3041665,2034125"
+    "ioc": false
+    "startDate": 1719384364592
+    tags:
+      1. "snort"
+  3.
+    "_id": "~288096320"
+    "data": "ftp://192.168.239.8/traffic//530134/1719352777_2024_06_26____00_59_37_751861.pcap"
+    "dataType": "url_pcap"
+    extraData:
+    "_type": "Observable"
+    "ioc": true
+    "message": "Download a piece of traffic"
+    "startDate": 1719384364563
+    tags:
+      1. "80.3 KB"
+    "tlp": 2
+    "_createdAt": 1719384364563
+    "_createdBy": "alex.k@mimo.sec"
+    "sighted": false
+    "ignoreSimilarity": true
+    reports:
+  4.
+    "_id": "~247152656"
+    "data": "154.92.110.2"
+    extraData:
+    "startDate": 1719384364614
+    "tlp": 2
+    "_createdBy": "alex.k@mimo.sec"
+    "_updatedBy": "alex.k@mimo.sec"
+    reports:
+      ZPMSig_1_0:
+        taxonomies:
+          1.
+            "level": "info"
+            "namespace": "ZPM_Sensor"
+            "predicate": "IP"
+            "value": "NotFound"
+    tags:
+      1. "external"
+      2. "misp:External analysis="ip-src""
+    "_type": "Observable"
+    "_updatedAt": 1719384535044
+    "dataType": "ip"
+    "ioc": true
+    "sighted": true
+    "_createdAt": 1719384364614
+  5.
+    "ignoreSimilarity": false
+    "tlp": 2
+    "_id": "~247164944"
+    "ioc": true
+    "message": ""
+    reports:
+    "sighted": true
+    "_createdBy": "alex.k@mimo.sec"
+    "_type": "Observable"
+    "data": "universeaction.com"
+    extraData:
+    tags:
+      1. "misp:External analysis="domain""
+    "_createdAt": 1719384564932
+    "dataType": "domain"
+    "startDate": 1719384564932
+ttp:
+  1.
+    "_id": "~288047296"
+    extraData:
+      pattern:
+        "version": "1.0"
+        "_createdBy": "admin@thehive.local"
+        "_id": "~5533816"
+        "_type": "Pattern"
+        defenseBypassed:
+        "description": "Adversaries may buy, steal, or download exploits that can be used during targeting. An exploit takes advantage of a bug or vulnerability in order to cause unintended or unanticipated behavior to occur on computer hardware or software. Rather than developing their own exploits, an adversary may find/modify exploits from online or purchase them from exploit vendors.(Citation: Exploit Database)(Citation: TempertonDarkHotel)(Citation: NationsBuying)
+
+In addition to downloading free exploits from the internet, adversaries may purchase exploits from third-party entities. Third-party entities can include technology companies that specialize in exploit development, criminal marketplaces (including exploit kits), or from individuals.(Citation: PegasusCitizenLab)(Citation: Wired SandCat Oct 2019) In addition to purchasing exploits, adversaries may steal and repurpose exploits from third-party entities (including other adversaries).(Citation: TempertonDarkHotel)
+
+An adversary may monitor exploit provider forums to understand the state of existing, as well as newly discovered, exploits. There is usually a delay between when an exploit is discovered and when it is made public. An adversary may target the systems of those known to conduct exploit research and development in order to gain that knowledge for use during a subsequent operation.
+
+Adversaries may use exploits during various phases of the adversary lifecycle (i.e. [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190), [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203), [Exploitation for Privilege Escalation](https://attack.mitre.org/techniques/T1068), [Exploitation for Defense Evasion](https://attack.mitre.org/techniques/T1211), [Exploitation for Credential Access](https://attack.mitre.org/techniques/T1212), [Exploitation of Remote Services](https://attack.mitre.org/techniques/T1210), and [Application or System Exploitation](https://attack.mitre.org/techniques/T1499/004))."
+        tactics:
+          1. "resource-development"
+        extraData:
+        "patternId": "T1588.005"
+        systemRequirements:
+        "url": "https://attack.mitre.org/techniques/T1588/005"
+        dataSources:
+        "detection": "
+Much of this activity will take place outside the visibility of the target organization, making detection of this behavior difficult. Detection efforts may be focused on behaviors relating to the use of exploits (i.e. [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190), [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203), [Exploitation for Privilege Escalation](https://attack.mitre.org/techniques/T1068), [Exploitation for Defense Evasion](https://attack.mitre.org/techniques/T1211), [Exploitation for Credential Access](https://attack.mitre.org/techniques/T1212), [Exploitation of Remote Services](https://attack.mitre.org/techniques/T1210), and [Application or System Exploitation](https://attack.mitre.org/techniques/T1499/004))."
+        "name": "Exploits"
+        "revoked": false
+        "_createdAt": 1683099381740
+        "patternType": "attack-pattern"
+        permissionsRequired:
+        platforms:
+          1. "PRE"
+        "remoteSupport": false
+      patternParent:
+        permissionsRequired:
+        "_createdAt": 1683099283520
+        "_id": "~10772624"
+        "_type": "Pattern"
+        "description": "Adversaries may buy and/or steal capabilities that can be used during targeting. Rather than developing their own capabilities in-house, adversaries may purchase, freely download, or steal them. Activities may include the acquisition of malware, software (including licenses), exploits, certificates, and information relating to vulnerabilities. Adversaries may obtain capabilities to support their operations throughout numerous phases of the adversary lifecycle.
+
+In addition to downloading free malware, software, and exploits from the internet, adversaries may purchase these capabilities from third-party entities. Third-party entities can include technology companies that specialize in malware and exploits, criminal marketplaces, or from individuals.(Citation: NationsBuying)(Citation: PegasusCitizenLab)
+
+In addition to purchasing capabilities, adversaries may steal capabilities from third-party entities (including other adversaries). This can include stealing software licenses, malware, SSL/TLS and code-signing certificates, or raiding closed databases of vulnerabilities or exploits.(Citation: DiginotarCompromise)"
+        extraData:
+        "detection": "Consider analyzing malware for features that may be associated with malware providers, such as compiler used, debugging artifacts, code similarities, or even group identifiers associated with specific Malware-as-a-Service (MaaS) offerings. Malware repositories can also be used to identify additional samples associated with the developers and the adversary utilizing their services. Identifying overlaps in malware use by different adversaries may indicate malware was obtained by the adversary rather than developed by them. In some cases, identifying overlapping characteristics in malware used by different adversaries may point to a shared quartermaster.(Citation: FireEyeSupplyChain) Malware repositories can also be used to identify features of tool use associated with an adversary, such as watermarks in [Cobalt Strike](https://attack.mitre.org/software/S0154) payloads.(Citation: Analyzing CS Dec 2020)
+
+Consider use of services that may aid in the tracking of newly issued certificates and/or certificates in use on sites across the Internet. In some cases it may be possible to pivot on known pieces of certificate information to uncover other adversary infrastructure.(Citation: Splunk Kovar Certificates 2017) Some server-side components of adversary tools may have default values set for SSL/TLS certificates.(Citation: Recorded Future Beacon Certificates)
+
+Much of this activity will take place outside the visibility of the target organization, making detection of this behavior difficult. Detection efforts may be focused on related stages of the adversary lifecycle, such as during Defense Evasion or Command and Control."
+        "remoteSupport": false
+        "url": "https://attack.mitre.org/techniques/T1588"
+        "version": "1.1"
+        dataSources:
+          1. "Malware Repository: Malware Metadata"
+          2. "Certificate: Certificate Registration"
+          3. "Malware Repository: Malware Content"
+          4. "Internet Scan: Response Content"
+        "name": "Obtain Capabilities"
+        "patternType": "attack-pattern"
+        platforms:
+          1. "PRE"
+        systemRequirements:
+        "_createdBy": "admin@thehive.local"
+        defenseBypassed:
+        "patternId": "T1588"
+        "revoked": false
+        tactics:
+          1. "resource-development"
+    "occurDate": 1719384480000
+    "patternId": "T1588.005"
+    "tactic": "resource-development"
+    "_createdAt": 1719384512703
+    "_createdBy": "alex.k@mimo.sec"
+"source": "rcmmsk"
+
+
+2024/06/26 09:51:05 	---------------
+	EVENTS:
+"source": "rcmlnx"
+event:
+  "objectId": "~498274384"
+  "startDate": 1719384490630
+  "rootId": "~498274384"
+  "requestId": "0655097208677924:-dead78:18fa1624ed2:-8000:505833"
+  object:
+    "summary": ""
+    customFields:
+      class-attack:
+        "order": 2
+      first-time:
+        "date": 1719304157000
+        "order": 0
+      last-time:
+        "date": 1719313163000
+        "order": 1
+      ncircc-bulletin-id:
+        "order": 4
+      ncircc-class-attack:
+        "order": 3
+    stats:
+    "caseId": 5815
+    "resolutionStatus": ""
+    "updatedAt": 1719384490605
+    "severity": 2
+    "startDate": 1719384466855
+    "impactStatus": ""
+    tags:
+      1. "'Webhook:send=ES'"
+      2. "is_private"
+      3. "ATs:reason="ML класс: Exploit""
+      4. "ATs:reason="Атака обнаружена с помощью ML""
+      5. "Sensor:id="690006""
+    "tlp": 2
+    "_id": "~498274384"
+    "createdBy": "g.shabentov@cloud.rcm"
+    "pap": 2
+    "status": "Open"
+    "description": "**Задача переданная из смежной системы: Заслон-Пост-Модерн**
+
+В формате ГЦМ: **`TSK-SMO-2-ZPM-240625-43781`** ID: `43781`
+
+[http://10.67.1.26:3000/tasks/card/TSK-SMO-2-ZPM-240625-43781](http://10.67.1.26:3000/tasks/card/TSK-SMO-2-ZPM-240625-43781)
+
+Автор задачи: **`Security Event Manager`**
+
+Тип: **`snort_alert`**
+
+**Причина по которой создана задача**
+
+Название: `Атака обнаружена с помощью ML, ML класс: Exploit с 10.67.32.11`
+
+Описание: `## Данная задача создана автоматически
+ Время начала: 2024-06-25 11:29:17
+ Время окончания: 2024-06-25 13:59:23
+ Продолжительность воздействий: 2:30:06`
+
+Отработало на СОА: 
+- **`690006`**   Смоленск АО, Установлен: Смоленск,Смоленская область, IP адрес: 10.67.67.7
+
+
+**Полное описание события IDS:**
+
+- Время начала: **`25.06.2024 08:29:17`**
+- Время окончания: **`25.06.2024 10:59:23`**
+- **IP из домашней подсети**
+
+1. **`192.168.109.197`**
+2. **`192.168.228.158`**
+3. **`192.168.108.56`**
+- **IP из внешней подсети**
+
+1. **`10.67.32.11`**
+
+
+**Сигнатуры на которых отработал анализатор сетевого трафика:**
+
+1. РП: **`2100987`**, Сообщение: GPL EXPLOIT .htr access, Добавлена: 05.04.2022 17:49:00
+2. РП: **`2015023`**, Сообщение: ET WEB_SERVER IIS 8.3 Filename With Wildcard (Possible File/Dir Bruteforce), Добавлена: 05.04.2022 17:49:00
+3. РП: **`3039165`**, Сообщение: AM EXPLOIT Possible generic URL IMG XSS attempt, Добавлена: 05.04.2022 17:49:00
+
+
+
+
+**Фильтрация и выгрузка от** Wed Jun 26 2024 05:45:50 GMT+0000 
+
+Размер: **`20.3 GB`**, [Скачать файл](ftp://10.67.1.21//traffic/690006/1719346376_2024_06_25____23_12_56_999083.pcap)
+
+Контент: Фильтрация успешно завершена. Отключена автоматическая выгрузка, так как вес превышает 100.0 MB
+
+Файл на СОА: `/opt/zaslon/zmanager/data/pfilter_storage/1719346376_2024_06_25____23_12_56_999083.pcap`
+
+
+
+
+
+
+
+**Фильтрация и выгрузка от** Wed Jun 26 2024 06:30:55 GMT+0000 
+
+Размер: **`43.6 MB`**, [Скачать файл](ftp://10.67.1.21//traffic/690006/1719384460_2024_06_26____09_47_40_863476.pcap)
+
+Контент: Фильтрация успешно завершена. Включена автоматическая выгрузка
+
+Файл на СОА: `/opt/zaslon/zmanager/data/pfilter_storage/1719384460_2024_06_26____09_47_40_863476.pcap`
+
+
+
+"
+    "owner": "g.shabentov@cloud.rcm"
+    "id": "~498274384"
+    "title": "FP (Внутреннее взаимодействие) с 10.67.32.11"
+    "_type": "case"
+    "endDate": 0
+    "flag": false
+    permissions:
+    "updatedBy": "g.shabentov@cloud.rcm"
+    "createdAt": 1719384466872
+  details:
+  "objectType": "case"
+  "organisationId": "~20488"
+  "organisation": "RCM"
+  "operation": "update"
+  "base": true
+observables:
+  1.
+    "_type": "Observable"
+    extraData:
+    "ioc": true
+    "sighted": false
+    "startDate": 1719384466915
+    tags:
+      1. "external"
+    "tlp": 2
+    "_createdAt": 1719384466915
+    "_createdBy": "g.shabentov@cloud.rcm"
+    "_id": "~498282576"
+    "data": "10.67.32.11"
+    "dataType": "ip"
+    reports:
+  2.
+    "_createdAt": 1719384466888
+    "_createdBy": "g.shabentov@cloud.rcm"
+    "_id": "~954556432"
+    "_type": "Observable"
+    "data": "690006:192.168.108.56"
+    "sighted": false
+    "startDate": 1719384466888
+    tags:
+      1. "home"
+    "tlp": 2
+    "dataType": "ip_home"
+    extraData:
+    "ioc": false
+    reports:
+  3.
+    "_type": "Observable"
+    "data": "ftp://10.67.1.21/traffic/690006/1719346376_2024_06_25____23_12_56_999083.pcap"
+    reports:
+    tags:
+      1. "20.3 GB"
+    "tlp": 2
+    "_createdAt": 1719384466930
+    "_createdBy": "g.shabentov@cloud.rcm"
+    "_id": "~954564624"
+    "ignoreSimilarity": true
+    "ioc": true
+    "message": "Download a piece of traffic"
+    "startDate": 1719384466930
+    "dataType": "url_pcap"
+    extraData:
+    "sighted": false
+  4.
+    extraData:
+    "ioc": false
+    reports:
+    "tlp": 2
+    "_createdAt": 1719384466923
+    "_id": "~292823160"
+    "_type": "Observable"
+    "data": "2100987, 2015023, 3039165"
+    "dataType": "snort_sid"
+    "sighted": false
+    "startDate": 1719384466923
+    tags:
+      1. "snort"
+    "_createdBy": "g.shabentov@cloud.rcm"
+  5.
+    "_type": "Observable"
+    "dataType": "ip_home"
+    "ioc": false
+    "sighted": false
+    "_createdBy": "g.shabentov@cloud.rcm"
+    "_id": "~292606088"
+    "data": "690006:192.168.109.197"
+    extraData:
+    reports:
+    "startDate": 1719384466901
+    tags:
+      1. "home"
+    "tlp": 2
+    "_createdAt": 1719384466901
+  6.
+    "_createdBy": "g.shabentov@cloud.rcm"
+    "data": "690006:192.168.228.158"
+    "dataType": "ip_home"
+    reports:
+    tags:
+      1. "home"
+    "tlp": 2
+    "_createdAt": 1719384466907
+    "_id": "~954560528"
+    "_type": "Observable"
+    extraData:
+    "ioc": false
+    "sighted": false
+    "startDate": 1719384466907
+  7.
+    "ioc": true
+    "message": "Download a piece of traffic"
+    reports:
+    "sighted": false
+    "_createdAt": 1719384466895
+    "_id": "~498278480"
+    "_type": "Observable"
+    "ignoreSimilarity": true
+    "startDate": 1719384466895
+    tags:
+      1. "43.6 MB"
+    "tlp": 2
+    "_createdBy": "g.shabentov@cloud.rcm"
+    "data": "ftp://10.67.1.21/traffic/690006/1719384460_2024_06_26____09_47_40_863476.pcap"
+    "dataType": "url_pcap"
+    extraData:
+ttp:
+
+

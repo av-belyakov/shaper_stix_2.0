@@ -1,0 +1,236 @@
+{
+    "source": "rcmlnx",
+    "event": {
+        "objectId": "~498274384",
+        "startDate": 1719384490630,
+        "rootId": "~498274384",
+        "requestId": "0655097208677924:-dead78:18fa1624ed2:-8000:505833",
+        "objectType": "case",
+        "object": {
+            "summary": "",
+            "customFields": {
+                "class-attack": {
+                    "order": 2
+                },
+                "first-time": {
+                    "date": 1719304157000,
+                    "order": 0
+                },
+                "last-time": {
+                    "date": 1719313163000,
+                    "order": 1
+                },
+                "ncircc-bulletin-id": {
+                    "order": 4
+                },
+                "ncircc-class-attack": {
+                    "order": 3
+                }
+            },
+            "stats": "",
+            "caseId": 5815,
+            "impactStatus": "NoImpact",
+            "resolutionStatus": "TruePositive",
+            "updatedAt": 1719384490605,
+            "severity": 2,
+            "startDate": 1719384466855,
+            "tags": [
+                "'Webhook:send=ES'",
+                "is_private",
+                "ATs:reason=\"ML класс: Exploit\"",
+                "ATs:reason=\"Атака обнаружена с помощью ML\"",
+                "Sensor:id=\"690006\""
+            ],
+            "tlp": 2,
+            "_id": "~498274384",
+            "createdBy": "g.shabentov@cloud.rcm",
+            "pap": 2,
+            "status": "Open",
+            "description": "**Задача переданная из смежной системы: Заслон-Пост-Модерн** В формате ГЦМ: **`TSK-SMO-2-ZPM-240625-43781`** ID: `43781` Автор задачи: **`Security Event Manager`** Тип: **`snort_alert`**",
+            "owner": "g.shabentov@cloud.rcm",
+            "id": "~498274384",
+            "title": "FP (Внутреннее взаимодействие) с 10.67.32.11",
+            "_type": "case",
+            "endDate": 0,
+            "flag": false,
+            "permissions": "",
+            "updatedBy": "g.shabentov@cloud.rcm",
+            "createdAt": 1719384466872
+        },
+        "details": {
+            "objectType": "case",
+            "organisationId": "~20488",
+            "organisation": "RCM",
+            "operation": "update",
+            "base": true
+        }
+    },
+    "observables": [
+        {
+            "_type": "Observable",
+            "extraData": "",
+            "ioc": true,
+            "sighted": false,
+            "startDate": 1719384466915,
+            "tags": [
+                "external"
+            ],
+            "tlp": 2,
+            "_createdAt": 1719384466915,
+            "_createdBy": "g.shabentov@cloud.rcm",
+            "_id": "~498282576",
+            "data": "10.67.32.11",
+            "dataType": "ip",
+            "reports": {}
+        },
+        {
+            "_createdAt": 1719384466888,
+            "_createdBy": "g.shabentov@cloud.rcm",
+            "_id": "~954556432",
+            "_type": "Observable",
+            "data": "690006:192.168.108.56",
+            "sighted": false,
+            "startDate": 1719384466888,
+            "tags": [
+                "home"
+            ],
+            "tlp": 2,
+            "dataType": "ip_home",
+            "extraData": "",
+            "ioc": false,
+            "reports": {}
+        },
+        {
+            "_type": "Observable",
+            "data": "ftp://10.67.1.21/traffic/690006/1719346376_2024_06_25____23_12_56_999083.pcap",
+            "reports": {},
+            "tags": [
+                "20.3 GB"
+            ],
+            "tlp": 2,
+            "_createdAt": 1719384466930,
+            "_createdBy": "g.shabentov@cloud.rcm",
+            "_id": "~954564624",
+            "ignoreSimilarity": true,
+            "ioc": true,
+            "message": "Download a piece of traffic",
+            "startDate": 1719384466930,
+            "dataType": "url_pcap",
+            "extraData": "",
+            "sighted": false
+        },
+        {
+            "extraData": "",
+            "ioc": false,
+            "reports": {},
+            "tlp": 2,
+            "_createdAt": 1719384466923,
+            "_id": "~292823160",
+            "_type": "Observable",
+            "data": "2100987, 2015023, 3039165",
+            "dataType": "snort_sid",
+            "sighted": false,
+            "startDate": 1719384466923,
+            "tags": [
+                "snort"
+            ],
+            "_createdBy": "g.shabentov@cloud.rcm"
+        },
+        {
+            "_type": "Observable",
+            "dataType": "ip_home",
+            "ioc": false,
+            "sighted": false,
+            "_createdBy": "g.shabentov@cloud.rcm",
+            "_id": "~292606088",
+            "data": "690006:192.168.109.197",
+            "extraData": "",
+            "reports": {},
+            "startDate": 1719384466901,
+            "tags": [
+                "home"
+            ],
+            "tlp": 2,
+            "_createdAt": 1719384466901
+        },
+        {
+            "_createdBy": "g.shabentov@cloud.rcm",
+            "data": "690006:192.168.228.158",
+            "dataType": "ip_home",
+            "reports": {},
+            "tags": [
+                "home"
+            ],
+            "tlp": 2,
+            "_createdAt": 1719384466907,
+            "_id": "~954560528",
+            "_type": "Observable",
+            "extraData": "",
+            "ioc": false,
+            "sighted": false,
+            "startDate": 1719384466907
+        },
+        {
+            "ioc": true,
+            "message": "Download a piece of traffic",
+            "reports": {},
+            "sighted": false,
+            "_createdAt": 1719384466895,
+            "_id": "~498278480",
+            "_type": "Observable",
+            "ignoreSimilarity": true,
+            "startDate": 1719384466895,
+            "tags": [
+                "43.6 MB"
+            ],
+            "tlp": 2,
+            "_createdBy": "g.shabentov@cloud.rcm",
+            "data": "ftp://10.67.1.21/traffic/690006/1719384460_2024_06_26____09_47_40_863476.pcap",
+            "dataType": "url_pcap",
+            "extraData": ""
+        },
+        {
+            "_createdBy": "zhda@rcm",
+            "dataType": "user-agent",
+            "ignoreSimilarity": false,
+            "startDate": 1719316811853,
+            "_type": "Observable",
+            "sighted": false,
+            "_createdAt": 1719316811853,
+            "_id": "~174170176",
+            "message": "",
+            "tags": [
+                "user-agent",
+                "ATs:reason=\"Признаки ВПО типа Miner\"",
+                "misp:Network activity=\"user-agent\"",
+                "misp:Network activity=\"text\""
+            ],
+            "tlp": 2,
+            "_updatedAt": 1719316812062,
+            "_updatedBy": "hivehooks@rcm",
+            "data": "\"agent\":\"XMRig/6.17.0 (Windows NT 10.0) libuv/1.15.0 gcc/12.1.0\"",
+            "extraData": "",
+            "ioc": true,
+            "reports": {}
+        },
+        {
+            "ignoreSimilarity": false,
+            "tlp": 2,
+            "_id": "~247164944",
+            "ioc": true,
+            "message": "",
+            "reports": {},
+            "sighted": true,
+            "_createdBy": "alex.k@mimo.sec",
+            "_type": "Observable",
+            "data": "universeaction.com",
+            "extraData": "",
+            "tags": [
+                "misp:External analysis=\"domain\""
+            ],
+            "_createdAt": 1719384564932,
+            "dataType": "domain",
+            "startDate": 1719384564932
+        }
+    ]
+}
