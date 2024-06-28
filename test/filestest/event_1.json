@@ -231,6 +231,61 @@
             "_createdAt": 1719384564932,
             "dataType": "domain",
             "startDate": 1719384564932
+        },
+        {
+            "reports": {},
+            "sighted": false,
+            "_createdBy": "i.bolobin@cloud.rcm",
+            "_id": "~499789904",
+            "data": "f1cb477da601e1ccd9c9914f0326782c",
+            "dataType": "hash",
+            "extraData": "",
+            "ioc": false,
+            "startDate": 1719549643054,
+            "_createdAt": 1719549643054,
+            "_type": "Observable",
+            "tags": [
+                "type:md5"
+            ],
+            "tlp": 2
+        },
+        {
+            "reports": {},
+            "dataType": "whois",
+            "message": "",
+            "tlp": 2,
+            "_id": "~79751852064",
+            "data": "France",
+            "_type": "Observable",
+            "extraData": "",
+            "sighted": false,
+            "startDate": 1696584123010,
+            "tags": [
+                "misp:Attribution=\"whois-registrar\""
+            ],
+            "_createdAt": 1696584123010,
+            "_createdBy": "d.zablotsky@cloud.gcm",
+            "ignoreSimilarity": false,
+            "ioc": false
+        },
+        {
+            "data": "https://www.google.ru/?hl=ru",
+            "reports": {},
+            "_id": "~76596596928",
+            "_type": "Observable",
+            "extraData": "",
+            "message": "",
+            "_createdAt": 1696584319271,
+            "tags": [
+                "misp:External analysis=\"url\""
+            ],
+            "tlp": 2,
+            "_createdBy": "d.zablotsky@cloud.gcm",
+            "dataType": "url",
+            "ignoreSimilarity": false,
+            "ioc": false,
+            "sighted": false,
+            "startDate": 1696584319271
         }
     ]
 }

@@ -4,15 +4,11 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/google/uuid"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	methodstixobjects "github.com/av-belyakov/methodstixobjects/cmd"
-	"github.com/av-belyakov/methodstixobjects/datamodels/cyberobservableobjectsstix"
-	"github.com/av-belyakov/methodstixobjects/datamodels/domainobjectsstix"
-	"github.com/av-belyakov/methodstixobjects/datamodels/stixhelpers"
 	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/internal/createrstixobject"
 	"github.com/av-belyakov/shaper_stix_2.1/internal/decodejson"
 	"github.com/av-belyakov/shaper_stix_2.1/internal/listhandlerjson"
 	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
@@ -134,129 +130,6 @@ var _ = Describe("Testhandlerobservables", Ordered, func() {
 				GetterType
 			}
 
-			//createLocationDomainObjectsSTIX формирует объект 'location'
-			createLocationDomainObjectsSTIX := func(observable datamodels.ObservableMessage) *domainobjectsstix.LocationDomainObjectsSTIX {
-				location := methodstixobjects.NewLocationDomainObjectsSTIX()
-				location.SetValueID(uuid.NewString())
-				location.SetValueCountry(observable.Data)
-				if len(observable.Tags) > 0 {
-					location.SetValueName(observable.Tags[0])
-				}
-				if observable.Message != "" {
-					location.SetValueDescription(observable.Message)
-				}
-
-				return location
-			}
-
-			//createDomainNameCyberObservableObjectSTIX формирует объект 'domain-name'
-			createDomainNameCyberObservableObjectSTIX := func(observable datamodels.ObservableMessage) *cyberobservableobjectsstix.DomainNameCyberObservableObjectSTIX {
-				domainName := methodstixobjects.NewDomainNameCyberObservableObjectSTIX()
-				domainName.SetValueID(fmt.Sprintf("domain-name-%s", uuid.NewString()))
-				domainName.SetValueValue(observable.Data)
-
-				return domainName
-			}
-
-			//createURLCyberObservableObjectSTIX формирует объект 'url'
-			createURLCyberObservableObjectSTIX := func(observable datamodels.ObservableMessage) *cyberobservableobjectsstix.URLCyberObservableObjectSTIX {
-				url := methodstixobjects.NewURLCyberObservableObjectSTIX()
-				url.SetValueID(fmt.Sprintf("url-%s", uuid.NewString()))
-				url.SetValueValue(observable.Data)
-
-				return url
-			}
-
-			//createIndicatorSnortIdDomainObjectsSTIX формирует объект 'indicator'
-			createIndicatorSnortIdDomainObjectsSTIX := func(observable datamodels.ObservableMessage) *domainobjectsstix.IndicatorDomainObjectsSTIX {
-				indicatior := methodstixobjects.NewIndicatorDomainObjectsSTIX()
-				indicatior.SetValueID(fmt.Sprintf("indicator-%s", uuid.NewString()))
-				indicatior.SetValueName("snort_sid")
-				indicatior.SetValueDescription("list of signatures of the Snort computer attack detection tool")
-				indicatior.SetValuePattern(observable.Data)
-				indicatior.SetValuePatternType("list of numbers")
-
-				if observable.Message != "" {
-					indicatior.SetValueDescription(observable.Message)
-				}
-
-				return indicatior
-			}
-
-			//createIndicatorYaraDomainObjectsSTIX формирует объект 'indicator'
-			createIndicatorYaraDomainObjectsSTIX := func(observable datamodels.ObservableMessage) *domainobjectsstix.IndicatorDomainObjectsSTIX {
-				indicatior := methodstixobjects.NewIndicatorDomainObjectsSTIX()
-				indicatior.SetValueID(fmt.Sprintf("indicator-%s", uuid.NewString()))
-				indicatior.SetValueName("yara")
-				indicatior.SetValueDescription("yara rule")
-				indicatior.SetValuePattern(observable.Data)
-				indicatior.SetValuePatternType("string")
-
-				if observable.Message != "" {
-					indicatior.SetValueDescription(observable.Message)
-				}
-
-				return indicatior
-			}
-
-			//createFileCyberObservableObjectSTIX формирует объект 'file'
-			createFileCyberObservableObjectSTIX := func(observable datamodels.ObservableMessage) *cyberobservableobjectsstix.FileCyberObservableObjectSTIX {
-				file := methodstixobjects.NewFileCyberObservableObjectSTIX()
-				file.SetValueID(fmt.Sprintf("file-%s", uuid.NewString()))
-				file.SetValueName(observable.Data)
-
-				if observable.Attachment.Name != "" {
-					file.SetValueName(observable.Attachment.Name)
-				}
-				if observable.Attachment.Size > 0 {
-					file.SetValueSize(observable.Attachment.Size)
-				}
-				if len(observable.Attachment.Hashes) > 0 {
-					hashes := stixhelpers.HashesTypeSTIX{}
-
-					for k, v := range observable.Attachment.Hashes {
-						hashes[fmt.Sprintf("hash_%d", k)] = v
-					}
-
-					file.SetValueHashes(hashes)
-				}
-
-				return file
-			}
-
-			// createEmailAddressCyberObservableObjectSTIX формирует объект 'email-addr'
-			createEmailAddressCyberObservableObjectSTIX := func(observable datamodels.ObservableMessage) *cyberobservableobjectsstix.EmailAddressCyberObservableObjectSTIX {
-				email := methodstixobjects.NewEmailAddressCyberObservableObjectSTIX()
-				email.SetValueID(fmt.Sprintf("email-addr-%s", uuid.NewString()))
-				email.SetValueValue(observable.Data)
-
-				return email
-			}
-
-			// createIPv4AddressCyberObservableObjectSTIX формирует объект 'ipv4-addr'
-			createIPv4AddressCyberObservableObjectSTIX := func(observable datamodels.ObservableMessage) *cyberobservableobjectsstix.IPv4AddressCyberObservableObjectSTIX {
-				ipv4 := methodstixobjects.NewIPv4AddressCyberObservableObjectSTIX()
-				ipv4.SetValueID(fmt.Sprintf("ipv4-addr-%s", uuid.NewString()))
-				ipv4.SetValueValue(observable.Data)
-
-				return ipv4
-			}
-
-			//createIdentityDomainObjectsSTIX формирует объект 'identity'
-			createIdentityDomainObjectsSTIX := func(observable datamodels.ObservableMessage) *domainobjectsstix.IdentityDomainObjectsSTIX {
-				identity := methodstixobjects.NewIdentityDomainObjectsSTIX()
-				identity.SetValueID(fmt.Sprintf("identity-%s", uuid.NewString()))
-				identity.SetValueName("phone-number")
-				identity.SetValueDescription("personal phone number")
-				identity.SetValueContactInformation(observable.Data)
-
-				if observable.Message != "" {
-					identity.SetValueDescription(observable.Message)
-				}
-
-				return identity
-			}
-
 			var newobject GetterCommonPropertiesObjectSTIX
 			listObjectSTIX := []GetterCommonPropertiesObjectSTIX(nil)
 
@@ -266,54 +139,40 @@ var _ = Describe("Testhandlerobservables", Ordered, func() {
 
 				switch v.DataType {
 				case "whois":
-					//LocationDomainObjectsSTIX
-					newobject = createLocationDomainObjectsSTIX(v)
+					newobject = createrstixobject.CreateLocationDomainObjectsSTIX(v)
 
 				case "domain":
-					//DomainNameCyberObservableObjectSTIX
-					newobject = createDomainNameCyberObservableObjectSTIX(v)
+					newobject = createrstixobject.CreateDomainNameCyberObservableObjectSTIX(v)
 
-				case "url":
-					//URLCyberObservableObjectSTIX
-					newobject = createURLCyberObservableObjectSTIX(v)
+				case "url", "url_pcap":
+					newobject = createrstixobject.CreateURLCyberObservableObjectSTIX(v)
 
 				case "snort_sid":
-					//IndicatorDomainObjectsSTIX где есть поля Pattern, PatternVersion, PatternType
-					newobject = createIndicatorSnortIdDomainObjectsSTIX(v)
+					newobject = createrstixobject.CreateIndicatorSnortIdDomainObjectsSTIX(v)
 
 				case "yara":
-					//IndicatorDomainObjectsSTIX где есть поля Pattern, PatternVersion, PatternType
-					newobject = createIndicatorYaraDomainObjectsSTIX(v)
+					newobject = createrstixobject.CreateIndicatorYaraDomainObjectsSTIX(v)
 
-				case "file":
-					//FileCyberObservableObjectSTIX
-					newobject = createFileCyberObservableObjectSTIX(v)
+				case "file", "filename":
+					newobject = createrstixobject.CreateFileCyberObservableObjectSTIX(v)
 
-				case "filename":
-					//FileCyberObservableObjectSTIX
-					newobject = createFileCyberObservableObjectSTIX(v)
-
-				case "email":
-					//EmailAddressCyberObservableObjectSTIX
-					newobject = createEmailAddressCyberObservableObjectSTIX(v)
+				case "mail", "email":
+					newobject = createrstixobject.CreateEmailAddressCyberObservableObjectSTIX(v)
 
 				case "ip":
-					//IPv4AddressCyberObservableObjectSTIX
-					newobject = createIPv4AddressCyberObservableObjectSTIX(v)
+					newobject = createrstixobject.CreateIPv4AddressCyberObservableObjectSTIX(v)
 
 				case "ip_home":
-					//IPv4AddressCyberObservableObjectSTIX
-					newobject = createIPv4AddressCyberObservableObjectSTIX(v)
+					newobject = createrstixobject.CreateIPv4AddressCyberObservableObjectSTIX(v)
 
 				case "phone-number":
-					//IdentityDomainObjectsSTIX
-					newobject = createIdentityDomainObjectsSTIX(v)
+					newobject = createrstixobject.CreateIdentityDomainObjectsSTIX(v)
 
 				case "hash":
-					//ObservedDataDomainObjectsSTIX
-					// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-					// для hash надо подыскать какой то другой объект
-					// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					newobject = createrstixobject.CreateIndicatorHashDomainObjectsSTIX(v)
+
+				case "user-agent":
+					newobject = createrstixobject.CreateIndicatorUserAgentDomainObjectsSTIX(v)
 
 				}
 
@@ -333,7 +192,7 @@ var _ = Describe("Testhandlerobservables", Ordered, func() {
 			}
 
 			Expect(len(listObjectSTIX)).ShouldNot(Equal(0))
-			Expect(len(observables.GetObservables())).Should(Equal(9))
+			Expect(len(observables.GetObservables())).Should(Equal(12))
 		})
 	})
 })
