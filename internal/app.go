@@ -120,7 +120,7 @@ func NewApp(
 			switch eventSettings.Event.ObjectType {
 			case "case":
 				chanOutputDecodeJson := decodeJson.HandlerJsonMessage(data.Data, data.MsgId, "subject_case")
-				go NewHandlerCaseObject(chanOutputDecodeJson, procRules, counting, logging)
+				go NewHandlerCaseObject(chanOutputDecodeJson, procRules, mdbModule, counting, logging)
 
 				//				chansOut := supportingfunctions.CreateChannelDuplication[datamodels.ChanOutputDecodeJSON](chanOutputDecodeJson, 2)
 				//				chansDone := supportingfunctions.CreateChannelDuplication[bool](chanDecodeJsonDone, 2)

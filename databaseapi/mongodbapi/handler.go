@@ -88,6 +88,15 @@ func (conn ConnectionDescriptorMongoDB) Routing(
 				return
 
 			case data := <-channels.GetChanInput():
+				//секция загрузки данных
+				if data.Section == "data insert" {
+					switch data.Command {
+					case "insert":
+						fmt.Println("Тыт будет выполнятся обработка данных и загрузка их в БД")
+						fmt.Printf("Insert received data nj MongoDB: %v\n", data.Data)
+					}
+				}
+
 				switch data.ObjectType {
 
 				//Domain Object STIX

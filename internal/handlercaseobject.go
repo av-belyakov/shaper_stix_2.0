@@ -8,7 +8,10 @@ import (
 	"github.com/google/uuid"
 
 	methodstixobjects "github.com/av-belyakov/methodstixobjects/cmd"
+	"github.com/av-belyakov/methodstixobjects/datamodels/stixhelpers"
+	"github.com/av-belyakov/shaper_stix_2.1/databaseapi/mongodbapi"
 	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/internal/createrstixobject"
 	listhandlerjson "github.com/av-belyakov/shaper_stix_2.1/internal/listhandlerjson"
 	wrappers "github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
 	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
@@ -18,6 +21,7 @@ import (
 func NewHandlerCaseObject(
 	input <-chan datamodels.ChanOutputDecodeJSON,
 	procRules *ProcessingRules,
+	mdbModule *mongodbapi.MongoDBModule,
 	couting chan<- datamodels.DataCounterSettings,
 	logging chan<- datamodels.MessageLogging) {
 
@@ -39,7 +43,11 @@ func NewHandlerCaseObject(
 		//*************** Обработчик формирующий объект 'report' в обёртке ****************
 		listWrapReport = listhandlerjson.NewHandlerReportDomainObjectSTIX(reportWrap)
 
-		//******************* Вспомогательный объект для 'observables' **********************
+		//**************** Вспомогательный, временный объект для 'observables' **********************
+		//*** В этом объекте свойства хранят как список уже собранных 'observables', так и
+		//*** объект 'observableTmp' в который собираются поступающие а NewHandlerCaseObject
+		//данные. После заполнения объекта 'observableTmp' данные из него переносятся в основной
+		//список объектов 'observable'
 		so                     = datamodels.NewSupportiveObservables()
 		listHandlerObservables = listhandlerjson.NewListHandlerObservablesElement(so)
 	)
@@ -49,10 +57,11 @@ func NewHandlerCaseObject(
 	identitySource.SetAnyID(uuid.New().String())
 	identityOrganization.SetAnyID(uuid.New().String())
 
-	//
-	//	еще надо решить вопрос с группировкой путем формирования объекта 'grouping'
-	//
-
+	//***************************************
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// забыл сделать обработку правил которые содержатся в procRules
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//***************************************
 	for data := range input {
 		var handlerIsExist bool
 
@@ -130,60 +139,91 @@ func NewHandlerCaseObject(
 		}
 	}
 
-	// формируем финальный, вспомогательный объект для хранения значении свойства 'observables'
+	//*********************************************************************************
+	//******* Вспомогательный, временный объект где хранятся уже сформированные *******
+	//***** и обработанные объекты типа 'observables', соответствующие объектам *******
+	//*** получаемым с TheHive. Объекты хранятся в виде списка объектов			*******
 	observables := datamodels.NewObservablesMessageTheHive()
 	observables.SetObservables(so.GetObservables())
 
-	//формируем объекты на основе разного типа из метода 'observables.dataType'
-	//switch data.FieldBranch {
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// тут надо сделать список временных объектов в которые будут укладыватся
-	// все поля объекта observables в независимости от типа, а затем перебирать
-	// этот временный объект и на основе 'observables.dataType' подбирать для
-	// этих данных необходимый объект STIX
-	//
-	// может быть несколько объектов одного типа как например объект domain
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//case "whois":
-	//LocationDomainObjectsSTIX
+	var newObject datamodels.GetterCommonPropertiesObjectSTIX
+	listObjectSTIX := []datamodels.GetterCommonPropertiesObjectSTIX(nil)
 
-	//case "domain":
-	//DomainNameCyberObservableObjectSTIX
+	listRefObjectId := []stixhelpers.IdentifierTypeSTIX(nil)
 
-	//case "url":
-	//URLCyberObservableObjectSTIX
+	for _, v := range observables.GetObservables() {
+		fmt.Println("func 'NewHandlerCaseObject' dataType:", v.GetDataType(), " data:", v.GetData())
 
-	//case "snort_sid":
-	//IndicatorDomainObjectsSTIX где есть поля Pattern, PatternVersion, PatternType
+		switch v.DataType {
+		case "whois":
+			newObject = createrstixobject.CreateLocationDomainObjectsSTIX(v)
 
-	//case "file":
-	//FileCyberObservableObjectSTIX
+		case "domain":
+			newObject = createrstixobject.CreateDomainNameCyberObservableObjectSTIX(v)
 
-	//case "filename":
-	//FileCyberObservableObjectSTIX
+		case "url", "url_pcap":
+			newObject = createrstixobject.CreateURLCyberObservableObjectSTIX(v)
 
-	//case "email":
-	//EmailAddressCyberObservableObjectSTIX or EmailMessageCyberObservableObjectSTIX
+		case "snort_sid":
+			newObject = createrstixobject.CreateIndicatorSnortIdDomainObjectsSTIX(v)
 
-	//case "method":
-	//http
+		case "yara":
+			newObject = createrstixobject.CreateIndicatorYaraDomainObjectsSTIX(v)
 
-	//case "community":
+		case "file", "filename":
+			newObject = createrstixobject.CreateFileCyberObservableObjectSTIX(v)
 
-	//case "yara":
-	//yara rules
-	//IndicatorDomainObjectsSTIX где есть поля Pattern, PatternVersion, PatternType
+		case "mail", "email":
+			newObject = createrstixobject.CreateEmailAddressCyberObservableObjectSTIX(v)
 
-	//case "ip":
-	//IPv4AddressCyberObservableObjectSTIX
+		case "ip":
+			newObject = createrstixobject.CreateIPv4AddressCyberObservableObjectSTIX(v)
 
-	//case "ip_home":
-	//IPv4AddressCyberObservableObjectSTIX
+		case "ip_home":
+			newObject = createrstixobject.CreateIPv4AddressCyberObservableObjectSTIX(v)
 
-	//case "phone-number":
-	//IdentityDomainObjectsSTIX
+		case "phone-number":
+			newObject = createrstixobject.CreateIdentityDomainObjectsSTIX(v)
 
-	//case "hash":
+		case "hash":
+			newObject = createrstixobject.CreateIndicatorHashDomainObjectsSTIX(v)
 
-	//}
+		case "user-agent":
+			newObject = createrstixobject.CreateIndicatorUserAgentDomainObjectsSTIX(v)
+
+		}
+
+		if newObject != nil {
+			listRefObjectId = append(listRefObjectId, stixhelpers.IdentifierTypeSTIX(newObject.GetID()))
+
+			//создаем объект Relationship для установки обратной связи между
+			//объектом Report и обрабатываемым объектом
+			relationship := methodstixobjects.NewRelationshipObjectSTIX()
+			//исходный объект, то есть обрабатываемый в настоящее время
+			relationship.SetValueSourceRef(stixhelpers.IdentifierTypeSTIX(newObject.GetID()))
+			//целевой объект, то есть объект Report
+			relationship.SetValueTargetRef(stixhelpers.IdentifierTypeSTIX(reportWrap.GetID()))
+
+			//добавляем обрабатываемый объект STIX и объект Relationship в хранилище объектов
+			listObjectSTIX = append(listObjectSTIX, newObject, relationship)
+
+			newObject = nil
+		}
+	}
+
+	fmt.Println("func 'NewHandlerCaseObject' добавляем id обрабатываемого объекта в Report Domain Object STIX")
+
+	//добавляем id обрабатываемого объекта в Report Domain Object STIX
+	reportWrap.SetValueObjectRefs(listRefObjectId)
+
+	fmt.Println("func 'NewHandlerCaseObject' передача данных в MongoDB")
+
+	//передача данных в MongoDB
+	mdbModule.SendingDataToModule(mongodbapi.ChanInput{
+		CommonChan: mongodbapi.CommonChan{
+			Section: "data insert",
+			Command: "insert",
+		},
+		Data: listObjectSTIX,
+	})
 }

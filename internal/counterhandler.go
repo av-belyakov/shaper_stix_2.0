@@ -41,12 +41,12 @@ func NewCounterHandler(
 				storageApp.IncrementAlertInsertMongoDB()
 				msg = fmt.Sprintf("подписка-'subject_alert', добавлено в MongoDB: %d, %s", storageApp.GetAlertInsertMongoDB(), patternTime)
 			}
+		}
 
-			log.Printf("\t%s\n", msg)
-			channelZabbix <- zabbixapi.MessageSettings{
-				EventType: "info",
-				Message:   msg,
-			}
+		log.Printf("\t%s\n", msg)
+		channelZabbix <- zabbixapi.MessageSettings{
+			EventType: "info",
+			Message:   msg,
 		}
 	}
 }

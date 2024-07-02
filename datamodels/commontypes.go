@@ -63,3 +63,16 @@ type CommonObservableType struct {
 	DataType             string `json:"dataType,omitempty" bson:"dataType"`
 	Message              string `json:"message,omitempty" bson:"message"`
 }
+
+type GetterID interface {
+	GetID() string
+}
+
+type GetterType interface {
+	GetType() string
+}
+
+type GetterCommonPropertiesObjectSTIX interface {
+	GetterID
+	GetterType
+}
