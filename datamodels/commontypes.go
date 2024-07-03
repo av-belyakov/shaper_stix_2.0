@@ -75,4 +75,9 @@ type GetterType interface {
 type GetterCommonPropertiesObjectSTIX interface {
 	GetterID
 	GetterType
+	ToStringBeautifulReader
+}
+
+type ToStringBeautifulReader interface {
+	ToStringBeautiful() string
 }

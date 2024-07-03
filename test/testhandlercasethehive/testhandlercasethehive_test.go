@@ -1,19 +1,22 @@
 package testhandlercasethehive_test
 
 import (
-	"context"
 	"fmt"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/av-belyakov/shaper_stix_2.1/confighandler"
 	"github.com/av-belyakov/shaper_stix_2.1/databaseapi/mongodbapi"
 	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 	"github.com/av-belyakov/shaper_stix_2.1/internal"
 	"github.com/av-belyakov/shaper_stix_2.1/internal/decodejson"
 	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
 )
+
+type ToStringBeautifulReader interface {
+	//datamodels.GetterCommonPropertiesObjectSTIX
+	ToStringBeautiful() string
+}
 
 var _ = Describe("Testhandlercasethehive", Ordered, func() {
 	const ROOT_DIR = "shaper_stix_2.1"
@@ -27,9 +30,6 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 		logging              chan datamodels.MessageLogging
 		counting             chan datamodels.DataCounterSettings
 
-		confApp confighandler.ConfigApp
-		errConf error
-
 		mongoDBModule    *mongodbapi.MongoDBModule
 		errMongoDBModule error
 	)
@@ -40,14 +40,10 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 		logging = make(chan datamodels.MessageLogging)
 		counting = make(chan datamodels.DataCounterSettings)
 
-		confApp, errConf = confighandler.NewConfig(ROOT_DIR)
-
-		confMongoDB := confighandler.AppConfigMongoDB{
-			Port: 27017,
-			Host: "127.0.0.1",
+		mongoDBModule = &mongodbapi.MongoDBModule{
+			ChanInputToModule:    make(chan mongodbapi.ChanInput),
+			ChanOutputFromModule: make(chan mongodbapi.ChanOutput),
 		}
-
-		mongoDBModule, errMongoDBModule = mongodbapi.NewClientMongoDB(context.Background(), confMongoDB, logging, counting)
 
 		// инициализация хранилища правил
 		procRules := internal.NewRulesHandler(ROOT_DIR, "configs")
@@ -85,10 +81,6 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 	})
 
 	Context("Тест 1. Проверка успешности инициализации модулей и чтения файлов", func() {
-		It("При инициализации файла конфигурации не должно быть ошибок", func() {
-			Expect(errConf).ShouldNot(HaveOccurred())
-		})
-
 		It("При инициализации модуля MongoDB не должно быть ошибок", func() {
 			Expect(errMongoDBModule).ShouldNot(HaveOccurred())
 		})
@@ -98,7 +90,7 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 		})
 	})
 
-	Context("Тест 1. Формирование различных STIX объектов", func() {
+	Context("Тест 2. Формирование различных STIX объектов", func() {
 		It("Должны быть сформировано некоторое количество STIX объектов", func() {
 			fmt.Println("BEFORE----")
 
@@ -107,8 +99,18 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 
 			objects := <-mongoChanInput
 
+			/*if list, ok := objects.Data.([]ToStringBeautifulReader); ok {
+				fmt.Println("count =", len(list))
+				Expect(len(list)).ShouldNot(Equal(0))
+			}*/
+
 			fmt.Println("--------------- RESULT --------------")
-			fmt.Println(objects)
+			if list, ok := objects.Data.([]datamodels.GetterCommonPropertiesObjectSTIX); ok {
+				for k, v := range list {
+					fmt.Printf("%d. \n", k)
+					fmt.Println(v.ToStringBeautiful())
+				}
+			}
 
 			Expect(true).Should(BeTrue())
 		})

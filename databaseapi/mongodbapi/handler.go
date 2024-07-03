@@ -22,8 +22,8 @@ func NewClientMongoDB(
 	logging chan<- datamodels.MessageLogging,
 	counting chan<- datamodels.DataCounterSettings) (*MongoDBModule, error) {
 	channels := &MongoDBModule{
-		chanInputToModule:    make(chan ChanInput),
-		chanOutputFromModule: make(chan ChanOutput),
+		ChanInputToModule:    make(chan ChanInput),
+		ChanOutputFromModule: make(chan ChanOutput),
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Second)
@@ -92,8 +92,8 @@ func (conn ConnectionDescriptorMongoDB) Routing(
 				if data.Section == "data insert" {
 					switch data.Command {
 					case "insert":
-						fmt.Println("Тыт будет выполнятся обработка данных и загрузка их в БД")
-						fmt.Printf("Insert received data nj MongoDB: %v\n", data.Data)
+						fmt.Println("Тут будет выполнятся обработка данных и загрузка их в БД")
+						fmt.Printf("Insert received data to MongoDB: %v\n", data.Data)
 					}
 				}
 

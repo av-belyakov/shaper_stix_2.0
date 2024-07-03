@@ -3,7 +3,7 @@ module github.com/av-belyakov/shaper_stix_2.1
 go 1.21.0
 
 require (
-	github.com/av-belyakov/methodstixobjects v0.0.0-20240604132201-fa7062aaa64e
+	github.com/av-belyakov/methodstixobjects v0.0.0-20240702071412-43666f222083
 	github.com/av-belyakov/simplelogger v0.0.0-20231113085635-45b8e06e6063
 	github.com/google/uuid v1.4.0
 	github.com/nats-io/nats.go v1.31.0

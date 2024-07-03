@@ -10,8 +10,8 @@ import (
 // ChanInputToModule - канал для отправки данных В модуль
 // ChanOutputFromModule - канал для приема данных ИЗ модуля
 type MongoDBModule struct {
-	chanInputToModule    chan ChanInput
-	chanOutputFromModule chan ChanOutput
+	ChanInputToModule    chan ChanInput
+	ChanOutputFromModule chan ChanOutput
 }
 
 // ConnectionDescriptorMongoDB дескриптор соединения с БД MongoDB

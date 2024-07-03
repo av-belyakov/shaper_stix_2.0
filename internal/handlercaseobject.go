@@ -59,7 +59,11 @@ func NewHandlerCaseObject(
 
 	//***************************************
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// забыл сделать обработку правил которые содержатся в procRules
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// 			забыл сделать обработку правил которые содержатся в procRules
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	//***************************************
 	for data := range input {
@@ -147,12 +151,12 @@ func NewHandlerCaseObject(
 	observables.SetObservables(so.GetObservables())
 
 	var newObject datamodels.GetterCommonPropertiesObjectSTIX
-	listObjectSTIX := []datamodels.GetterCommonPropertiesObjectSTIX(nil)
 
+	listObjectSTIX := []datamodels.GetterCommonPropertiesObjectSTIX(nil)
 	listRefObjectId := []stixhelpers.IdentifierTypeSTIX(nil)
 
 	for _, v := range observables.GetObservables() {
-		fmt.Println("func 'NewHandlerCaseObject' dataType:", v.GetDataType(), " data:", v.GetData())
+		fmt.Printf("func 'NewHandlerCaseObject' dataType: '%s' - data: '%s'\n", v.GetDataType(), v.GetData())
 
 		switch v.DataType {
 		case "whois":
@@ -199,6 +203,7 @@ func NewHandlerCaseObject(
 			//создаем объект Relationship для установки обратной связи между
 			//объектом Report и обрабатываемым объектом
 			relationship := methodstixobjects.NewRelationshipObjectSTIX()
+			relationship.SetValueID(fmt.Sprintf("relationship-%s", uuid.NewString()))
 			//исходный объект, то есть обрабатываемый в настоящее время
 			relationship.SetValueSourceRef(stixhelpers.IdentifierTypeSTIX(newObject.GetID()))
 			//целевой объект, то есть объект Report

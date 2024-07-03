@@ -2,6 +2,8 @@ github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 h1:DklsrG3d
 github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2/go.mod h1:WaHUgvxTVq04UNunO+XhnAqY/wQc+bxr74GqbsZ/Jqw=
 github.com/av-belyakov/methodstixobjects v0.0.0-20240604132201-fa7062aaa64e h1:NQs2YnqsvqcFBacimcHKhcABt74ArcMvpYGsBkwIHGc=
 github.com/av-belyakov/methodstixobjects v0.0.0-20240604132201-fa7062aaa64e/go.mod h1:umWFaKi6PJ7crGvTPIr6R7fgJ8/tymAJ05TKrNjFpE4=
+github.com/av-belyakov/methodstixobjects v0.0.0-20240702071412-43666f222083 h1:q3L3bdxJnoqX5vuT5f5yUNwRtd7r73AERSuyuhOCX2s=
+github.com/av-belyakov/methodstixobjects v0.0.0-20240702071412-43666f222083/go.mod h1:umWFaKi6PJ7crGvTPIr6R7fgJ8/tymAJ05TKrNjFpE4=
 github.com/av-belyakov/simplelogger v0.0.0-20231113085635-45b8e06e6063 h1:ChzoVjS71+2BEdmgc/tPFPs0n6S3CuOH1zyLVWNq2eM=
 github.com/av-belyakov/simplelogger v0.0.0-20231113085635-45b8e06e6063/go.mod h1:NGvAPMeVHkAPNroGgrQzNvQBbXVmhj0g25+9y7ZUjsg=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
