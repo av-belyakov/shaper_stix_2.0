@@ -10,6 +10,7 @@ import (
 	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 	"github.com/av-belyakov/shaper_stix_2.1/internal"
 	"github.com/av-belyakov/shaper_stix_2.1/internal/decodejson"
+	"github.com/av-belyakov/shaper_stix_2.1/ruleinteraction"
 	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
 )
 
@@ -19,7 +20,10 @@ type ToStringBeautifulReader interface {
 }
 
 var _ = Describe("Testhandlercasethehive", Ordered, func() {
-	const ROOT_DIR = "shaper_stix_2.1"
+	const (
+		ROOT_DIR  = "shaper_stix_2.1"
+		RULE_CASE = "msgrule_case.yaml"
+	)
 
 	var (
 		fileByte []byte
@@ -32,6 +36,13 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 
 		mongoDBModule    *mongodbapi.MongoDBModule
 		errMongoDBModule error
+
+		procRules           *internal.ProcessingRules
+		warningAddCaseRules string
+		errAddCaseRules     error
+
+		caseRules    *ruleinteraction.ListRule
+		errCaseRules error
 	)
 
 	BeforeAll(func() {
@@ -46,7 +57,14 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 		}
 
 		// инициализация хранилища правил
-		procRules := internal.NewRulesHandler(ROOT_DIR, "configs")
+		procRules = internal.NewRulesHandler(ROOT_DIR, "configs")
+		warningAddCaseRules, errAddCaseRules = procRules.AddCaseRules(RULE_CASE)
+		caseRules, errCaseRules = procRules.GetCaseRules()
+		if errCaseRules != nil {
+			fmt.Println("******************************")
+			fmt.Println("ERROR:", errCaseRules)
+			fmt.Println("******************************")
+		}
 
 		fileByte, fileErr = supportingfunctions.ReadFileJson("test/filestest", "event_1.json")
 
@@ -77,7 +95,19 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 		decodeJson := decodejson.NewDecodeJsonMessageSettings(logging, counting)
 		chanOutputDecodeJson = decodeJson.HandlerJsonMessage(fileByte, "test_id_73d8r3", "subject_case")
 
-		go internal.NewHandlerCaseObject(chanOutputDecodeJson, procRules, mongoDBModule, counting, logging)
+		go internal.NewHandlerCaseObject(chanOutputDecodeJson, *caseRules, mongoDBModule, counting, logging)
+	})
+
+	Context("Тест 0. Инициализация правил Case", func() {
+		It("При инициализации правил не должно быть ошибки", func() {
+			fmt.Println("Case Warning:", warningAddCaseRules)
+			fmt.Printf("Case list:\n%v\n", caseRules)
+
+			Expect(errCaseRules).ShouldNot(HaveOccurred())
+			Expect(errAddCaseRules).ShouldNot(HaveOccurred())
+			Expect(len(warningAddCaseRules)).Should(Equal(0))
+
+		})
 	})
 
 	Context("Тест 1. Проверка успешности инициализации модулей и чтения файлов", func() {
@@ -104,13 +134,31 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 				Expect(len(list)).ShouldNot(Equal(0))
 			}*/
 
+			//listId := []string(nil)
 			fmt.Println("--------------- RESULT --------------")
 			if list, ok := objects.Data.([]datamodels.GetterCommonPropertiesObjectSTIX); ok {
 				for k, v := range list {
 					fmt.Printf("%d. \n", k)
-					fmt.Println(v.ToStringBeautiful())
+					if v.GetType() == "report" {
+						fmt.Println("--------- Report object STIX ---------")
+					}
+
+					//fmt.Println(v.ToStringBeautiful(1))
+
+					//listId = append(listId, v.GetID())
 				}
 			}
+
+			/*fmt.Println("==== List id:")
+			sort.Slice(listId, func(i, j int) bool {
+				a := strings.Split(listId[i], "-")
+				b := strings.Split(listId[j], "-")
+
+				return a[0] < b[0]
+			})
+			for _, v := range listId {
+				fmt.Println(v)
+			}*/
 
 			Expect(true).Should(BeTrue())
 		})

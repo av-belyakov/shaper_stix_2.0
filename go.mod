@@ -3,33 +3,33 @@ module github.com/av-belyakov/shaper_stix_2.1
 go 1.21.0
 
 require (
-	github.com/av-belyakov/methodstixobjects v0.0.0-20240702071412-43666f222083
+	github.com/av-belyakov/methodstixobjects v0.0.0-20240704085231-3d99699b68de
 	github.com/av-belyakov/simplelogger v0.0.0-20231113085635-45b8e06e6063
-	github.com/google/uuid v1.4.0
-	github.com/nats-io/nats.go v1.31.0
+	github.com/google/uuid v1.6.0
+	github.com/mitchellh/mapstructure v1.5.0
+	github.com/nats-io/nats.go v1.36.0
 	github.com/onsi/ginkgo/v2 v2.19.0
 	github.com/onsi/gomega v1.33.1
-	github.com/spf13/viper v1.18.2
-	go.mongodb.org/mongo-driver v1.15.0
+	github.com/spf13/viper v1.19.0
+	go.mongodb.org/mongo-driver v1.16.0
 )
 
 require (
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
-	github.com/go-logr/logr v1.4.1 // indirect
+	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
-	github.com/golang/snappy v0.0.1 // indirect
+	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/pprof v0.0.0-20240424215950-a892ee059fd6 // indirect
+	github.com/google/pprof v0.0.0-20240625030939-27f56978b8b0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/klauspost/compress v1.17.0 // indirect
+	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
-	github.com/mitchellh/mapstructure v1.5.0 // indirect
-	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
-	github.com/nats-io/nkeys v0.4.6 // indirect
+	github.com/montanaflynn/stats v0.7.1 // indirect
+	github.com/nats-io/nkeys v0.4.7 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
-	github.com/sagikazarmark/locafero v0.4.0 // indirect
+	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
+	github.com/sagikazarmark/locafero v0.6.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect

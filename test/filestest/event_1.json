@@ -6,6 +6,7 @@
         "rootId": "~498274384",
         "requestId": "0655097208677924:-dead78:18fa1624ed2:-8000:505833",
         "objectType": "case",
+        "organisation": "SMOL-RCM",
         "object": {
             "summary": "",
             "customFields": {
@@ -29,7 +30,7 @@
             },
             "stats": "",
             "caseId": 5815,
-            "impactStatus": "NoImpact",
+            "impactStatus": "WithImpact",
             "resolutionStatus": "TruePositive",
             "updatedAt": 1719384490605,
             "severity": 2,

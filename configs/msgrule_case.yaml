@@ -81,4 +81,4 @@ RULES:
         - searchField: "event.object.tlp"
           searchValue: "not:3"
     - listAnd:
-  PASSANY: true
+  PASSANY: false

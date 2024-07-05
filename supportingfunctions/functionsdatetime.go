@@ -1,6 +1,8 @@
 package supportingfunctions
 
-import "time"
+import (
+	"time"
+)
 
 func leapYears(date time.Time) (leaps int) {
 

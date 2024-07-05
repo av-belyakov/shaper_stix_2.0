@@ -57,8 +57,12 @@ func (pr *ProcessingRules) AddAlertRules(fileName string) (string, error) {
 }
 
 // GetCaseRules возвращает список правил для обработки Cases
-func (pr *ProcessingRules) GetCaseRules() *ruleinteraction.ListRule {
-	return pr.cases
+func (pr *ProcessingRules) GetCaseRules() (*ruleinteraction.ListRule, error) {
+	if pr.cases == nil {
+		return nil, fmt.Errorf("it is necessary to initialize the case processing rules, to do this, you need to use the method 'AddCaseRules'")
+	}
+
+	return pr.cases, nil
 }
 
 // GetCaseRules добавляет список правил для обработки Cases

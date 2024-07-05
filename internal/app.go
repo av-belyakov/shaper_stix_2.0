@@ -119,16 +119,21 @@ func NewApp(
 
 			switch eventSettings.Event.ObjectType {
 			case "case":
+				caseRules, err := procRules.GetCaseRules()
+				if err != nil {
+					_, f, l, _ := runtime.Caller(0)
+					logging <- datamodels.MessageLogging{
+						MsgData: fmt.Sprintf("'%s' %s:%d", err.Error(), f, l+1),
+						MsgType: "error",
+					}
+
+					continue
+				}
+
 				chanOutputDecodeJson := decodeJson.HandlerJsonMessage(data.Data, data.MsgId, "subject_case")
-				go NewHandlerCaseObject(chanOutputDecodeJson, procRules, mdbModule, counting, logging)
-
-				//				chansOut := supportingfunctions.CreateChannelDuplication[datamodels.ChanOutputDecodeJSON](chanOutputDecodeJson, 2)
-				//				chansDone := supportingfunctions.CreateChannelDuplication[bool](chanDecodeJsonDone, 2)
-
-				//используется для хранения в MongoDB
-				//				go NewVerifiedTheHiveFormatCase(chansOut[0], chansDone[0], mdbModule, settings.logging)
-				//используется для хранения в Elasticsearch
-				//				go NewVerifiedElasticsearchFormatCase(chansOut[1], chansDone[1], esModule, settings.logging)
+				//формирование объектов STIX, при этом следует помнить что при обработке
+				//объекта Case TheHive применяется анализ данных на основе правил обработки кейсов
+				go NewHandlerCaseObject(chanOutputDecodeJson, *caseRules, mdbModule, counting, logging)
 
 			case "alert":
 			//				chanOutputDecodeJson, chanDecodeJsonDone := decodeJsonAlert.HandlerJsonMessage(data.Data, data.MsgId, "subject_alert")

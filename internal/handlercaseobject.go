@@ -3,7 +3,9 @@ package internal
 import (
 	"fmt"
 	"reflect"
+	"runtime"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -14,18 +16,20 @@ import (
 	"github.com/av-belyakov/shaper_stix_2.1/internal/createrstixobject"
 	listhandlerjson "github.com/av-belyakov/shaper_stix_2.1/internal/listhandlerjson"
 	wrappers "github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
+	"github.com/av-belyakov/shaper_stix_2.1/ruleinteraction"
 	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
 )
 
 // NewHandlerCaseObject формирует новый обработчик объекта типа Case
 func NewHandlerCaseObject(
 	input <-chan datamodels.ChanOutputDecodeJSON,
-	procRules *ProcessingRules,
+	listRules ruleinteraction.ListRule,
 	mdbModule *mongodbapi.MongoDBModule,
-	couting chan<- datamodels.DataCounterSettings,
+	counting chan<- datamodels.DataCounterSettings,
 	logging chan<- datamodels.MessageLogging) {
 
 	var (
+		caseId float64
 		rootId string
 
 		// список не обработанных полей
@@ -52,47 +56,58 @@ func NewHandlerCaseObject(
 		listHandlerObservables = listhandlerjson.NewListHandlerObservablesElement(so)
 	)
 
-	reportWrap.SetValueID(uuid.New().String())
-	identityOwner.SetAnyName(uuid.New().String())
-	identitySource.SetAnyID(uuid.New().String())
-	identityOrganization.SetAnyID(uuid.New().String())
+	reportWrap.SetValueID(fmt.Sprintf("report-%s", uuid.NewString()))
+	identityOwner.SetAnyID(fmt.Sprintf("identity-%s", uuid.NewString()))
+	identitySource.SetAnyID(fmt.Sprintf("identity-%s", uuid.NewString()))
+	identityOrganization.SetAnyID(fmt.Sprintf("identity-%s", uuid.NewString()))
 
-	//***************************************
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// 			забыл сделать обработку правил которые содержатся в procRules
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//***************************************
 	for data := range input {
 		var handlerIsExist bool
 
+		//*************** Обработка правил ***************
+		//обработка правил REPLACEMENT (замена)
+		newValue, _, err := listRules.ReplacementRuleHandler(data.ValueType, data.FieldName, data.Value)
+		if err != nil {
+			_, f, l, _ := runtime.Caller(0)
+
+			logging <- datamodels.MessageLogging{
+				MsgData: fmt.Sprintf("'search value \"%s\" from rule of section \"REPLACE\" is not fulfilled' %s:%d", data.Value, f, l-1),
+				MsgType: "warning",
+			}
+		}
+		//обработка правил PASS (пропуск)
+		listRules.PassRuleHandler(data.FieldBranch, newValue)
+		//**********************************************
+
+		//ищем id события
+		if cid, ok := searchCaseId(data); ok {
+			caseId = cid
+		}
+
 		//добавляем информацию об источнике из свойства 'source'
 		if data.FieldBranch == "source" {
-			identitySource.SetAnyName(data.Value)
+			identitySource.SetAnyName(newValue)
 		}
 
 		//добавляем информацию об организации из свойства 'event.organization'
-		if data.FieldBranch == "event.organization" {
-			identityOrganization.SetAnyName(data.Value)
+		if data.FieldBranch == "event.organisation" {
+			identityOrganization.SetAnyName(newValue)
 		}
 
 		//добавляем информацию об организации из свойства 'event.object.owner'
 		if data.FieldBranch == "event.object.owner" {
-			identityOwner.SetAnyName(data.Value)
+			identityOwner.SetAnyName(newValue)
 		}
 		//добавляем информацию об организации из свойства 'event.object.updateAt'
 		if data.FieldBranch == "event.object.updateAt" {
-			identityOwner.SetAnyModified(data.Value)
+			identityOwner.SetAnyModified(newValue)
 		}
 
 		//******************************************************************************
 		//******** формирование обьекта относящегося к Report Domain Object STIX *******
 		if reports, ok := listWrapReport[data.FieldBranch]; ok {
 			for _, f := range reports {
-				f(data.Value)
+				f(newValue)
 			}
 		}
 
@@ -104,16 +119,16 @@ func NewHandlerCaseObject(
 			handlerIsExist = true
 
 			for _, f := range lf {
-				r := reflect.TypeOf(data.Value)
+				r := reflect.TypeOf(newValue)
 				switch r.Kind() {
 				case reflect.Slice:
-					if s, ok := data.Value.([]interface{}); ok {
+					if s, ok := newValue.([]interface{}); ok {
 						for _, value := range s {
 							f(value)
 						}
 					}
 				default:
-					f(data.Value)
+					f(newValue)
 
 				}
 			}
@@ -123,7 +138,7 @@ func NewHandlerCaseObject(
 		//для всех полей входящих в состав observables.reports
 		if strings.Contains(data.FieldBranch, "observables.reports.") {
 			handlerIsExist = true
-			so.HandlerReportValue(data.FieldBranch, data.Value)
+			so.HandlerReportValue(data.FieldBranch, newValue)
 		}
 
 		//****************************************************************************
@@ -131,7 +146,7 @@ func NewHandlerCaseObject(
 		//*********** которые не были обработаны сформированными обработчиками *******
 		if !handlerIsExist {
 			// записываем в лог-файл поля, которые не были обработаны
-			listRawFields[data.FieldBranch] = fmt.Sprint(data.Value)
+			listRawFields[data.FieldBranch] = fmt.Sprint(newValue)
 		}
 
 		// отправляем список полей которые не смогли обработать
@@ -142,6 +157,48 @@ func NewHandlerCaseObject(
 			}
 		}
 	}
+
+	var isAllowed bool
+	//проверяем что бы хотя бы одно правило разрешало пропуск кейса
+	if listRules.GetRulePassany() || listRules.SomePassRuleIsTrue() {
+		isAllowed = true
+
+		//сетчик кейсов соответствующих или не соответствующих правилам
+		counting <- datamodels.DataCounterSettings{
+			DataType: "update events meet rules",
+			Count:    1,
+		}
+	}
+
+	if !isAllowed {
+		// ***********************************
+		// Это логирование только для теста!!!
+		// ***********************************
+		logging <- datamodels.MessageLogging{
+			MsgData: fmt.Sprintf("TEST_INFO func 'NewMispFormat', case with id '%d' does not comply with the rules", int(caseId)),
+			MsgType: "testing",
+		}
+		//
+		//
+
+		_, f, l, _ := runtime.Caller(0)
+		logging <- datamodels.MessageLogging{
+			MsgData: fmt.Sprintf("'the message with case id %d was not sent to MISP because it does not comply with the rules' %s:%d", int(caseId), f, l-1),
+			MsgType: "warning",
+		}
+
+		return
+	}
+
+	// ***********************************
+	// Это логирование только для теста!!!
+	// ***********************************
+	logging <- datamodels.MessageLogging{
+		MsgData: fmt.Sprintf("TEST_INFO func 'NewMispFormat', case with id '%d' equal rules, send data to MISP module", int(caseId)),
+		MsgType: "testing",
+	}
+	//
+	//
 
 	//*********************************************************************************
 	//******* Вспомогательный, временный объект где хранятся уже сформированные *******
@@ -204,6 +261,7 @@ func NewHandlerCaseObject(
 			//объектом Report и обрабатываемым объектом
 			relationship := methodstixobjects.NewRelationshipObjectSTIX()
 			relationship.SetValueID(fmt.Sprintf("relationship-%s", uuid.NewString()))
+			relationship.SetValueCreated(supportingfunctions.GetDateTimeFormatRFC3339(time.Now().UnixMilli()))
 			//исходный объект, то есть обрабатываемый в настоящее время
 			relationship.SetValueSourceRef(stixhelpers.IdentifierTypeSTIX(newObject.GetID()))
 			//целевой объект, то есть объект Report
@@ -218,8 +276,55 @@ func NewHandlerCaseObject(
 
 	fmt.Println("func 'NewHandlerCaseObject' добавляем id обрабатываемого объекта в Report Domain Object STIX")
 
+	//*****************************************************************************************
+	//********* добавляем id объекта содержащего информацию о создателе объекта case **********
+	listRefObjectId = append(listRefObjectId, stixhelpers.IdentifierTypeSTIX(identityOwner.GetID()))
+	//создаем объект Relationship для установки обратной связи между объектом
+	//содержащем информацию о создателе case
+	relationshipOwner := methodstixobjects.NewRelationshipObjectSTIX()
+	relationshipOwner.SetValueID(fmt.Sprintf("relationship-%s", uuid.NewString()))
+	relationshipOwner.SetValueCreated(supportingfunctions.GetDateTimeFormatRFC3339(time.Now().UnixMilli()))
+	//исходный объект, то есть обрабатываемый в настоящее время
+	relationshipOwner.SetValueSourceRef(stixhelpers.IdentifierTypeSTIX(identityOwner.GetID()))
+	//целевой объект, то есть объект Report
+	relationshipOwner.SetValueTargetRef(stixhelpers.IdentifierTypeSTIX(reportWrap.GetID()))
+	listObjectSTIX = append(listObjectSTIX, relationshipOwner)
+
+	//******************************************************************************
+	//*** добавляем id объекта содержащего информацию о источнике объекта case ****
+	listRefObjectId = append(listRefObjectId, stixhelpers.IdentifierTypeSTIX(identitySource.GetID()))
+	//создаем объект Relationship для установки обратной связи между объектом
+	//содержащем информацию о создателе case
+	relationshipSource := methodstixobjects.NewRelationshipObjectSTIX()
+	relationshipSource.SetValueID(fmt.Sprintf("relationship-%s", uuid.NewString()))
+	relationshipSource.SetValueCreated(supportingfunctions.GetDateTimeFormatRFC3339(time.Now().UnixMilli()))
+	//исходный объект, то есть обрабатываемый в настоящее время
+	relationshipSource.SetValueSourceRef(stixhelpers.IdentifierTypeSTIX(identitySource.GetID()))
+	//целевой объект, то есть объект Report
+	relationshipSource.SetValueTargetRef(stixhelpers.IdentifierTypeSTIX(reportWrap.GetID()))
+	listObjectSTIX = append(listObjectSTIX, relationshipSource)
+
+	//***************************************************************************************
+	//**** добавляем id объекта содержащего информацию об организации относящейся к case ****
+	listRefObjectId = append(listRefObjectId, stixhelpers.IdentifierTypeSTIX(identityOrganization.GetID()))
+	//создаем объект Relationship для установки обратной связи между объектом
+	//содержащем информацию о создателе case
+	relationshipOrg := methodstixobjects.NewRelationshipObjectSTIX()
+	relationshipOrg.SetValueID(fmt.Sprintf("relationship-%s", uuid.NewString()))
+	relationshipOrg.SetValueCreated(supportingfunctions.GetDateTimeFormatRFC3339(time.Now().UnixMilli()))
+	//исходный объект, то есть обрабатываемый в настоящее время
+	relationshipOrg.SetValueSourceRef(stixhelpers.IdentifierTypeSTIX(identityOrganization.GetID()))
+	//целевой объект, то есть объект Report
+	relationshipOrg.SetValueTargetRef(stixhelpers.IdentifierTypeSTIX(reportWrap.GetID()))
+	listObjectSTIX = append(listObjectSTIX, relationshipOrg)
+
 	//добавляем id обрабатываемого объекта в Report Domain Object STIX
 	reportWrap.SetValueObjectRefs(listRefObjectId)
+
+	//добавляем в список вновь созданых STIX объектов, объекты, которые были созданы
+	//при анализе всех других объектов кроме объекта 'observables'
+	listObjectSTIX = append(listObjectSTIX, reportWrap)
+	listObjectSTIX = append(listObjectSTIX, identityOwner, identitySource, identityOrganization)
 
 	fmt.Println("func 'NewHandlerCaseObject' передача данных в MongoDB")
 

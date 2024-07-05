@@ -79,5 +79,5 @@ type GetterCommonPropertiesObjectSTIX interface {
 }
 
 type ToStringBeautifulReader interface {
-	ToStringBeautiful() string
+	ToStringBeautiful(int) string
 }
