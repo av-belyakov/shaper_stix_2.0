@@ -1,21 +1,17 @@
-package wrappersobjectstix
+package domainobjects
 
 import (
 	"fmt"
 	"strings"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
+
 	methodstixobjects "github.com/av-belyakov/methodstixobjects/cmd"
 	"github.com/av-belyakov/methodstixobjects/commonlibs"
 	"github.com/av-belyakov/methodstixobjects/datamodels/domainobjectsstix"
-	"go.mongodb.org/mongo-driver/bson"
+	"github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
 )
-
-// WrapperReport содержит STIX объект 'report' и дополнительные расширеные свойства
-type WrapperReport struct {
-	*domainobjectsstix.ReportDomainObjectsSTIX
-	ReportOutsideSpecification ReportOutsideSpecification
-}
 
 func (e *WrapperReport) Get() *WrapperReport {
 	return e
@@ -41,18 +37,6 @@ func (e WrapperReport) ToStringBeautiful(num int) string {
 	return str.String()
 }
 
-// ReportOutsideSpecification содержит дополнительные свойства
-type ReportOutsideSpecification struct {
-	ObjectType       string
-	RootId           string
-	ObjectId         string
-	CaseId           string
-	StartDate        string
-	EndDate          string
-	ImpactStatus     string
-	ResolutionStatus string
-}
-
 // NewWrapperReportDomainObjectsSTIX формирует новый объект 'report' с расширеными
 // свойствами выходящими за пределы спецификации STIX 2.1.
 func NewWrapperReportDomainObjectsSTIX() *WrapperReport {
@@ -62,31 +46,45 @@ func NewWrapperReportDomainObjectsSTIX() *WrapperReport {
 	}
 }
 
-func (wr *WrapperReport) MarshalBSON(i interface{}) ([]byte, error) {
-	/*
+func (wr *WrapperReport) MarshalBSON() ([]byte, error) {
+	fro := FinalyReportObject{
+		CommonPropertiesObjectSTIX:       wr.CommonPropertiesObjectSTIX,
+		CommonPropertiesDomainObjectSTIX: wrappersobjectstix.NewCommonPropertiesDomainObjectSTIX(),
+		Name:                             wr.Name,
+		Description:                      wr.Description,
+		ReportTypes:                      wr.ReportTypes,
+		ObjectRefs:                       wr.ObjectRefs,
+		ReportOutsideSpecification:       wr.ReportOutsideSpecification,
+	}
 
-		Тут надо сделать обработчик формирующий BSON
+	fro.Revoked = wr.Revoked
+	fro.Defanged = wr.Defanged
+	fro.Сonfidence = wr.Сonfidence
+	fro.Lang = wr.Lang
+	fro.SpecVersion = wr.SpecVersion
+	fro.Labels = wr.Labels
+	fro.Extensions = wr.Extensions
+	fro.CreatedByRef = wr.CreatedByRef
+	fro.ExternalReferences = wr.ExternalReferences
+	fro.ObjectMarkingRefs = wr.ObjectMarkingRefs
+	fro.GranularMarkings = wr.GranularMarkings
 
-	*/
+	if published, err := time.Parse(time.RFC3339, wr.Published); err == nil {
+		fro.Published = published
+	}
 
-	b, err := bson.Marshal(i)
+	if create, err := time.Parse(time.RFC3339, wr.Created); err == nil {
+		fro.Created = create
+	}
+
+	if modified, err := time.Parse(time.RFC3339, wr.Modified); err == nil {
+		fro.Created = modified
+	}
+
+	b, err := bson.Marshal(fro)
 
 	return b, err
 }
-
-/*
-func (wr *WrapperReport) MarshalJSON(i interface{}) ([]byte, error) {
-	//
-	//
-	//   Тут надо сделать обработчик формирующий JSON
-	//
-	//
-
-	b, err := json.Marshal(i)
-
-	return b, err
-}
-*/
 
 func (e *ReportOutsideSpecification) Get() *ReportOutsideSpecification {
 	return e

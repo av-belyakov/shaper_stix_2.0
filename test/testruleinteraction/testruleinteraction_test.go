@@ -121,8 +121,11 @@ var _ = Describe("Testruleinteraction", Ordered, func() {
 		It("Должен быть добавлен список правил Case", func() {
 			warning, err := procRules.AddCaseRules(RULE_CASE)
 
+			listRule, err := procRules.GetCaseRules()
+			Expect(err).ShouldNot(HaveOccurred())
+
 			fmt.Println("Case Warning:", warning)
-			fmt.Printf("Case list:\n%v\n", procRules.GetCaseRules())
+			fmt.Printf("Case list:\n%v\n", listRule)
 
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(len(warning)).Should(Equal(0))

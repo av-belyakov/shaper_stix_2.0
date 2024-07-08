@@ -89,15 +89,16 @@ func (conn ConnectionDescriptorMongoDB) Routing(
 
 			case data := <-channels.GetChanInput():
 				//секция загрузки данных
-				if data.Section == "data insert" {
-					switch data.Command {
-					case "insert":
-						fmt.Println("Тут будет выполнятся обработка данных и загрузка их в БД")
+				if data.Section == "inserting data" {
+					if data.Command == "insert" {
+						go ws.AddNewSITXObject(data.Data, logging, counting)
+
+						fmt.Println("Тут будет выполнятся обработка STIX объектов и загрузка их в БД")
 						fmt.Printf("Insert received data to MongoDB: %v\n", data.Data)
 					}
 				}
 
-				switch data.ObjectType {
+				/*switch data.ObjectType {
 
 				//Domain Object STIX
 				case "attack-pattern":
@@ -208,7 +209,7 @@ func (conn ConnectionDescriptorMongoDB) Routing(
 
 				case "x509-certificate":
 					go ws.AddX509CertificateCO(data.Data, logging, counting)
-				}
+				}*/
 			}
 		}
 

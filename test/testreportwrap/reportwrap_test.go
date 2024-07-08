@@ -9,7 +9,7 @@ import (
 	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 	"github.com/av-belyakov/shaper_stix_2.1/internal/decodejson"
 	"github.com/av-belyakov/shaper_stix_2.1/internal/listhandlerjson"
-	wrappers "github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
+	do "github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix/domainobjects"
 	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
 )
 
@@ -45,7 +45,7 @@ var _ = Describe("Reportwrap", Ordered, func() {
 		counting             chan datamodels.DataCounterSettings
 
 		//формируем новый объект 'report' в обёртке
-		reportWrap *wrappers.WrapperReport = wrappers.NewWrapperReportDomainObjectsSTIX()
+		reportWrap *do.WrapperReport = do.NewWrapperReportDomainObjectsSTIX()
 
 		//*************** Обработчик формирующий объект 'report' в обёртке ****************
 		listWrapReport = listhandlerjson.NewHandlerReportDomainObjectSTIX(reportWrap)

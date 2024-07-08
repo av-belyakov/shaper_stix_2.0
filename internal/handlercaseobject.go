@@ -15,7 +15,7 @@ import (
 	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 	"github.com/av-belyakov/shaper_stix_2.1/internal/createrstixobject"
 	listhandlerjson "github.com/av-belyakov/shaper_stix_2.1/internal/listhandlerjson"
-	wrappers "github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
+	do "github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix/domainobjects"
 	"github.com/av-belyakov/shaper_stix_2.1/ruleinteraction"
 	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
 )
@@ -36,7 +36,7 @@ func NewHandlerCaseObject(
 		listRawFields map[string]string = make(map[string]string)
 
 		//формируем новый объект 'report' в обёртке
-		reportWrap *wrappers.WrapperReport = wrappers.NewWrapperReportDomainObjectsSTIX()
+		reportWrap *do.WrapperReport = do.NewWrapperReportDomainObjectsSTIX()
 		//формируем объект для хранения значения свойства 'source'
 		identitySource = methodstixobjects.NewIdentityDomainObjectsSTIX()
 		//формируем объект для хранения значения свойства 'event.organization'
@@ -56,10 +56,10 @@ func NewHandlerCaseObject(
 		listHandlerObservables = listhandlerjson.NewListHandlerObservablesElement(so)
 	)
 
-	reportWrap.SetValueID(fmt.Sprintf("report-%s", uuid.NewString()))
-	identityOwner.SetAnyID(fmt.Sprintf("identity-%s", uuid.NewString()))
-	identitySource.SetAnyID(fmt.Sprintf("identity-%s", uuid.NewString()))
-	identityOrganization.SetAnyID(fmt.Sprintf("identity-%s", uuid.NewString()))
+	reportWrap.SetValueID(fmt.Sprintf("report--%s", uuid.NewString()))
+	identityOwner.SetAnyID(fmt.Sprintf("identity--%s", uuid.NewString()))
+	identitySource.SetAnyID(fmt.Sprintf("identity--%s", uuid.NewString()))
+	identityOrganization.SetAnyID(fmt.Sprintf("identity--%s", uuid.NewString()))
 
 	for data := range input {
 		var handlerIsExist bool
@@ -99,7 +99,7 @@ func NewHandlerCaseObject(
 			identityOwner.SetAnyName(newValue)
 		}
 		//добавляем информацию об организации из свойства 'event.object.updateAt'
-		if data.FieldBranch == "event.object.updateAt" {
+		if data.FieldBranch == "event.object.updatedAt" {
 			identityOwner.SetAnyModified(newValue)
 		}
 
@@ -274,8 +274,6 @@ func NewHandlerCaseObject(
 		}
 	}
 
-	fmt.Println("func 'NewHandlerCaseObject' добавляем id обрабатываемого объекта в Report Domain Object STIX")
-
 	//*****************************************************************************************
 	//********* добавляем id объекта содержащего информацию о создателе объекта case **********
 	listRefObjectId = append(listRefObjectId, stixhelpers.IdentifierTypeSTIX(identityOwner.GetID()))
@@ -325,8 +323,6 @@ func NewHandlerCaseObject(
 	//при анализе всех других объектов кроме объекта 'observables'
 	listObjectSTIX = append(listObjectSTIX, reportWrap)
 	listObjectSTIX = append(listObjectSTIX, identityOwner, identitySource, identityOrganization)
-
-	fmt.Println("func 'NewHandlerCaseObject' передача данных в MongoDB")
 
 	//передача данных в MongoDB
 	mdbModule.SendingDataToModule(mongodbapi.ChanInput{

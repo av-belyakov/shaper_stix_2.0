@@ -13,7 +13,8 @@ import (
 // CreateDomainNameCyberObservableObjectSTIX формирует объект 'domain-name'
 func CreateDomainNameCyberObservableObjectSTIX(observable datamodels.ObservableMessage) *cyberobservableobjectsstix.DomainNameCyberObservableObjectSTIX {
 	domainName := methodstixobjects.NewDomainNameCyberObservableObjectSTIX()
-	domainName.SetValueID(fmt.Sprintf("domain-name-%s", uuid.NewString()))
+	domainName.SetValueID(fmt.Sprintf("domain-name--%s", uuid.NewString()))
+	domainName.SetValueSpecVersion("2.1")
 	domainName.SetValueValue(observable.Data)
 
 	return domainName
@@ -22,7 +23,8 @@ func CreateDomainNameCyberObservableObjectSTIX(observable datamodels.ObservableM
 // CreateURLCyberObservableObjectSTIX формирует объект 'url'
 func CreateURLCyberObservableObjectSTIX(observable datamodels.ObservableMessage) *cyberobservableobjectsstix.URLCyberObservableObjectSTIX {
 	url := methodstixobjects.NewURLCyberObservableObjectSTIX()
-	url.SetValueID(fmt.Sprintf("url-%s", uuid.NewString()))
+	url.SetValueID(fmt.Sprintf("url--%s", uuid.NewString()))
+	url.SetValueSpecVersion("2.1")
 	url.SetValueValue(observable.Data)
 
 	return url
@@ -31,7 +33,8 @@ func CreateURLCyberObservableObjectSTIX(observable datamodels.ObservableMessage)
 // CreateFileCyberObservableObjectSTIX формирует объект 'file'
 func CreateFileCyberObservableObjectSTIX(observable datamodels.ObservableMessage) *cyberobservableobjectsstix.FileCyberObservableObjectSTIX {
 	file := methodstixobjects.NewFileCyberObservableObjectSTIX()
-	file.SetValueID(fmt.Sprintf("file-%s", uuid.NewString()))
+	file.SetValueID(fmt.Sprintf("file--%s", uuid.NewString()))
+	file.SetValueSpecVersion("2.1")
 	file.SetValueName(observable.Data)
 
 	if observable.Attachment.Name != "" {
@@ -56,7 +59,8 @@ func CreateFileCyberObservableObjectSTIX(observable datamodels.ObservableMessage
 // CreateEmailAddressCyberObservableObjectSTIX формирует объект 'email-addr'
 func CreateEmailAddressCyberObservableObjectSTIX(observable datamodels.ObservableMessage) *cyberobservableobjectsstix.EmailAddressCyberObservableObjectSTIX {
 	email := methodstixobjects.NewEmailAddressCyberObservableObjectSTIX()
-	email.SetValueID(fmt.Sprintf("email-addr-%s", uuid.NewString()))
+	email.SetValueID(fmt.Sprintf("email-addr--%s", uuid.NewString()))
+	email.SetValueSpecVersion("2.1")
 	email.SetValueValue(observable.Data)
 
 	return email
@@ -65,7 +69,8 @@ func CreateEmailAddressCyberObservableObjectSTIX(observable datamodels.Observabl
 // CreateIPv4AddressCyberObservableObjectSTIX формирует объект 'ipv4-addr'
 func CreateIPv4AddressCyberObservableObjectSTIX(observable datamodels.ObservableMessage) *cyberobservableobjectsstix.IPv4AddressCyberObservableObjectSTIX {
 	ipv4 := methodstixobjects.NewIPv4AddressCyberObservableObjectSTIX()
-	ipv4.SetValueID(fmt.Sprintf("ipv4-addr-%s", uuid.NewString()))
+	ipv4.SetValueID(fmt.Sprintf("ipv4-addr--%s", uuid.NewString()))
+	ipv4.SetValueSpecVersion("2.1")
 	ipv4.SetValueValue(observable.Data)
 
 	return ipv4

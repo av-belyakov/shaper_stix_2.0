@@ -1,8 +1,8 @@
 package listhandlerjson
 
-import wrappers "github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
+import do "github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix/domainobjects"
 
-func NewHandlerReportDomainObjectSTIX(elem *wrappers.WrapperReport) map[string][]func(interface{}) {
+func NewHandlerReportDomainObjectSTIX(elem *do.WrapperReport) map[string][]func(interface{}) {
 	return map[string][]func(interface{}){
 		//основные свойства объекта 'report' STIX
 		"event.object.createdAt":   {elem.SetAnyCreated},
