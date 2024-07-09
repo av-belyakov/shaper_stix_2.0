@@ -13,6 +13,15 @@ import (
 	"github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
 )
 
+// NewWrapperReportDomainObjectsSTIX формирует новый объект 'report' с расширеными
+// свойствами выходящими за пределы спецификации STIX 2.1.
+func NewWrapperReportDomainObjectsSTIX() *WrapperReport {
+	return &WrapperReport{
+		methodstixobjects.NewReportDomainObjectsSTIX(),
+		ReportOutsideSpecification{},
+	}
+}
+
 func (e *WrapperReport) Get() *WrapperReport {
 	return e
 }
@@ -37,53 +46,42 @@ func (e WrapperReport) ToStringBeautiful(num int) string {
 	return str.String()
 }
 
-// NewWrapperReportDomainObjectsSTIX формирует новый объект 'report' с расширеными
-// свойствами выходящими за пределы спецификации STIX 2.1.
-func NewWrapperReportDomainObjectsSTIX() *WrapperReport {
-	return &WrapperReport{
-		methodstixobjects.NewReportDomainObjectsSTIX(),
-		ReportOutsideSpecification{},
-	}
-}
-
-func (wr *WrapperReport) MarshalBSON() ([]byte, error) {
+func (e *WrapperReport) MarshalBSON() ([]byte, error) {
 	fro := FinalyReportObject{
-		CommonPropertiesObjectSTIX:       wr.CommonPropertiesObjectSTIX,
+		CommonPropertiesObjectSTIX:       e.CommonPropertiesObjectSTIX,
 		CommonPropertiesDomainObjectSTIX: wrappersobjectstix.NewCommonPropertiesDomainObjectSTIX(),
-		Name:                             wr.Name,
-		Description:                      wr.Description,
-		ReportTypes:                      wr.ReportTypes,
-		ObjectRefs:                       wr.ObjectRefs,
-		ReportOutsideSpecification:       wr.ReportOutsideSpecification,
+		Name:                             e.Name,
+		Description:                      e.Description,
+		ReportTypes:                      e.ReportTypes,
+		ObjectRefs:                       e.ObjectRefs,
+		ReportOutsideSpecification:       e.ReportOutsideSpecification,
 	}
 
-	fro.Revoked = wr.Revoked
-	fro.Defanged = wr.Defanged
-	fro.Сonfidence = wr.Сonfidence
-	fro.Lang = wr.Lang
-	fro.SpecVersion = wr.SpecVersion
-	fro.Labels = wr.Labels
-	fro.Extensions = wr.Extensions
-	fro.CreatedByRef = wr.CreatedByRef
-	fro.ExternalReferences = wr.ExternalReferences
-	fro.ObjectMarkingRefs = wr.ObjectMarkingRefs
-	fro.GranularMarkings = wr.GranularMarkings
+	fro.Revoked = e.Revoked
+	fro.Defanged = e.Defanged
+	fro.Сonfidence = e.Сonfidence
+	fro.Lang = e.Lang
+	fro.SpecVersion = e.SpecVersion
+	fro.Labels = e.Labels
+	fro.Extensions = e.Extensions
+	fro.CreatedByRef = e.CreatedByRef
+	fro.ExternalReferences = e.ExternalReferences
+	fro.ObjectMarkingRefs = e.ObjectMarkingRefs
+	fro.GranularMarkings = e.GranularMarkings
 
-	if published, err := time.Parse(time.RFC3339, wr.Published); err == nil {
+	if published, err := time.Parse(time.RFC3339, e.Published); err == nil {
 		fro.Published = published
 	}
 
-	if create, err := time.Parse(time.RFC3339, wr.Created); err == nil {
+	if create, err := time.Parse(time.RFC3339, e.Created); err == nil {
 		fro.Created = create
 	}
 
-	if modified, err := time.Parse(time.RFC3339, wr.Modified); err == nil {
+	if modified, err := time.Parse(time.RFC3339, e.Modified); err == nil {
 		fro.Created = modified
 	}
 
-	b, err := bson.Marshal(fro)
-
-	return b, err
+	return bson.Marshal(fro)
 }
 
 func (e *ReportOutsideSpecification) Get() *ReportOutsideSpecification {

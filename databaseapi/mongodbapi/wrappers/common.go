@@ -26,15 +26,10 @@ func (w *Wrappers) AddNewSITXObject(
 			Keys: bson.D{
 				{Key: "commonpropertiesobjectstix.type", Value: 1},
 				{Key: "commonpropertiesobjectstix.id", Value: 1},
+				{Key: "outside_specification.case_id", Value: 1},
 			},
 			Options: &options.IndexOptions{},
 		},
-		/*{
-			Keys: bson.D{
-				{Key: "@id", Value: 1},
-			},
-			Options: &options.IndexOptions{},
-		},*/
 	}); err != nil {
 		_, f, l, _ := runtime.Caller(0)
 		logging <- datamodels.MessageLogging{

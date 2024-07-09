@@ -190,10 +190,19 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 					Keys: bson.D{
 						{Key: "commonpropertiesobjectstix.type", Value: 1},
 						{Key: "commonpropertiesobjectstix.id", Value: 1},
+						{Key: "outside_specification.case_id", Value: 1},
 					},
 					Options: &options.IndexOptions{},
 				},
 			})
+
+			//**********************************
+			//
+			// Insert выполняется нормально, теперь необходимо сделать предварительный
+			// поиск объекта Report по "outside_specification.case_id" что бы проверить
+			// есть ли такой объект и если есть выполнить замену
+			//
+			//**********************************
 
 			Expect(err).ShouldNot(HaveOccurred())
 			fmt.Println("================= END ===================")

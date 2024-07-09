@@ -3,21 +3,25 @@ package createrstixobject
 import (
 	"fmt"
 
-	methodstixobjects "github.com/av-belyakov/methodstixobjects/cmd"
-	"github.com/av-belyakov/methodstixobjects/datamodels/domainobjectsstix"
-	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 	"github.com/google/uuid"
+
+	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
+	"github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix/domainobjects"
 )
 
 // CreateLocationDomainObjectsSTIX формирует объект 'location'
-func CreateLocationDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjectsstix.LocationDomainObjectsSTIX {
-	location := methodstixobjects.NewLocationDomainObjectsSTIX()
+func CreateLocationDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjects.WrapperLocation {
+	location := domainobjects.NewWrapperLocationDomainObjectsSTIX()
+	location.SetValueCreated(observable.GetUnderliningCreatedAt())
+	location.SetValueModified(observable.GetUnderliningUpdatedAt())
 	location.SetValueID(fmt.Sprintf("location--%s", uuid.NewString()))
 	location.SetValueSpecVersion("2.1")
 	location.SetValueCountry(observable.Data)
+
 	if len(observable.Tags) > 0 {
 		location.SetValueName(observable.Tags[0])
 	}
+
 	if observable.Message != "" {
 		location.SetValueDescription(observable.Message)
 	}
@@ -26,8 +30,10 @@ func CreateLocationDomainObjectsSTIX(observable datamodels.ObservableMessage) *d
 }
 
 // CreateIndicatorSnortIdDomainObjectsSTIX формирует объект 'indicator' с описанием правил СОА Snort
-func CreateIndicatorSnortIdDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjectsstix.IndicatorDomainObjectsSTIX {
-	indicator := methodstixobjects.NewIndicatorDomainObjectsSTIX()
+func CreateIndicatorSnortIdDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjects.WrapperIndicator {
+	indicator := domainobjects.NewWrapperIndicatorDomainObjectsSTIX()
+	indicator.SetValueCreated(observable.GetUnderliningCreatedAt())
+	indicator.SetValueModified(observable.GetUnderliningUpdatedAt())
 	indicator.SetValueID(fmt.Sprintf("indicator--%s", uuid.NewString()))
 	indicator.SetValueSpecVersion("2.1")
 	indicator.SetValueName("snort_sid")
@@ -43,8 +49,10 @@ func CreateIndicatorSnortIdDomainObjectsSTIX(observable datamodels.ObservableMes
 }
 
 // CreateIndicatorYaraDomainObjectsSTIX формирует объект 'indicator' с описанием правил в формате YARA
-func CreateIndicatorYaraDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjectsstix.IndicatorDomainObjectsSTIX {
-	indicator := methodstixobjects.NewIndicatorDomainObjectsSTIX()
+func CreateIndicatorYaraDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjects.WrapperIndicator {
+	indicator := domainobjects.NewWrapperIndicatorDomainObjectsSTIX()
+	indicator.SetValueCreated(observable.GetUnderliningCreatedAt())
+	indicator.SetValueModified(observable.GetUnderliningUpdatedAt())
 	indicator.SetValueID(fmt.Sprintf("indicator--%s", uuid.NewString()))
 	indicator.SetValueSpecVersion("2.1")
 	indicator.SetValueName("yara")
@@ -60,8 +68,10 @@ func CreateIndicatorYaraDomainObjectsSTIX(observable datamodels.ObservableMessag
 }
 
 // CreateIndicatorHashDomainObjectsSTIX формирует объект 'indicator' с хеш-суммой
-func CreateIndicatorHashDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjectsstix.IndicatorDomainObjectsSTIX {
-	indicator := methodstixobjects.NewIndicatorDomainObjectsSTIX()
+func CreateIndicatorHashDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjects.WrapperIndicator {
+	indicator := domainobjects.NewWrapperIndicatorDomainObjectsSTIX()
+	indicator.SetValueCreated(observable.GetUnderliningCreatedAt())
+	indicator.SetValueModified(observable.GetUnderliningUpdatedAt())
 	indicator.SetValueID(fmt.Sprintf("indicator--%s", uuid.NewString()))
 	indicator.SetValueSpecVersion("2.1")
 	indicator.SetValueName("hash")
@@ -77,8 +87,10 @@ func CreateIndicatorHashDomainObjectsSTIX(observable datamodels.ObservableMessag
 }
 
 // CreateIndicatorUserAgentDomainObjectsSTIX формирует объект 'indicator' с описанием User-agent
-func CreateIndicatorUserAgentDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjectsstix.IndicatorDomainObjectsSTIX {
-	indicator := methodstixobjects.NewIndicatorDomainObjectsSTIX()
+func CreateIndicatorUserAgentDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjects.WrapperIndicator {
+	indicator := domainobjects.NewWrapperIndicatorDomainObjectsSTIX()
+	indicator.SetValueCreated(observable.GetUnderliningCreatedAt())
+	indicator.SetValueModified(observable.GetUnderliningUpdatedAt())
 	indicator.SetValueID(fmt.Sprintf("indicator--%s", uuid.NewString()))
 	indicator.SetValueSpecVersion("2.1")
 	indicator.SetValueName("user-agent")
@@ -94,8 +106,10 @@ func CreateIndicatorUserAgentDomainObjectsSTIX(observable datamodels.ObservableM
 }
 
 // CreateIdentityDomainObjectsSTIX формирует объект 'identity'
-func CreateIdentityDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjectsstix.IdentityDomainObjectsSTIX {
-	identity := methodstixobjects.NewIdentityDomainObjectsSTIX()
+func CreateIdentityDomainObjectsSTIX(observable datamodels.ObservableMessage) *domainobjects.WrapperIdentity {
+	identity := domainobjects.NewWrapperIdentityDomainObjectsSTIX()
+	identity.SetValueCreated(observable.GetUnderliningCreatedAt())
+	identity.SetValueModified(observable.GetUnderliningUpdatedAt())
 	identity.SetValueID(fmt.Sprintf("identity--%s", uuid.NewString()))
 	identity.SetValueSpecVersion("2.1")
 	identity.SetValueName("phone-number")

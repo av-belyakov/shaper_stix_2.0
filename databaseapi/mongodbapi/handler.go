@@ -89,7 +89,7 @@ func (conn ConnectionDescriptorMongoDB) Routing(
 
 			case data := <-channels.GetChanInput():
 				//секция загрузки данных
-				if data.Section == "inserting data" {
+				if data.Section == "data insert" {
 					if data.Command == "insert" {
 						go ws.AddNewSITXObject(data.Data, logging, counting)
 

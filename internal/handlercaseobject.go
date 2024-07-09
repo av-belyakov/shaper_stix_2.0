@@ -94,11 +94,10 @@ func NewHandlerCaseObject(
 			identityOrganization.SetAnyName(newValue)
 		}
 
-		//добавляем информацию об организации из свойства 'event.object.owner'
+		//добавляем информацию о лице создавшем объект из свойства 'event.object.owner'
 		if data.FieldBranch == "event.object.owner" {
 			identityOwner.SetAnyName(newValue)
 		}
-		//добавляем информацию об организации из свойства 'event.object.updateAt'
 		if data.FieldBranch == "event.object.updatedAt" {
 			identityOwner.SetAnyModified(newValue)
 		}
