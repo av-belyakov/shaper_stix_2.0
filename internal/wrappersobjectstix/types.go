@@ -6,6 +6,12 @@ import (
 	"github.com/av-belyakov/methodstixobjects/datamodels/stixhelpers"
 )
 
+// CommonOutsideSpecification общие поля выходящие за пределы спецификации
+type CommonOutsideSpecification struct {
+	Tlp       int    `json:"tlp" bson:"tlp"`
+	ElementId string `json:"element_id" bson:"element_id"`
+}
+
 // CommonPropertiesDomainObjectSTIX свойства общие, для всех объектов STIX
 type CommonPropertiesDomainObjectSTIX struct {
 	Revoked            bool                                           `bson:"revoked"`

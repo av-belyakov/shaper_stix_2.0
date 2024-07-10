@@ -13,10 +13,15 @@ import (
 func NewWrapperLocationDomainObjectsSTIX() *WrapperLocation {
 	return &WrapperLocation{
 		methodstixobjects.NewLocationDomainObjectsSTIX(),
+		wrappersobjectstix.CommonOutsideSpecification{},
 	}
 }
 
 func (e *WrapperLocation) Get() *WrapperLocation {
+	return e
+}
+
+func (e *WrapperLocation) GetObject() interface{} {
 	return e
 }
 

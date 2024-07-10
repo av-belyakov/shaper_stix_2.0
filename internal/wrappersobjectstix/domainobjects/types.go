@@ -12,57 +12,63 @@ import (
 // WrapperIdentity тип содержит дополнительный метод MarshalBSON
 type WrapperIdentity struct {
 	*domainobjectsstix.IdentityDomainObjectsSTIX
+	wrappersobjectstix.CommonOutsideSpecification
 }
 
 type FinalyIdentityObjects struct {
 	commonproperties.CommonPropertiesObjectSTIX
 	wrappersobjectstix.CommonPropertiesDomainObjectSTIX
-	Name               string                          `bson:"name" required:"true"`
-	Description        string                          `bson:"description"`
-	ContactInformation string                          `bson:"contact_information"`
-	Roles              []string                        `bson:"roles"`
-	IdentityClass      stixhelpers.OpenVocabTypeSTIX   `bson:"identity_class"`
-	Sectors            []stixhelpers.OpenVocabTypeSTIX `bson:"sectors"`
+	wrappersobjectstix.CommonOutsideSpecification `json:"common_outside_specification" bson:"common_outside_specification"`
+	Name                                          string                          `bson:"name" required:"true"`
+	Description                                   string                          `bson:"description"`
+	ContactInformation                            string                          `bson:"contact_information"`
+	Roles                                         []string                        `bson:"roles"`
+	IdentityClass                                 stixhelpers.OpenVocabTypeSTIX   `bson:"identity_class"`
+	Sectors                                       []stixhelpers.OpenVocabTypeSTIX `bson:"sectors"`
 }
 
 // WrapperLocation тип содержит дополнительный метод MarshalBSON
 type WrapperLocation struct {
 	*domainobjectsstix.LocationDomainObjectsSTIX
+	wrappersobjectstix.CommonOutsideSpecification
 }
 
 type FinalyLocationObjects struct {
 	commonproperties.CommonPropertiesObjectSTIX
 	wrappersobjectstix.CommonPropertiesDomainObjectSTIX
-	Latitude           float32                       `bson:"latitude"`
-	Longitude          float32                       `bson:"longitude"`
-	Precision          float32                       `bson:"precision"`
-	Name               string                        `bson:"name"`
-	Description        string                        `bson:"description"`
-	Country            string                        `bson:"country"`
-	AdministrativeArea string                        `bson:"administrative_area"`
-	City               string                        `bson:"city"`
-	StreetAddress      string                        `bson:"street_address"`
-	PostalCode         string                        `bson:"postal_code"`
-	Region             stixhelpers.OpenVocabTypeSTIX `bson:"region"`
+	wrappersobjectstix.CommonOutsideSpecification `json:"common_outside_specification" bson:"common_outside_specification"`
+	Latitude                                      float32                       `bson:"latitude"`
+	Longitude                                     float32                       `bson:"longitude"`
+	Precision                                     float32                       `bson:"precision"`
+	Name                                          string                        `bson:"name"`
+	Description                                   string                        `bson:"description"`
+	Country                                       string                        `bson:"country"`
+	AdministrativeArea                            string                        `bson:"administrative_area"`
+	City                                          string                        `bson:"city"`
+	StreetAddress                                 string                        `bson:"street_address"`
+	PostalCode                                    string                        `bson:"postal_code"`
+	Region                                        stixhelpers.OpenVocabTypeSTIX `bson:"region"`
 }
 
 // WrapperIndicator тип содержит дополнительный метод MarshalBSON
 type WrapperIndicator struct {
 	*domainobjectsstix.IndicatorDomainObjectsSTIX
+	wrappersobjectstix.CommonOutsideSpecification
 }
 
 type FinalyIndicatorObject struct {
 	commonproperties.CommonPropertiesObjectSTIX
 	wrappersobjectstix.CommonPropertiesDomainObjectSTIX
-	Name            string                                       `bson:"name" required:"true"`
-	Pattern         string                                       `bson:"pattern" required:"true"`
-	PatternVersion  string                                       `bson:"pattern_version"`
-	Description     string                                       `bson:"description"`
-	ValidFrom       time.Time                                    `bson:"valid_from" required:"true"`
-	ValidUntil      time.Time                                    `bson:"valid_until"`
-	PatternType     stixhelpers.OpenVocabTypeSTIX                `bson:"pattern_type" required:"true"`
-	KillChainPhases []stixhelpers.KillChainPhasesTypeElementSTIX `bson:"kill_chain_phases"`
-	IndicatorTypes  []stixhelpers.OpenVocabTypeSTIX              `bson:"indicator_types"`
+	wrappersobjectstix.CommonOutsideSpecification `json:"common_outside_specification" bson:"common_outside_specification"`
+	Name                                          string                                       `bson:"name" required:"true"`
+	Pattern                                       string                                       `bson:"pattern" required:"true"`
+	PatternVersion                                string                                       `bson:"pattern_version"`
+	Description                                   string                                       `bson:"description"`
+	ValidFrom                                     time.Time                                    `bson:"valid_from" required:"true"`
+	ValidUntil                                    time.Time                                    `bson:"valid_until"`
+	PatternType                                   stixhelpers.OpenVocabTypeSTIX                `bson:"pattern_type" required:"true"`
+	KillChainPhases                               []stixhelpers.KillChainPhasesTypeElementSTIX `bson:"kill_chain_phases"`
+	IndicatorTypes                                []stixhelpers.OpenVocabTypeSTIX              `bson:"indicator_types"`
 }
 
 // WrapperReport содержит STIX объект 'report' и дополнительные расширеные свойства

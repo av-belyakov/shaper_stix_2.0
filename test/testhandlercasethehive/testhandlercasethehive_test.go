@@ -9,7 +9,6 @@ import (
 	. "github.com/onsi/gomega"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/av-belyakov/shaper_stix_2.1/confighandler"
 	"github.com/av-belyakov/shaper_stix_2.1/databaseapi/mongodbapi"
@@ -17,6 +16,7 @@ import (
 	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
 	"github.com/av-belyakov/shaper_stix_2.1/internal"
 	"github.com/av-belyakov/shaper_stix_2.1/internal/decodejson"
+	"github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix/domainobjects"
 	"github.com/av-belyakov/shaper_stix_2.1/ruleinteraction"
 	"github.com/av-belyakov/shaper_stix_2.1/supportingfunctions"
 )
@@ -158,20 +158,42 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 				CollectionName: "stix_object_collection",
 			}
 
-			listInterface := []interface{}(nil)
-			fmt.Println("--------------- RESULT --------------")
-			if list, ok := objects.Data.([]datamodels.GetterCommonPropertiesObjectSTIX); ok {
+			fmt.Println(qp)
+
+			type listObject map[string][]interface{}
+
+			lo := make(listObject, 0)
+
+			//преобразуем в новый список объектов STIX по их типам
+			if list, ok := objects.Data.([]datamodels.HandlerSTIXObject); ok {
 				for k, v := range list {
 					fmt.Printf("%d. \n", k)
-					if v.GetType() == "report" {
-						fmt.Println("--------- Report object STIX ---------")
-					}
-
 					fmt.Println(v.ToStringBeautiful(1))
 
-					listInterface = append(listInterface, v)
+					if _, ok := lo[v.GetType()]; !ok {
+						lo[v.GetType()] = []interface{}(nil)
+					}
+
+					lo[v.GetType()] = append(lo[v.GetType()], v.GetObject())
 				}
 			}
+
+			//Получаем список case_id по которым будем искать объекты Report
+			reportCases := []string(nil)
+			reportInt, ok := lo["report"]
+			Expect(ok).Should(BeTrue())
+			//для reports
+			for _, v := range reportInt {
+				report, ok := v.(*domainobjects.WrapperReport)
+				caseId := report.GetReportOutsideSpecification().CaseId
+				reportCases = append(reportCases, caseId)
+				fmt.Println("REPORT:", report)
+				Expect(ok).Should(BeTrue())
+			}
+
+			//выполняем поиск объектов типа 'report' с подходящими case_id
+			cur, err := qp.Find((bson.D{{Key: "outside_specification.case_id", Value: bson.D{{Key: "$in", Value: reportCases}}}}))
+			Expect(err).ShouldNot(HaveOccurred())
 
 			//fmt.Println("==== List id:")
 			//sort.Slice(listId, func(i, j int) bool {
@@ -184,28 +206,28 @@ var _ = Describe("Testhandlercasethehive", Ordered, func() {
 			//	fmt.Println(v)
 			//}
 
-			fmt.Println("================= START ===================")
-			_, err := qp.InsertData(listInterface, []mongo.IndexModel{
-				{
-					Keys: bson.D{
-						{Key: "commonpropertiesobjectstix.type", Value: 1},
-						{Key: "commonpropertiesobjectstix.id", Value: 1},
-						{Key: "outside_specification.case_id", Value: 1},
-					},
-					Options: &options.IndexOptions{},
-				},
-			})
+			//*******************************************************
+			// Insert работает, но пока его закоментируем для других
+			//тестов
+			//-------------------------------------------------------
+			//_, err := qp.InsertData(listInterface, []mongo.IndexModel{
+			//	{
+			//		Keys: bson.D{
+			//			{Key: "commonpropertiesobjectstix.type", Value: 1},
+			//			{Key: "commonpropertiesobjectstix.id", Value: 1},
+			//			{Key: "outside_specification.case_id", Value: 1},
+			//		},
+			//		Options: &options.IndexOptions{},
+			//	},
+			//})
+			//Expect(err).ShouldNot(HaveOccurred())
 
-			//**********************************
+			//1. Получить список STIX объектов по case id (для report), и по
+			//common_outside_specification.element_id для всех остальных
 			//
-			// Insert выполняется нормально, теперь необходимо сделать предварительный
-			// поиск объекта Report по "outside_specification.case_id" что бы проверить
-			// есть ли такой объект и если есть выполнить замену
+			//2. Выполнить сравнение с имеющимися STIX объектами
 			//
-			//**********************************
-
-			Expect(err).ShouldNot(HaveOccurred())
-			fmt.Println("================= END ===================")
+			//3. Внести изменения в существующие на основе новых и загрузить в БД
 
 			Expect(true).Should(BeTrue())
 		})

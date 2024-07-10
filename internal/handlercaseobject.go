@@ -5,11 +5,9 @@ import (
 	"reflect"
 	"runtime"
 	"strings"
-	"time"
 
 	"github.com/google/uuid"
 
-	methodstixobjects "github.com/av-belyakov/methodstixobjects/cmd"
 	"github.com/av-belyakov/methodstixobjects/datamodels/stixhelpers"
 	"github.com/av-belyakov/shaper_stix_2.1/databaseapi/mongodbapi"
 	"github.com/av-belyakov/shaper_stix_2.1/datamodels"
@@ -38,11 +36,15 @@ func NewHandlerCaseObject(
 		//формируем новый объект 'report' в обёртке
 		reportWrap *do.WrapperReport = do.NewWrapperReportDomainObjectsSTIX()
 		//формируем объект для хранения значения свойства 'source'
-		identitySource = methodstixobjects.NewIdentityDomainObjectsSTIX()
+		//identitySource = methodstixobjects.NewIdentityDomainObjectsSTIX()
+		identitySource = do.NewWrapperIdentityDomainObjectsSTIX()
+
 		//формируем объект для хранения значения свойства 'event.organization'
-		identityOrganization = methodstixobjects.NewIdentityDomainObjectsSTIX()
+		//identityOrganization = methodstixobjects.NewIdentityDomainObjectsSTIX()
+		identityOrganization = do.NewWrapperIdentityDomainObjectsSTIX()
 		//формируем объект для хранения значения свойства 'event.object.owner'
-		identityOwner = methodstixobjects.NewIdentityDomainObjectsSTIX()
+		//identityOwner = methodstixobjects.NewIdentityDomainObjectsSTIX()
+		identityOwner = do.NewWrapperIdentityDomainObjectsSTIX()
 
 		//*************** Обработчик формирующий объект 'report' в обёртке ****************
 		listWrapReport = listhandlerjson.NewHandlerReportDomainObjectSTIX(reportWrap)
@@ -98,8 +100,23 @@ func NewHandlerCaseObject(
 		if data.FieldBranch == "event.object.owner" {
 			identityOwner.SetAnyName(newValue)
 		}
+
 		if data.FieldBranch == "event.object.updatedAt" {
+			identitySource.SetAnyModified(newValue)
+			identityOrganization.SetAnyModified(newValue)
 			identityOwner.SetAnyModified(newValue)
+		}
+
+		if data.FieldBranch == "event.objectId" {
+			identitySource.SetAnyElementId(newValue)
+			identityOrganization.SetAnyElementId(newValue)
+			identityOwner.SetAnyElementId(newValue)
+		}
+
+		if data.FieldBranch == "event.object.tlp" {
+			identitySource.SetAnyTlp(newValue)
+			identityOrganization.SetAnyTlp(newValue)
+			identityOwner.SetAnyTlp(newValue)
 		}
 
 		//******************************************************************************
@@ -206,9 +223,9 @@ func NewHandlerCaseObject(
 	observables := datamodels.NewObservablesMessageTheHive()
 	observables.SetObservables(so.GetObservables())
 
-	var newObject datamodels.GetterCommonPropertiesObjectSTIX
+	var newObject datamodels.HandlerSTIXObject
 
-	listObjectSTIX := []datamodels.GetterCommonPropertiesObjectSTIX(nil)
+	listObjectSTIX := []datamodels.HandlerSTIXObject(nil)
 	listRefObjectId := []stixhelpers.IdentifierTypeSTIX(nil)
 
 	for _, v := range observables.GetObservables() {
@@ -253,21 +270,17 @@ func NewHandlerCaseObject(
 
 		}
 
+		//************************************************************************
+		//
+		// Все же решил создавать объект relationship в модуле взаимодействия с БД
+		//
+		//************************************************************************
+
 		if newObject != nil {
 			listRefObjectId = append(listRefObjectId, stixhelpers.IdentifierTypeSTIX(newObject.GetID()))
 
-			//создаем объект Relationship для установки обратной связи между
-			//объектом Report и обрабатываемым объектом
-			relationship := methodstixobjects.NewRelationshipObjectSTIX()
-			relationship.SetValueID(fmt.Sprintf("relationship-%s", uuid.NewString()))
-			relationship.SetValueCreated(supportingfunctions.GetDateTimeFormatRFC3339(time.Now().UnixMilli()))
-			//исходный объект, то есть обрабатываемый в настоящее время
-			relationship.SetValueSourceRef(stixhelpers.IdentifierTypeSTIX(newObject.GetID()))
-			//целевой объект, то есть объект Report
-			relationship.SetValueTargetRef(stixhelpers.IdentifierTypeSTIX(reportWrap.GetID()))
-
-			//добавляем обрабатываемый объект STIX и объект Relationship в хранилище объектов
-			listObjectSTIX = append(listObjectSTIX, newObject, relationship)
+			//добавляем обрабатываемый объект STIX в хранилище объектов
+			listObjectSTIX = append(listObjectSTIX, newObject)
 
 			newObject = nil
 		}
@@ -276,44 +289,14 @@ func NewHandlerCaseObject(
 	//*****************************************************************************************
 	//********* добавляем id объекта содержащего информацию о создателе объекта case **********
 	listRefObjectId = append(listRefObjectId, stixhelpers.IdentifierTypeSTIX(identityOwner.GetID()))
-	//создаем объект Relationship для установки обратной связи между объектом
-	//содержащем информацию о создателе case
-	relationshipOwner := methodstixobjects.NewRelationshipObjectSTIX()
-	relationshipOwner.SetValueID(fmt.Sprintf("relationship-%s", uuid.NewString()))
-	relationshipOwner.SetValueCreated(supportingfunctions.GetDateTimeFormatRFC3339(time.Now().UnixMilli()))
-	//исходный объект, то есть обрабатываемый в настоящее время
-	relationshipOwner.SetValueSourceRef(stixhelpers.IdentifierTypeSTIX(identityOwner.GetID()))
-	//целевой объект, то есть объект Report
-	relationshipOwner.SetValueTargetRef(stixhelpers.IdentifierTypeSTIX(reportWrap.GetID()))
-	listObjectSTIX = append(listObjectSTIX, relationshipOwner)
 
 	//******************************************************************************
 	//*** добавляем id объекта содержащего информацию о источнике объекта case ****
 	listRefObjectId = append(listRefObjectId, stixhelpers.IdentifierTypeSTIX(identitySource.GetID()))
-	//создаем объект Relationship для установки обратной связи между объектом
-	//содержащем информацию о создателе case
-	relationshipSource := methodstixobjects.NewRelationshipObjectSTIX()
-	relationshipSource.SetValueID(fmt.Sprintf("relationship-%s", uuid.NewString()))
-	relationshipSource.SetValueCreated(supportingfunctions.GetDateTimeFormatRFC3339(time.Now().UnixMilli()))
-	//исходный объект, то есть обрабатываемый в настоящее время
-	relationshipSource.SetValueSourceRef(stixhelpers.IdentifierTypeSTIX(identitySource.GetID()))
-	//целевой объект, то есть объект Report
-	relationshipSource.SetValueTargetRef(stixhelpers.IdentifierTypeSTIX(reportWrap.GetID()))
-	listObjectSTIX = append(listObjectSTIX, relationshipSource)
 
 	//***************************************************************************************
 	//**** добавляем id объекта содержащего информацию об организации относящейся к case ****
 	listRefObjectId = append(listRefObjectId, stixhelpers.IdentifierTypeSTIX(identityOrganization.GetID()))
-	//создаем объект Relationship для установки обратной связи между объектом
-	//содержащем информацию о создателе case
-	relationshipOrg := methodstixobjects.NewRelationshipObjectSTIX()
-	relationshipOrg.SetValueID(fmt.Sprintf("relationship-%s", uuid.NewString()))
-	relationshipOrg.SetValueCreated(supportingfunctions.GetDateTimeFormatRFC3339(time.Now().UnixMilli()))
-	//исходный объект, то есть обрабатываемый в настоящее время
-	relationshipOrg.SetValueSourceRef(stixhelpers.IdentifierTypeSTIX(identityOrganization.GetID()))
-	//целевой объект, то есть объект Report
-	relationshipOrg.SetValueTargetRef(stixhelpers.IdentifierTypeSTIX(reportWrap.GetID()))
-	listObjectSTIX = append(listObjectSTIX, relationshipOrg)
 
 	//добавляем id обрабатываемого объекта в Report Domain Object STIX
 	reportWrap.SetValueObjectRefs(listRefObjectId)

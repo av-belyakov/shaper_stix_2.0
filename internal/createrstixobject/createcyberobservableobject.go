@@ -18,6 +18,9 @@ func CreateDomainNameCyberObservableObjectSTIX(observable datamodels.ObservableM
 	domainName.SetValueSpecVersion("2.1")
 	domainName.SetValueValue(observable.Data)
 
+	domainName.SetValueTlp(int(observable.GetTlp()))
+	domainName.SetValueElementId(observable.GetUnderliningId())
+
 	return domainName
 }
 
@@ -27,6 +30,9 @@ func CreateURLCyberObservableObjectSTIX(observable datamodels.ObservableMessage)
 	url.SetValueID(fmt.Sprintf("url--%s", uuid.NewString()))
 	url.SetValueSpecVersion("2.1")
 	url.SetValueValue(observable.Data)
+
+	url.SetValueTlp(int(observable.GetTlp()))
+	url.SetValueElementId(observable.GetUnderliningId())
 
 	return url
 }
@@ -54,6 +60,9 @@ func CreateFileCyberObservableObjectSTIX(observable datamodels.ObservableMessage
 		file.SetValueHashes(hashes)
 	}
 
+	file.SetValueTlp(int(observable.GetTlp()))
+	file.SetValueElementId(observable.GetUnderliningId())
+
 	return file
 }
 
@@ -63,6 +72,9 @@ func CreateEmailAddressCyberObservableObjectSTIX(observable datamodels.Observabl
 	email.SetValueID(fmt.Sprintf("email-addr--%s", uuid.NewString()))
 	email.SetValueSpecVersion("2.1")
 	email.SetValueValue(observable.Data)
+
+	email.SetValueTlp(int(observable.GetTlp()))
+	email.SetValueElementId(observable.GetUnderliningId())
 
 	return email
 }
@@ -81,6 +93,9 @@ func CreateIPv4AddressCyberObservableObjectSTIX(observable datamodels.Observable
 			ipv4.SetValueValue(tmp[1])
 		}
 	}
+
+	ipv4.SetValueTlp(int(observable.GetTlp()))
+	ipv4.SetValueElementId(observable.GetUnderliningId())
 
 	return ipv4
 }

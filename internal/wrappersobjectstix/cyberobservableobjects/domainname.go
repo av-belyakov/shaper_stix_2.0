@@ -4,16 +4,22 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 
 	methodstixobjects "github.com/av-belyakov/methodstixobjects/cmd"
+	"github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
 )
 
 // NewWrapperDomainNameCyberObservableObjectSTIX формирует новый объект 'location'
 func NewWrapperDomainNameCyberObservableObjectSTIX() *WrapperDomainName {
 	return &WrapperDomainName{
 		methodstixobjects.NewDomainNameCyberObservableObjectSTIX(),
+		wrappersobjectstix.CommonOutsideSpecification{},
 	}
 }
 
 func (e *WrapperDomainName) Get() *WrapperDomainName {
+	return e
+}
+
+func (e *WrapperDomainName) GetObject() interface{} {
 	return e
 }
 

@@ -4,16 +4,22 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 
 	methodstixobjects "github.com/av-belyakov/methodstixobjects/cmd"
+	"github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
 )
 
 // NewWrapperIPv4AddressCyberObservableObjectSTIX формирует новый объект 'ipv4-address'
 func NewWrapperIPv4AddressCyberObservableObjectSTIX() *WrapperIPv4Address {
 	return &WrapperIPv4Address{
 		methodstixobjects.NewIPv4AddressCyberObservableObjectSTIX(),
+		wrappersobjectstix.CommonOutsideSpecification{},
 	}
 }
 
 func (e *WrapperIPv4Address) Get() *WrapperIPv4Address {
+	return e
+}
+
+func (e *WrapperIPv4Address) GetObject() interface{} {
 	return e
 }
 

@@ -26,6 +26,9 @@ func CreateLocationDomainObjectsSTIX(observable datamodels.ObservableMessage) *d
 		location.SetValueDescription(observable.Message)
 	}
 
+	location.SetValueTlp(int(observable.GetTlp()))
+	location.SetValueElementId(observable.GetUnderliningId())
+
 	return location
 }
 
@@ -44,6 +47,9 @@ func CreateIndicatorSnortIdDomainObjectsSTIX(observable datamodels.ObservableMes
 	if observable.Message != "" {
 		indicator.SetValueDescription(observable.Message)
 	}
+
+	indicator.SetValueTlp(int(observable.GetTlp()))
+	indicator.SetValueElementId(observable.GetUnderliningId())
 
 	return indicator
 }
@@ -64,6 +70,9 @@ func CreateIndicatorYaraDomainObjectsSTIX(observable datamodels.ObservableMessag
 		indicator.SetValueDescription(observable.Message)
 	}
 
+	indicator.SetValueTlp(int(observable.GetTlp()))
+	indicator.SetValueElementId(observable.GetUnderliningId())
+
 	return indicator
 }
 
@@ -82,6 +91,9 @@ func CreateIndicatorHashDomainObjectsSTIX(observable datamodels.ObservableMessag
 	if len(observable.Tags) > 0 {
 		indicator.SetValueDescription(observable.Tags[0])
 	}
+
+	indicator.SetValueTlp(int(observable.GetTlp()))
+	indicator.SetValueElementId(observable.GetUnderliningId())
 
 	return indicator
 }
@@ -102,6 +114,9 @@ func CreateIndicatorUserAgentDomainObjectsSTIX(observable datamodels.ObservableM
 		indicator.SetValueDescription(observable.Tags[0])
 	}
 
+	indicator.SetValueTlp(int(observable.GetTlp()))
+	indicator.SetValueElementId(observable.GetUnderliningId())
+
 	return indicator
 }
 
@@ -119,6 +134,9 @@ func CreateIdentityDomainObjectsSTIX(observable datamodels.ObservableMessage) *d
 	if observable.Message != "" {
 		identity.SetValueDescription(observable.Message)
 	}
+
+	identity.SetValueTlp(int(observable.GetTlp()))
+	identity.SetValueElementId(observable.GetUnderliningId())
 
 	return identity
 }

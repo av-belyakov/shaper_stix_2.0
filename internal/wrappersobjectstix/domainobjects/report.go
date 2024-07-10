@@ -26,6 +26,10 @@ func (e *WrapperReport) Get() *WrapperReport {
 	return e
 }
 
+func (e *WrapperReport) GetObject() interface{} {
+	return e
+}
+
 // GetReportDomainObject возвращает значения ReportDomainObjectsSTIX
 func (e *WrapperReport) GetReportDomainObject() *domainobjectsstix.ReportDomainObjectsSTIX {
 	return e.ReportDomainObjectsSTIX

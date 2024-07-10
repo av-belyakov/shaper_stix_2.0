@@ -13,10 +13,15 @@ import (
 func NewWrapperIdentityDomainObjectsSTIX() *WrapperIdentity {
 	return &WrapperIdentity{
 		methodstixobjects.NewIdentityDomainObjectsSTIX(),
+		wrappersobjectstix.CommonOutsideSpecification{},
 	}
 }
 
 func (e *WrapperIdentity) Get() *WrapperIdentity {
+	return e
+}
+
+func (e *WrapperIdentity) GetObject() interface{} {
 	return e
 }
 

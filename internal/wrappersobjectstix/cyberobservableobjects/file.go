@@ -6,16 +6,22 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 
 	methodstixobjects "github.com/av-belyakov/methodstixobjects/cmd"
+	"github.com/av-belyakov/shaper_stix_2.1/internal/wrappersobjectstix"
 )
 
 // NewWrapperFileCyberObservableObjectSTIX формирует новый объект 'file'
 func NewWrapperFileCyberObservableObjectSTIX() *WrapperFile {
 	return &WrapperFile{
 		methodstixobjects.NewFileCyberObservableObjectSTIX(),
+		wrappersobjectstix.CommonOutsideSpecification{},
 	}
 }
 
 func (e *WrapperFile) Get() *WrapperFile {
+	return e
+}
+
+func (e *WrapperFile) GetObject() interface{} {
 	return e
 }
 
